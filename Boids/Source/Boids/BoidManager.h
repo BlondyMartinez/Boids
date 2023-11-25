@@ -15,30 +15,30 @@ public:
 	// Sets default values for this actor's properties
 	ABoidManager();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	class UBoidManagerParameters* parameters;
-
-	// SPAWN SETTINGS
-
-	int spawnCount = 30;
-	int spawnRadius = 500;
-
-	// BOID SETTINGS
-
-	int speed = 200;
-	int neighbourhoodRadius = 600;
-
-	float separationWeight();
-	float cohesionWeight();
-	float alignmentWeight();
-
 	USceneComponent* transform;
 
 	TArray<class ABoid*> boids;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	class UBoidManagerParameters* parameters;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	TSubclassOf<class AActor> containmentSphereClass;
+
+	// return parameters, called from Boid
+	float separationWeight();
+	float cohesionWeight();
+	float alignmentWeight();
+	float containmentForce();
+
+	// containment sphere parameters
+	AActor* containmentSphere;
+	FVector sphereCentre;
+	float sphereRadius;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	AActor* SpawnContainmentSphere();
 
 public:
 	// Called every frame

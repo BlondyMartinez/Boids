@@ -19,11 +19,11 @@ public:
 
 	float speed;
 
-	FVector currentVelocity = FVector::ZeroVector;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UStaticMeshComponent* mesh;
 
 	//first tutorial functions
 	FVector Seek(FVector pos);
@@ -37,11 +37,12 @@ protected:
 	FVector Wander(float radius, float distance, float jitter);
 	FVector wanderDestination;
 
-	UStaticMeshComponent* mesh;
+	FVector currentVelocity = FVector::ZeroVector;
 
 
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void UpdateBoid(float DeltaTime);
+	void ApplyContainment();
 };

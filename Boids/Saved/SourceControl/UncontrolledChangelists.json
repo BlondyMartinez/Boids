@@ -8,7 +8,11 @@
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/StarterContent/Architecture/Floor_400x400.uasset",
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/DataAssets/DA_Parameters.uasset",
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/map.umap",
-				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Widgets/WB_Parameters.uasset"
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Widgets/WB_Parameters.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/ContainmentSphere.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Mat_ContainmentSphere.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MatInstance_ContainmentSphere.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/boids.umap"
 			]
 		}
 	]

@@ -56,6 +56,10 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_alignmentWeight_MetaData[];
 #endif
 		static const UECodeGen_Private::FFloatPropertyParams NewProp_alignmentWeight;
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_containmentForce_MetaData[];
+#endif
+		static const UECodeGen_Private::FFloatPropertyParams NewProp_containmentForce;
 		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UECodeGen_Private::FClassParams ClassParams;
@@ -137,6 +141,13 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 	};
 #endif
 	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight = { "alignmentWeight", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, alignmentWeight), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight_MetaData) };
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData[] = {
+		{ "Category", "Boid Settings" },
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+	};
+#endif
+	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce = { "containmentForce", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, containmentForce), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData) };
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UBoidManagerParameters_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_spawnCount,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_spawnRadius,
@@ -145,6 +156,7 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_separationWeight,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_cohesionWeight,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_UBoidManagerParameters_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<UBoidManagerParameters>::IsAbstract,
@@ -185,9 +197,9 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 3852316299U) },
+		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 1478929764U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_3675835571(TEXT("/Script/Boids"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_636427116(TEXT("/Script/Boids"),
 		Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

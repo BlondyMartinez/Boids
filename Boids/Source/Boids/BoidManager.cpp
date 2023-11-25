@@ -14,7 +14,6 @@ ABoidManager::ABoidManager()
 	// adds transform component
 	transform = CreateDefaultSubobject<USceneComponent>("Root Scene Component");
 	SetRootComponent(transform);
-
 }
 
 // Called when the game starts or when spawned
@@ -22,29 +21,30 @@ void ABoidManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (parameters) {
-
-		// SPAWN SETTINGS
-
-		spawnCount = parameters->spawnCount;
-		spawnRadius = parameters->spawnRadius;
-
-		// BOID SETTINGS
-
-		speed = parameters->speed;
-		neighbourhoodRadius = parameters->neighbourhoodRadius;
-	}
+	containmentSphere = SpawnContainmentSphere();
 
 	// SPAWN
-	for (int i = 0; i < spawnCount; i++) {
-		FVector spawnPos = (FMath::VRand() * FMath::RandRange(0, spawnRadius)) + GetActorLocation();
+	for (int i = 0; i < parameters->spawnCount; i++) {
+		FVector spawnPos = (FMath::VRand() * FMath::RandRange(0, parameters->spawnRadius)) + GetActorLocation();
 		FRotator spawnRot = GetActorRotation();
 
 		ABoid* newBoid = GetWorld()->SpawnActor<ABoid>(spawnPos, spawnRot);
-		newBoid->speed = speed;
+		newBoid->speed = parameters->speed;
 		newBoid->manager = this;
 		boids.Add(newBoid);
 	}
+}
+
+AActor* ABoidManager::SpawnContainmentSphere()
+{
+	if (containmentSphereClass) {
+		AActor* aContainmentSphere = GetWorld()->SpawnActor<AActor>(containmentSphereClass, GetActorLocation(), GetActorRotation());
+		sphereCentre = aContainmentSphere->GetActorLocation();
+		sphereRadius = 3500;
+		return aContainmentSphere;
+	}
+
+	return nullptr;
 }
 
 // Called every frame
@@ -73,6 +73,11 @@ float ABoidManager::alignmentWeight()
 	return parameters->alignmentWeight;
 }
 
+float ABoidManager::containmentForce()
+{
+	return parameters->containmentForce;
+}
+
 TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(ABoid* thisBoid)
 {
 	TArray<class ABoid*> neighbourhood;
@@ -81,7 +86,7 @@ TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(ABoid* thisBoid)
 		if (boid == thisBoid || !boid) continue;
 
 		float distance = (boid->GetActorLocation() - thisBoid->GetActorLocation()).Size();
-		if (distance < neighbourhoodRadius) neighbourhood.Add(boid);
+		if (distance < parameters->neighbourhoodRadius) neighbourhood.Add(boid);
 	}
 
 	return neighbourhood;

@@ -11,6 +11,7 @@ ABoid::ABoid()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// add static mesh component and sphere
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Sphere"));
 	UStaticMesh* sphereMesh = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'")).Object;
 	mesh->SetStaticMesh(sphereMesh);
@@ -44,7 +45,6 @@ FVector ABoid::Separation(TArray<ABoid*> neighbours)
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
 	FVector avgFlee;
-	//float inverse = 1 / neighbours.Num();
 
 	for (ABoid* boid : neighbours) {
 		avgFlee += Flee(boid->GetActorLocation());
@@ -102,16 +102,16 @@ FVector ABoid::Wander(float radius, float distance, float jitter)
 // called from BoidManager
 void ABoid::UpdateBoid(float DeltaTime)
 {
+	// behavior stuff
 	FVector targetVelocity = FVector::ZeroVector;
+
+	ApplyContainment();
 
 	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
 
 	targetVelocity += Separation(closestBoids) * manager->separationWeight();
 	targetVelocity += Cohesion(closestBoids) * manager->cohesionWeight();
 	targetVelocity += Alignment(closestBoids) * manager->alignmentWeight();
-
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%f"), manager->separationWeight()));
 
 	targetVelocity.Normalize();
 
@@ -120,15 +120,29 @@ void ABoid::UpdateBoid(float DeltaTime)
 		targetVelocity.Normalize();
 	}
 
-	DrawDebugLine(GetWorld(), GetActorLocation(), targetVelocity, FColor::Green, false, 0, 0, 5);
+	//DrawDebugLine(GetWorld(), GetActorLocation(), targetVelocity, FColor::Green, false, 0, 0, 5);
 
+	// apply forces
 	FVector newForce = targetVelocity - currentVelocity;
 	currentVelocity += newForce * DeltaTime;
 
+	// update position
 	FVector location = GetActorLocation();
 	location += currentVelocity * speed * DeltaTime;
 
 	SetActorLocation(location);
+}
+
+void ABoid::ApplyContainment()
+{
+	FVector toCentre = manager->sphereCentre - GetActorLocation();
+	float distance = toCentre.Size();
+
+	// if distance is greater than sphere radius minus boid radius
+	if (distance > manager->sphereRadius) {
+		FVector correction = toCentre.GetSafeNormal() * (distance - manager->sphereRadius);
+		currentVelocity += correction * manager->containmentForce();
+	}
 }
 
 
