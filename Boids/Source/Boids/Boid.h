@@ -18,13 +18,17 @@ public:
 	class ABoidManager* manager;
 
 	float speed;
+	int color;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	FVector currentVelocity = FVector::ZeroVector;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 	UStaticMeshComponent* mesh;
+	USceneComponent* root;
 
+	// BEHAVIOUR STUFF
+	
 	//first tutorial functions
 	FVector Seek(FVector pos);
 	FVector Flee(FVector pos);
@@ -34,15 +38,11 @@ protected:
 	FVector Cohesion(TArray<ABoid*> neighbours);
 	FVector Alignment(TArray<ABoid*> neighbours);
 
-	FVector Wander(float radius, float distance, float jitter);
-	FVector wanderDestination;
+	FVector Wander(float radius, float distance, float angle, float variablity);
 
-	FVector currentVelocity = FVector::ZeroVector;
-
+	void ApplyContainment();
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 	void UpdateBoid(float DeltaTime);
-	void ApplyContainment();
+	void SetConeMaterial(UMaterialInterface* material);
 };

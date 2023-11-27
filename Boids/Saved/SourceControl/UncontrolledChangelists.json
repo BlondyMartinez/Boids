@@ -6,13 +6,34 @@
 			"description": "Default Uncontrolled Changelist",
 			"files": [
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/StarterContent/Architecture/Floor_400x400.uasset",
-				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/DataAssets/DA_Parameters.uasset",
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/map.umap",
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Widgets/WB_Parameters.uasset",
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/ContainmentSphere.uasset",
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Mat_ContainmentSphere.uasset",
 				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MatInstance_ContainmentSphere.uasset",
-				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/boids.umap"
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/boids.umap",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/DataAssets/DA_Parameters.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Mat_Cone.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Boid_Cone.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MatInstance_Cone.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Mat_Cone1.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Mat_Cone3.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Mat_Cone2.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MatInstance_Cone1.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MatInstance_Cone2.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MatInstance_Cone3.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Materials/Mat_Cone.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Materials/Mat_Cone1.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Materials/Mat_Cone2.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Materials/Mat_Cone3.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Materials/Mat_ContainmentSphere.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MaterialInstances/MatInstance_Cone.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MaterialInstances/MatInstance_Cone1.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MaterialInstances/MatInstance_Cone2.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MaterialInstances/MatInstance_Cone3.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/MaterialInstances/MatInstance_ContainmentSphere.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Cone.uasset",
+				"C:/Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/DataAssets/BP_BoidManagerParameters.uasset"
 			]
 		}
 	]

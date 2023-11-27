@@ -35,7 +35,9 @@ public:
 	float cohesionWeight = 1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float alignmentWeight = 1;
-	//if too big boids get shoot
+	//if too big boids get shot
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float containmentForce = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
+	float colorBias = 1;
 };

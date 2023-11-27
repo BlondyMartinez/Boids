@@ -23,12 +23,15 @@ public:
 	class UBoidManagerParameters* parameters;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TSubclassOf<class AActor> containmentSphereClass;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	TArray<UMaterialInterface*> materials;
 
 	// return parameters, called from Boid
 	float separationWeight();
 	float cohesionWeight();
 	float alignmentWeight();
 	float containmentForce();
+	float colorBias();
 
 	// containment sphere parameters
 	AActor* containmentSphere;
