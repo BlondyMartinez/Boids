@@ -86,21 +86,34 @@ FVector ABoid::Alignment(TArray<ABoid*> neighbours)
 }
 
 // add random wander vector
-FVector ABoid::Wander(float radius, float distance, float angle, float variability)
+FVector ABoid::Wander(float radius, float distance, float jitter)
 {
-	angle += FMath::FRandRange(-1.f, 1.f) * variability;
+//	angle += FMath::FRandRange(-1.f, 1.f) * variability;
+//
+//	// calculate x and y coordinates of a point in the unit circle
+//	FVector circlePoint = FVector(FMath::Cos(angle), FMath::Sin(angle), 0);
+//
+//	FVector wanderTarget = GetActorLocation() + GetActorForwardVector() * distance * circlePoint * radius;
+//
+//	// displacement to add more randomness
+//	FVector displacement = FVector(FMath::FRandRange(-1.f, 1.f), FMath::FRandRange(-1.f, 1.f), FMath::FRandRange(-1.f, 1.f)) * radius;
+//	wanderTarget += displacement;
+//	wanderTarget -= GetActorLocation();
+//
+//	return wanderTarget.GetSafeNormal();
 
-	// calculate x and y coordinates of a point in the unit circle
-	FVector circlePoint = FVector(FMath::Cos(angle), FMath::Sin(angle), 0);
+		FVector currentPos = GetActorLocation();
 
-	FVector wanderTarget = GetActorLocation() + GetActorForwardVector() * distance * circlePoint * radius;
+		if (FVector::Dist(currentPos, wanderDestination) < 100) {
+			FVector projectedPos = currentPos + (GetActorForwardVector() * distance);
 
-	// displacement to add more randomness
-	FVector displacement = FVector(FMath::FRandRange(-1.f, 1.f), FMath::FRandRange(-1.f, 1.f), FMath::FRandRange(-1.f, 1.f)) * radius;
-	wanderTarget += displacement;
-	wanderTarget -= GetActorLocation();
+			wanderDestination = projectedPos + (FMath::VRand() * FMath::RandRange(0.f, jitter));
+		}
 
-	return wanderTarget.GetSafeNormal();
+		FVector jitterDestination = Seek(wanderDestination) + (FMath::VRand() * FMath::RandRange(0.f, jitter));
+
+		return jitterDestination;
+	
 }
 
 // called from BoidManager to update boid behavior
@@ -112,17 +125,18 @@ void ABoid::UpdateBoid(float DeltaTime)
 
 	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
 
-	// if velocity is small or lonely, add wandering behavior
-	if (targetVelocity.Size() < 1 || closestBoids.Num() == 0) {
-		targetVelocity += Wander(200, 50, 90, 1);
-	}
-
 	// apply forces
 	targetVelocity += Separation(closestBoids) * manager->separationWeight();
 	targetVelocity += Cohesion(closestBoids) * manager->cohesionWeight();
 	targetVelocity += Alignment(closestBoids) * manager->alignmentWeight();
 
 	targetVelocity.Normalize();
+
+	// if velocity is small add wandering behavior
+	if (targetVelocity.Size() < 1) {
+		targetVelocity += Wander(100, 200, 1);
+		targetVelocity.Normalize();
+	}
 
 	FVector newForce = targetVelocity - currentVelocity;
 	currentVelocity += newForce * DeltaTime;

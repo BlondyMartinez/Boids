@@ -38,7 +38,8 @@ protected:
 	FVector Cohesion(TArray<ABoid*> neighbours);
 	FVector Alignment(TArray<ABoid*> neighbours);
 
-	FVector Wander(float radius, float distance, float angle, float variablity);
+	FVector Wander(float radius, float distance, float jitter);
+	FVector wanderDestination;
 
 	void ApplyContainment();
 
