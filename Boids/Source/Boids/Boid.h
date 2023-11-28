@@ -41,6 +41,8 @@ protected:
 	FVector Wander(float radius, float distance, float jitter);
 	FVector wanderDestination;
 
+	FVector SeparationByColor(TArray<ABoid*> neighbours);
+
 	void ApplyContainment();
 
 public:

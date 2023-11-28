@@ -56,13 +56,13 @@ FVector ABoid::Separation(TArray<ABoid*> neighbours)
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
 	FVector separationForce;
-	float minDistance = FLT_MAX; // For tracking the closest neighbor
+	float minDistance = FLT_MAX; 
 
 	for (ABoid* boid : neighbours) {
 		float distance = FVector::Dist(GetActorLocation(), boid->GetActorLocation());
 		FVector fleeForce = Flee(boid->GetActorLocation());
 
-		// Weight by inverse distance
+		// weight by inverse distance
 		fleeForce *= 1 / FMath::Max(distance, 1.0f); 
 		separationForce += fleeForce;
 
@@ -71,7 +71,7 @@ FVector ABoid::Separation(TArray<ABoid*> neighbours)
 		}
 	}
 
-	// Adjust magnitude based on proximity of the closest neighbor
+	// adjust magnitude based on proximity of the closest neighbor
 	if (minDistance < 110) {
 		separationForce *= FMath::Lerp(5, 1.0f, minDistance / 110);
 	}
@@ -85,11 +85,15 @@ FVector ABoid::Cohesion(TArray<ABoid*> neighbours)
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
 	FVector avgPos;
-	float inverse = 1 / neighbours.Num();
+	int count = 0;
 
 	for (ABoid* boid : neighbours) {
-		avgPos += boid->GetActorLocation() * inverse;
+		//if (!manager->colorBias() || (manager->colorBias() && boid->color == this->color)) {
+			avgPos += boid->GetActorLocation();
+			count++;
+		/*}*/
 	}
+	avgPos /= count;
 
 	return Seek(avgPos);
 }
@@ -113,31 +117,17 @@ FVector ABoid::Alignment(TArray<ABoid*> neighbours)
 // add random wander vector
 FVector ABoid::Wander(float radius, float distance, float jitter)
 {
-//	angle += FMath::FRandRange(-1.f, 1.f) * variability;
-//
-//	// calculate x and y coordinates of a point in the unit circle
-//	FVector circlePoint = FVector(FMath::Cos(angle), FMath::Sin(angle), 0);
-//
-//	FVector wanderTarget = GetActorLocation() + GetActorForwardVector() * distance * circlePoint * radius;
-//
-//	// displacement to add more randomness
-//	FVector displacement = FVector(FMath::FRandRange(-1.f, 1.f), FMath::FRandRange(-1.f, 1.f), FMath::FRandRange(-1.f, 1.f)) * radius;
-//	wanderTarget += displacement;
-//	wanderTarget -= GetActorLocation();
-//
-//	return wanderTarget.GetSafeNormal();
+	FVector currentPos = GetActorLocation();
 
-		FVector currentPos = GetActorLocation();
+	if (FVector::Dist(currentPos, wanderDestination) < 100) {
+		FVector projectedPos = currentPos + (GetActorForwardVector() * distance);
 
-		if (FVector::Dist(currentPos, wanderDestination) < 100) {
-			FVector projectedPos = currentPos + (GetActorForwardVector() * distance);
+		wanderDestination = projectedPos + (FMath::VRand() * FMath::RandRange(0.f, jitter));
+	}
 
-			wanderDestination = projectedPos + (FMath::VRand() * FMath::RandRange(0.f, jitter));
-		}
-
-		FVector jitterDestination = Seek(wanderDestination) + (FMath::VRand() * FMath::RandRange(0.f, jitter));
-
-		return jitterDestination;
+	FVector jitterDestination = Seek(wanderDestination) + (FMath::VRand() * FMath::RandRange(0.f, jitter));
+	UE_LOG(LogTemp, Warning, TEXT("Hello World!"));
+	return jitterDestination;
 	
 }
 
@@ -159,7 +149,7 @@ void ABoid::UpdateBoid(float DeltaTime)
 
 	// if velocity is small add wandering behavior
 	if (targetVelocity.Size() < 1) {
-		targetVelocity += Wander(100, 200, 1);
+		targetVelocity += Wander(100, 200, 10);
 		targetVelocity.Normalize();
 	}
 
