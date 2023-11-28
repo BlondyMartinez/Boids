@@ -41,7 +41,7 @@ FVector ABoid::Flee(FVector pos)
 // calculate separation based on neighbours positions
 FVector ABoid::Separation(TArray<ABoid*> neighbours)
 {
-	if (neighbours.Num() == 0) return FVector::ZeroVector;
+	/*if (neighbours.Num() == 0) return FVector::ZeroVector;
 
 	FVector avgFlee;
 
@@ -51,7 +51,32 @@ FVector ABoid::Separation(TArray<ABoid*> neighbours)
 
 	avgFlee.Normalize();
 
-	return avgFlee;
+	return avgFlee;*/
+
+	if (neighbours.Num() == 0) return FVector::ZeroVector;
+
+	FVector separationForce;
+	float minDistance = FLT_MAX; // For tracking the closest neighbor
+
+	for (ABoid* boid : neighbours) {
+		float distance = FVector::Dist(GetActorLocation(), boid->GetActorLocation());
+		FVector fleeForce = Flee(boid->GetActorLocation());
+
+		// Weight by inverse distance
+		fleeForce *= 1 / FMath::Max(distance, 1.0f); 
+		separationForce += fleeForce;
+
+		if (distance < minDistance) {
+			minDistance = distance;
+		}
+	}
+
+	// Adjust magnitude based on proximity of the closest neighbor
+	if (minDistance < 110) {
+		separationForce *= FMath::Lerp(5, 1.0f, minDistance / 110);
+	}
+
+	return separationForce;
 }
 
 // calculate cohesion based on neighbours positions

@@ -1387,3 +1387,218 @@ LogConfig: Set CVar [[r.setres:1280x720]]
 [2023.11.28-02.43.35:604][410]LogUObjectHash: Compacting FUObjectHashTables data took   0.24ms
 [2023.11.28-02.43.35:769][429]LogUObjectHash: Compacting FUObjectHashTables data took   0.25ms
 [2023.11.28-02.43.35:922][446]LogUObjectHash: Compacting FUObjectHashTables data took   0.31ms
+[2023.11.28-02.52.40:051][823]LogWorldSubsystemInput: UEnhancedInputDeveloperSettings::bEnableWorldSubsystem is false, the world subsystem will not be created!
+[2023.11.28-02.52.58:628][855]LogAssetEditorSubsystem: Opening Asset editor for BoidManagerParameters /Game/DataAssets/DA_Parameters.DA_Parameters
+[2023.11.28-02.53.17:709][913]LogDebuggerCommands: Repeating last play command: Selected Viewport
+[2023.11.28-02.53.17:715][913]LogPlayLevel: PlayLevel: No blueprints needed recompiling
+[2023.11.28-02.53.17:715][913]PIE: New page: PIE session: boids (28 nov. 2023 2:53:17)
+[2023.11.28-02.53.17:715][913]LogPlayLevel: Display: Creating online subsystem for client :Context_7
+[2023.11.28-02.53.17:717][913]LogOnline: OSS: Created online subsystem instance for: :Context_7
+[2023.11.28-02.53.17:730][914]LogPlayLevel: Creating play world package: /Game/UEDPIE_0_boids
+[2023.11.28-02.53.17:733][914]LogPlayLevel: PIE: StaticDuplicateObject took: (0.002259s)
+[2023.11.28-02.53.17:733][914]LogPlayLevel: PIE: Created PIE world by copying editor world from /Game/boids.boids to /Game/UEDPIE_0_boids.boids (0.002300s)
+[2023.11.28-02.53.17:737][914]LogUObjectHash: Compacting FUObjectHashTables data took   0.51ms
+[2023.11.28-02.53.17:737][914]LogWorldSubsystemInput: UEnhancedInputDeveloperSettings::bEnableWorldSubsystem is false, the world subsystem will not be created!
+[2023.11.28-02.53.17:737][914]LogChaos: FPhysicsSolverBase::AsyncDt:-1.000000
+[2023.11.28-02.53.17:738][914]LogAIModule: Creating AISystem for world boids
+[2023.11.28-02.53.17:738][914]LogPlayLevel: PIE: World Init took: (0.000923s)
+[2023.11.28-02.53.17:738][914]LogAudio: Display: Creating Audio Device:                 Id: 5, Scope: Unique, Realtime: True
+[2023.11.28-02.53.17:738][914]LogAudioMixer: Display: Audio Mixer Platform Settings:
+[2023.11.28-02.53.17:738][914]LogAudioMixer: Display: 	Sample Rate:						  48000
+[2023.11.28-02.53.17:738][914]LogAudioMixer: Display: 	Callback Buffer Frame Size Requested: 1024
+[2023.11.28-02.53.17:738][914]LogAudioMixer: Display: 	Callback Buffer Frame Size To Use:	  1024
+[2023.11.28-02.53.17:738][914]LogAudioMixer: Display: 	Number of buffers to queue:			  1
+[2023.11.28-02.53.17:738][914]LogAudioMixer: Display: 	Max Channels (voices):				  32
+[2023.11.28-02.53.17:738][914]LogAudioMixer: Display: 	Number of Async Source Workers:		  4
+[2023.11.28-02.53.17:738][914]LogAudio: Display: AudioDevice MaxSources: 32
+[2023.11.28-02.53.17:739][914]LogAudio: Display: Audio Spatialization Plugin: None (built-in).
+[2023.11.28-02.53.17:739][914]LogAudio: Display: Audio Reverb Plugin: None (built-in).
+[2023.11.28-02.53.17:739][914]LogAudio: Display: Audio Occlusion Plugin: None (built-in).
+[2023.11.28-02.53.17:741][914]LogAudioMixer: Display: Initializing audio mixer using platform API: 'XAudio2'
+[2023.11.28-02.53.17:755][914]LogAudioMixer: Display: Using Audio Hardware Device MSI MP223 (NVIDIA High Definition Audio)
+[2023.11.28-02.53.17:756][914]LogAudioMixer: Display: Initializing Sound Submixes...
+[2023.11.28-02.53.17:756][914]LogAudioMixer: Display: Creating Master Submix 'MasterSubmixDefault'
+[2023.11.28-02.53.17:756][914]LogAudioMixer: Display: Creating Master Submix 'MasterReverbSubmixDefault'
+[2023.11.28-02.53.17:757][914]LogAudioMixer: FMixerPlatformXAudio2::StartAudioStream() called. InstanceID=5
+[2023.11.28-02.53.17:757][914]LogAudioMixer: Display: Output buffers initialized: Frames=1024, Channels=2, Samples=2048, InstanceID=5
+[2023.11.28-02.53.17:759][914]LogAudioMixer: Display: Starting AudioMixerPlatformInterface::RunInternal(), InstanceID=5
+[2023.11.28-02.53.17:759][914]LogAudioMixer: Display: FMixerPlatformXAudio2::SubmitBuffer() called for the first time. InstanceID=5
+[2023.11.28-02.53.17:759][914]LogInit: FAudioDevice initialized with ID 5.
+[2023.11.28-02.53.17:759][914]LogAudio: Display: Audio Device (ID: 5) registered with world 'boids'.
+[2023.11.28-02.53.17:759][914]LogAudioMixer: Initializing Audio Bus Subsystem for audio device with ID 5
+[2023.11.28-02.53.17:761][914]LogLoad: Game class is 'GameModeBase'
+[2023.11.28-02.53.17:762][914]LogWorld: Bringing World /Game/UEDPIE_0_boids.boids up for play (max tick rate 0) at 2023.11.28-02.53.17
+[2023.11.28-02.53.17:762][914]LogWorld: Bringing up level for play took: 0.000440
+[2023.11.28-02.53.17:807][914]LogViewport: Display: Viewport MouseLockMode Changed, LockOnCapture -> DoNotLock
+[2023.11.28-02.53.17:807][914]LogViewport: Display: Viewport HideCursorDuringCapture Changed, False -> True
+[2023.11.28-02.53.17:807][914]LogViewport: Display: Viewport MouseCaptureMode Changed, CapturePermanently_IncludingInitialMouseDown -> CaptureDuringMouseDown
+[2023.11.28-02.53.17:808][914]PIE: Server logged in
+[2023.11.28-02.53.17:809][914]PIE: Play in editor total start time 0,094 seconds.
+[2023.11.28-02.54.30:373][800]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2023.11.28-02.54.30:373][800]LogWorld: BeginTearingDown for /Game/UEDPIE_0_boids
+[2023.11.28-02.54.30:374][800]LogWorld: UWorld::CleanupWorld for boids, bSessionEnded=true, bCleanupResources=true
+[2023.11.28-02.54.30:376][800]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2023.11.28-02.54.30:378][800]LogPlayLevel: Display: Shutting down PIE online subsystems
+[2023.11.28-02.54.30:381][800]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2023.11.28-02.54.30:386][800]LogAudio: Display: Audio Device unregistered from world 'None'.
+[2023.11.28-02.54.30:386][800]LogAudioMixer: Deinitializing Audio Bus Subsystem for audio device with ID 5
+[2023.11.28-02.54.30:386][800]LogAudioMixer: FMixerPlatformXAudio2::StopAudioStream() called. InstanceID=5
+[2023.11.28-02.54.30:388][800]LogAudioMixer: FMixerPlatformXAudio2::StopAudioStream() called. InstanceID=5
+[2023.11.28-02.54.30:392][800]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2023.11.28-02.54.30:397][800]LogUObjectHash: Compacting FUObjectHashTables data took   0.53ms
+[2023.11.28-02.54.30:417][801]LogPlayLevel: Display: Destroying online subsystem :Context_7
+[2023.11.28-02.54.55:395][965]LogUObjectHash: Compacting FUObjectHashTables data took   0.43ms
+[2023.11.28-02.54.55:396][965]LogFileHelpers: Editor autosave (incl. external actors) for '/Game/boids' took 0.005
+[2023.11.28-02.54.55:397][965]OBJ SavePackage: Generating thumbnails for [0] asset(s) in package [/Game/DataAssets/DA_Parameters] ([1] browsable assets)...
+[2023.11.28-02.54.55:398][965]OBJ SavePackage: Finished generating thumbnails for package [/Game/DataAssets/DA_Parameters]
+[2023.11.28-02.54.55:407][965]LogPackageLocalizationCache: Processed 46 localized package path(s) for 1 prioritized culture(s) in 0.005936 seconds
+[2023.11.28-02.54.55:413][965]LogSavePackage: Moving output files for package: /Temp/Autosaves/Game/DataAssets/DA_Parameters_Auto1
+[2023.11.28-02.54.55:414][965]LogSavePackage: Moving '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Saved/DA_Parameters_Auto10FFDF55747DB7F8F3F6593970E890034.tmp' to '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Saved/Autosaves/Game/DataAssets/DA_Parameters_Auto1.uasset'
+[2023.11.28-02.54.55:419][965]LogFileHelpers: Auto-saving content packages took 0.023
+[2023.11.28-03.01.00:819][980]LogAssetEditorSubsystem: Opening Asset editor for WidgetBlueprint /Game/Widgets/WB_Parameters.WB_Parameters
+[2023.11.28-03.01.00:821][980]LogWorldSubsystemInput: UEnhancedInputDeveloperSettings::bEnableWorldSubsystem is false, the world subsystem will not be created!
+[2023.11.28-03.01.00:822][980]LogChaos: FPhysicsSolverBase::AsyncDt:-1.000000
+[2023.11.28-03.01.00:830][980]LogWorldSubsystemInput: UEnhancedInputDeveloperSettings::bEnableWorldSubsystem is false, the world subsystem will not be created!
+[2023.11.28-03.01.00:830][980]LogChaos: FPhysicsSolverBase::AsyncDt:-1.000000
+[2023.11.28-03.01.00:838][980]LogSlate: Warning: The command 'UMGEditor.OpenAnimDrawer' has the same default chord as 'EditorViewport.Next' [Ctrl+Shift+Space Bar]
+[2023.11.28-03.01.00:846][980]LogSlate: Warning: The command 'BlueprintEditorSpawnNodes.AddActorRefAction->CommandInfo' has the same default chord as 'BlueprintEditorSpawnNodes.(Class=/Script/BlueprintGraph.K2Node_Knot Key=R Shift=false Ctrl=false Alt=false)' [R]
+[2023.11.28-03.01.02:038][980]LogSlate: Took 0.000707 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-BoldCondensed.ttf' (158K)
+[2023.11.28-03.01.02:058][980]LogSlateStyle: Warning: Missing Resource from 'CoreStyle' Style: 'Unable to find SlateColor 'Foreground'.'
+[2023.11.28-03.01.02:060][980]LogSlate: Took 0.000765 seconds to synchronously load lazily loaded font '../../../Engine/Content/Editor/Slate/Fonts/FontAwesome.ttf' (139K)
+[2023.11.28-03.01.31:204][171]LogSlate: Took 0.008939 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/DroidSansFallback.ttf' (3848K)
+[2023.11.28-03.04.46:003][628]LogEditorTransaction: Undo Edit Size Rule
+[2023.11.28-03.04.46:432][629]Cmd: TRANSACTION UNDO
+[2023.11.28-03.04.46:433][629]LogEditorTransaction: Undo Edit Size Rule
+[2023.11.28-03.04.46:894][639]Cmd: TRANSACTION UNDO
+[2023.11.28-03.04.46:894][639]LogEditorTransaction: Undo Edit Size Rule
+[2023.11.28-03.04.47:546][667]Cmd: TRANSACTION UNDO
+[2023.11.28-03.04.47:546][667]LogEditorTransaction: Undo Move Widget
+[2023.11.28-03.04.48:939][756]Cmd: TRANSACTION UNDO
+[2023.11.28-03.04.48:939][756]LogEditorTransaction: Undo Edit Size Rule
+[2023.11.28-03.04.49:856][806]Cmd: TRANSACTION UNDO
+[2023.11.28-03.04.49:856][806]LogEditorTransaction: Undo Edit Check Box Type
+[2023.11.28-03.05.10:516][565]LogEditorTransaction: Undo Edit Check Box Type
+[2023.11.28-03.05.34:402][425]LogEditorTransaction: Undo Edit X
+[2023.11.28-03.08.11:513][722]LogSlate: Window 'Color Picker' being destroyed
+[2023.11.28-03.08.13:008][838]LogEditorTransaction: Undo Edit Content Color and Opacity
+[2023.11.28-03.08.20:538][429]LogEditorTransaction: Undo Remove Widget
+[2023.11.28-03.08.22:061][536]LogEditorTransaction: Undo Wrap Widgets
+[2023.11.28-03.08.23:919][711]LogUObjectHash: Compacting FUObjectHashTables data took   1.14ms
+[2023.11.28-03.08.23:928][711]LogFileHelpers: InternalPromptForCheckoutAndSave started...
+[2023.11.28-03.08.24:000][711]Cmd: OBJ SAVEPACKAGE PACKAGE="/Game/Widgets/WB_Parameters" FILE="../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Widgets/WB_Parameters.uasset" SILENT=true
+[2023.11.28-03.08.24:019][711]LogSavePackage: Moving output files for package: /Game/Widgets/WB_Parameters
+[2023.11.28-03.08.24:020][711]LogSavePackage: Moving '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Saved/WB_Parameters004B50BB428201A7437BF8BAB09DCA00.tmp' to '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Widgets/WB_Parameters.uasset'
+[2023.11.28-03.08.24:021][711]Cmd: OBJ SAVEPACKAGE PACKAGE="/Game/DataAssets/DA_Parameters" FILE="../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/DataAssets/DA_Parameters.uasset" SILENT=true
+[2023.11.28-03.08.24:022][711]LogSavePackage: Moving output files for package: /Game/DataAssets/DA_Parameters
+[2023.11.28-03.08.24:022][711]LogSavePackage: Moving '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Saved/DA_Parameters6D5A0549465CE5D978DCF68CE706563D.tmp' to '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/DataAssets/DA_Parameters.uasset'
+[2023.11.28-03.08.24:038][711]LogFileHelpers: InternalPromptForCheckoutAndSave took 109 ms
+[2023.11.28-03.08.24:039][711]AssetCheck: New page: Asset Save: multiple assets
+[2023.11.28-03.08.24:039][711]LogContentValidation: Display: Validating /Script/UMGEditor.WidgetBlueprint /Game/Widgets/WB_Parameters.WB_Parameters
+[2023.11.28-03.08.24:040][711]LogContentValidation: Display: Validating /Script/Boids.BoidManagerParameters /Game/DataAssets/DA_Parameters.DA_Parameters
+[2023.11.28-03.08.24:170][723]LogUObjectHash: Compacting FUObjectHashTables data took   0.47ms
+[2023.11.28-03.08.24:453][752]LogUObjectHash: Compacting FUObjectHashTables data took   0.46ms
+[2023.11.28-03.08.31:563][320]BlueprintLog: New page: Compile WB_Parameters
+[2023.11.28-03.08.31:571][320]LogBlueprint: Warning: [AssetLog] C:\Users\Blondy\Documents\GitHub\CT5108_Boids\Boids\Content\Widgets\WB_Parameters.uasset: [Compiler] On Value Changed (color_slider)  does not have a valid matching component!
+[2023.11.28-03.08.31:594][320]LogUObjectHash: Compacting FUObjectHashTables data took   0.98ms
+[2023.11.28-03.08.34:547][518]BlueprintLog: New page: Compile WB_Parameters
+[2023.11.28-03.08.34:550][518]LogBlueprint: Warning: [AssetLog] C:\Users\Blondy\Documents\GitHub\CT5108_Boids\Boids\Content\Widgets\WB_Parameters.uasset: [Compiler] On Value Changed (color_slider)  does not have a valid matching component!
+[2023.11.28-03.08.34:571][518]LogUObjectHash: Compacting FUObjectHashTables data took   1.09ms
+[2023.11.28-03.09.10:150][145]LogLiveCoding: Display: Starting Live Coding compile.
+[2023.11.28-03.09.10:984][210]LogUObjectHash: Compacting FUObjectHashTables data took   1.19ms
+[2023.11.28-03.09.10:985][210]LogFileHelpers: Editor autosave (incl. external actors) for '/Game/boids' took 0.014
+[2023.11.28-03.09.10:986][210]OBJ SavePackage: Generating thumbnails for [2] asset(s) in package [/Game/Widgets/WB_Parameters] ([2] browsable assets)...
+[2023.11.28-03.09.10:989][210]OBJ SavePackage:     Rendered thumbnail for [WidgetBlueprint /Game/Widgets/WB_Parameters.WB_Parameters]
+[2023.11.28-03.09.10:989][210]OBJ SavePackage: Finished generating thumbnails for package [/Game/Widgets/WB_Parameters]
+[2023.11.28-03.09.11:004][210]LogSavePackage: Moving output files for package: /Temp/Autosaves/Game/Widgets/WB_Parameters_Auto2
+[2023.11.28-03.09.11:005][210]LogSavePackage: Moving '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Saved/WB_Parameters_Auto292E9F0E84E8C7A03AF09029BE91A35BE.tmp' to '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Saved/Autosaves/Game/Widgets/WB_Parameters_Auto2.uasset'
+[2023.11.28-03.09.11:007][210]LogFileHelpers: Auto-saving content packages took 0.022
+[2023.11.28-03.09.17:192][612]LogLiveCoding: Display:    Creando biblioteca C:\Users\Blondy\Documents\GitHub\CT5108_Boids\Boids\Binaries\Win64\UnrealEditor-Boids.patch_2.lib y objeto C:\Users\Blondy\Documents\GitHub\CT5108_Boids\Boids\Binaries\Win64\UnrealEditor-Boids.patch_2.exp
+[2023.11.28-03.09.17:393][613]LogClass: UPackage /Script/Boids Reload.
+[2023.11.28-03.09.17:393][613]LogClass: UClass BoidManagerParameters Reload.
+[2023.11.28-03.09.17:393][613]LogClass: Could not find existing class BoidManagerParameters in package /Script/Boids for reload, assuming new or modified class
+[2023.11.28-03.09.17:401][613]Re-instancing BoidManagerParameters after reload.
+[2023.11.28-03.09.17:401][613]LogClass: Warning: Type mismatch in colorBias of BoidManagerParameters - Previous (FloatProperty) Current(BoolProperty) for package:  FObjectReader
+[2023.11.28-03.09.17:477][613]LogUObjectHash: Compacting FUObjectHashTables data took   1.02ms
+[2023.11.28-03.09.18:008][614]Display: Reload/Re-instancing Complete: 1 package changed, 1 class changed
+[2023.11.28-03.09.18:008][614]LogLiveCoding: Warning: Live coding succeeded, data type changes may cause packaging to fail if assets reference the new or updated data types
+[2023.11.28-03.09.19:113][683]LogAssetEditorSubsystem: Opening Asset editor for BoidManagerParameters /Game/DataAssets/DA_Parameters.DA_Parameters
+[2023.11.28-03.09.37:413][578]BlueprintLog: New page: Compile WB_Parameters
+[2023.11.28-03.09.37:486][578]LogUObjectHash: Compacting FUObjectHashTables data took   1.70ms
+[2023.11.28-03.14.54:347][ 79]LogUObjectHash: Compacting FUObjectHashTables data took   1.65ms
+[2023.11.28-03.14.54:355][ 79]LogFileHelpers: InternalPromptForCheckoutAndSave started...
+[2023.11.28-03.14.54:419][ 79]Cmd: OBJ SAVEPACKAGE PACKAGE="/Game/Widgets/WB_Parameters" FILE="../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Widgets/WB_Parameters.uasset" SILENT=true
+[2023.11.28-03.14.54:434][ 79]LogSavePackage: Moving output files for package: /Game/Widgets/WB_Parameters
+[2023.11.28-03.14.54:434][ 79]LogSavePackage: Moving '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Saved/WB_Parameters150424DB4CD1178E80F1F5B98B43FD63.tmp' to '../../../../../../Users/Blondy/Documents/GitHub/CT5108_Boids/Boids/Content/Widgets/WB_Parameters.uasset'
+[2023.11.28-03.14.54:441][ 79]LogFileHelpers: InternalPromptForCheckoutAndSave took 85 ms (total: 195 ms)
+[2023.11.28-03.14.54:443][ 79]AssetCheck: New page: Asset Save: WB_Parameters
+[2023.11.28-03.14.54:443][ 79]LogContentValidation: Display: Validating /Script/UMGEditor.WidgetBlueprint /Game/Widgets/WB_Parameters.WB_Parameters
+[2023.11.28-03.14.54:582][ 90]LogUObjectHash: Compacting FUObjectHashTables data took   0.54ms
+[2023.11.28-03.14.54:783][108]LogUObjectHash: Compacting FUObjectHashTables data took   0.50ms
+[2023.11.28-03.14.54:973][125]LogUObjectHash: Compacting FUObjectHashTables data took   0.52ms
+[2023.11.28-03.14.55:166][142]LogUObjectHash: Compacting FUObjectHashTables data took   0.52ms
+[2023.11.28-03.14.55:333][157]LogUObjectHash: Compacting FUObjectHashTables data took   0.50ms
+[2023.11.28-03.14.55:503][172]LogUObjectHash: Compacting FUObjectHashTables data took   0.52ms
+[2023.11.28-03.14.56:355][248]BlueprintLog: New page: Compile WB_Parameters
+[2023.11.28-03.14.56:378][248]LogUObjectHash: Compacting FUObjectHashTables data took   1.16ms
+[2023.11.28-03.15.17:167][ 94]LogDebuggerCommands: Repeating last play command: Selected Viewport
+[2023.11.28-03.15.17:174][ 94]LogPlayLevel: PlayLevel: No blueprints needed recompiling
+[2023.11.28-03.15.17:174][ 94]PIE: New page: PIE session: boids (28 nov. 2023 3:15:17)
+[2023.11.28-03.15.17:174][ 94]LogPlayLevel: Display: Creating online subsystem for client :Context_10
+[2023.11.28-03.15.17:176][ 94]LogOnline: OSS: Created online subsystem instance for: :Context_10
+[2023.11.28-03.15.17:190][ 95]LogPlayLevel: Creating play world package: /Game/UEDPIE_0_boids
+[2023.11.28-03.15.17:192][ 95]LogPlayLevel: PIE: StaticDuplicateObject took: (0.002532s)
+[2023.11.28-03.15.17:192][ 95]LogPlayLevel: PIE: Created PIE world by copying editor world from /Game/boids.boids to /Game/UEDPIE_0_boids.boids (0.002579s)
+[2023.11.28-03.15.17:206][ 95]LogUObjectHash: Compacting FUObjectHashTables data took   1.24ms
+[2023.11.28-03.15.17:208][ 95]LogWorldSubsystemInput: UEnhancedInputDeveloperSettings::bEnableWorldSubsystem is false, the world subsystem will not be created!
+[2023.11.28-03.15.17:208][ 95]LogChaos: FPhysicsSolverBase::AsyncDt:-1.000000
+[2023.11.28-03.15.17:209][ 95]LogAIModule: Creating AISystem for world boids
+[2023.11.28-03.15.17:209][ 95]LogPlayLevel: PIE: World Init took: (0.001015s)
+[2023.11.28-03.15.17:209][ 95]LogAudio: Display: Creating Audio Device:                 Id: 6, Scope: Unique, Realtime: True
+[2023.11.28-03.15.17:209][ 95]LogAudioMixer: Display: Audio Mixer Platform Settings:
+[2023.11.28-03.15.17:209][ 95]LogAudioMixer: Display: 	Sample Rate:						  48000
+[2023.11.28-03.15.17:209][ 95]LogAudioMixer: Display: 	Callback Buffer Frame Size Requested: 1024
+[2023.11.28-03.15.17:209][ 95]LogAudioMixer: Display: 	Callback Buffer Frame Size To Use:	  1024
+[2023.11.28-03.15.17:209][ 95]LogAudioMixer: Display: 	Number of buffers to queue:			  1
+[2023.11.28-03.15.17:209][ 95]LogAudioMixer: Display: 	Max Channels (voices):				  32
+[2023.11.28-03.15.17:209][ 95]LogAudioMixer: Display: 	Number of Async Source Workers:		  4
+[2023.11.28-03.15.17:209][ 95]LogAudio: Display: AudioDevice MaxSources: 32
+[2023.11.28-03.15.17:210][ 95]LogAudio: Display: Audio Spatialization Plugin: None (built-in).
+[2023.11.28-03.15.17:210][ 95]LogAudio: Display: Audio Reverb Plugin: None (built-in).
+[2023.11.28-03.15.17:210][ 95]LogAudio: Display: Audio Occlusion Plugin: None (built-in).
+[2023.11.28-03.15.17:211][ 95]LogAudioMixer: Display: Initializing audio mixer using platform API: 'XAudio2'
+[2023.11.28-03.15.17:227][ 95]LogAudioMixer: Display: Using Audio Hardware Device MSI MP223 (NVIDIA High Definition Audio)
+[2023.11.28-03.15.17:228][ 95]LogAudioMixer: Display: Initializing Sound Submixes...
+[2023.11.28-03.15.17:228][ 95]LogAudioMixer: Display: Creating Master Submix 'MasterSubmixDefault'
+[2023.11.28-03.15.17:228][ 95]LogAudioMixer: Display: Creating Master Submix 'MasterReverbSubmixDefault'
+[2023.11.28-03.15.17:228][ 95]LogAudioMixer: FMixerPlatformXAudio2::StartAudioStream() called. InstanceID=6
+[2023.11.28-03.15.17:228][ 95]LogAudioMixer: Display: Output buffers initialized: Frames=1024, Channels=2, Samples=2048, InstanceID=6
+[2023.11.28-03.15.17:230][ 95]LogAudioMixer: Display: Starting AudioMixerPlatformInterface::RunInternal(), InstanceID=6
+[2023.11.28-03.15.17:230][ 95]LogInit: FAudioDevice initialized with ID 6.
+[2023.11.28-03.15.17:230][ 95]LogAudioMixer: Display: FMixerPlatformXAudio2::SubmitBuffer() called for the first time. InstanceID=6
+[2023.11.28-03.15.17:230][ 95]LogAudio: Display: Audio Device (ID: 6) registered with world 'boids'.
+[2023.11.28-03.15.17:230][ 95]LogAudioMixer: Initializing Audio Bus Subsystem for audio device with ID 6
+[2023.11.28-03.15.17:233][ 95]LogLoad: Game class is 'GameModeBase'
+[2023.11.28-03.15.17:233][ 95]LogWorld: Bringing World /Game/UEDPIE_0_boids.boids up for play (max tick rate 0) at 2023.11.28-03.15.17
+[2023.11.28-03.15.17:233][ 95]LogWorld: Bringing up level for play took: 0.000474
+[2023.11.28-03.15.17:278][ 95]LogViewport: Display: Viewport MouseLockMode Changed, LockOnCapture -> DoNotLock
+[2023.11.28-03.15.17:278][ 95]LogViewport: Display: Viewport HideCursorDuringCapture Changed, False -> True
+[2023.11.28-03.15.17:278][ 95]LogViewport: Display: Viewport MouseCaptureMode Changed, CapturePermanently_IncludingInitialMouseDown -> CaptureDuringMouseDown
+[2023.11.28-03.15.17:279][ 95]PIE: Server logged in
+[2023.11.28-03.15.17:280][ 95]PIE: Play in editor total start time 0,106 seconds.
+[2023.11.28-03.17.01:693][132]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2023.11.28-03.17.01:693][132]LogWorld: BeginTearingDown for /Game/UEDPIE_0_boids
+[2023.11.28-03.17.01:694][132]LogWorld: UWorld::CleanupWorld for boids, bSessionEnded=true, bCleanupResources=true
+[2023.11.28-03.17.01:696][132]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2023.11.28-03.17.01:698][132]LogPlayLevel: Display: Shutting down PIE online subsystems
+[2023.11.28-03.17.01:704][132]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2023.11.28-03.17.01:720][132]LogAudio: Display: Audio Device unregistered from world 'None'.
+[2023.11.28-03.17.01:720][132]LogAudioMixer: Deinitializing Audio Bus Subsystem for audio device with ID 6
+[2023.11.28-03.17.01:720][132]LogAudioMixer: FMixerPlatformXAudio2::StopAudioStream() called. InstanceID=6
+[2023.11.28-03.17.01:723][132]LogAudioMixer: FMixerPlatformXAudio2::StopAudioStream() called. InstanceID=6
+[2023.11.28-03.17.01:727][132]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2023.11.28-03.17.01:733][132]LogUObjectHash: Compacting FUObjectHashTables data took   1.22ms
+[2023.11.28-03.17.01:757][133]LogPlayLevel: Display: Destroying online subsystem :Context_10
+[2023.11.28-03.17.04:851][494]LogUObjectHash: Compacting FUObjectHashTables data took   1.28ms
+[2023.11.28-03.17.05:055][515]LogUObjectHash: Compacting FUObjectHashTables data took   0.70ms
+[2023.11.28-03.17.05:241][536]LogUObjectHash: Compacting FUObjectHashTables data took   0.50ms
+[2023.11.28-03.17.05:469][562]LogUObjectHash: Compacting FUObjectHashTables data took   0.51ms
