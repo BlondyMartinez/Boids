@@ -19,25 +19,25 @@ public:
 	// SPAWN SETTINGS
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Settings")
-	int spawnCount = 30;
+	int spawnCount;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Settings")
-	int spawnRadius = 500;
+	int spawnRadius;
 
 	// BOID SETTINGS
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	int speed = 200;
+	int speed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	int neighbourhoodRadius = 900;
+	int neighbourhoodRadius;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	float separationWeight = 1;
+	float separationWeight;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	float cohesionWeight = 1;
+	float cohesionWeight;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	float alignmentWeight = 1;
-	//if too big boids get shot
+	float alignmentWeight;
+	// if too big boids get shot
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	float containmentForce = 1;
+	float containmentForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	bool colorBias = false;
+	bool colorBias;
 };

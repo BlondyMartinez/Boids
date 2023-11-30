@@ -9,7 +9,9 @@
             "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\source\\boids\\boid.h",
             "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boid.generated.h",
             "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\source\\boids\\boidmanager.h",
-            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanager.generated.h"
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanager.generated.h",
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\source\\boids\\boidmanagerparameters.h",
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanagerparameters.generated.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

@@ -3,6 +3,7 @@
 
 #include "Boid.h"
 #include "BoidManager.h"
+#include "BoidManagerParameters.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -18,7 +19,7 @@ ABoid::ABoid()
 	mesh->SetStaticMesh(sphereMesh);
 	mesh->AttachToComponent(root, FAttachmentTransformRules::KeepRelativeTransform);
 
-	// set initial rotation of the mesh
+	// set relative rotation of the mesh so the tip of the cone faces the direction its moving towards
 	mesh->SetRelativeRotation(FRotator(270, 0, 0));
 }
 
@@ -41,29 +42,17 @@ FVector ABoid::Flee(FVector pos)
 // calculate separation based on neighbours positions
 FVector ABoid::Separation(TArray<ABoid*> neighbours)
 {
-	/*if (neighbours.Num() == 0) return FVector::ZeroVector;
-
-	FVector avgFlee;
-
-	for (ABoid* boid : neighbours) {
-		avgFlee += Flee(boid->GetActorLocation());
-	}
-
-	avgFlee.Normalize();
-
-	return avgFlee;*/
-
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
 	FVector separationForce;
-	float minDistance = FLT_MAX; 
+	float minDistance = FLT_MAX; // minDistance = huge value
 
 	for (ABoid* boid : neighbours) {
 		float distance = FVector::Dist(GetActorLocation(), boid->GetActorLocation());
 		FVector fleeForce = Flee(boid->GetActorLocation());
 
 		// weight by inverse distance
-		fleeForce *= 1 / FMath::Max(distance, 1.0f); 
+		fleeForce *= 1 / FMath::Max(distance, 1.0f);
 		separationForce += fleeForce;
 
 		if (distance < minDistance) {
@@ -72,6 +61,7 @@ FVector ABoid::Separation(TArray<ABoid*> neighbours)
 	}
 
 	// adjust magnitude based on proximity of the closest neighbor
+	// 110 being the boid diameter plus 10
 	if (minDistance < 110) {
 		separationForce *= FMath::Lerp(5, 1.0f, minDistance / 110);
 	}
@@ -88,12 +78,14 @@ FVector ABoid::Cohesion(TArray<ABoid*> neighbours)
 	int count = 0;
 
 	for (ABoid* boid : neighbours) {
-		//if (!manager->colorBias() || (manager->colorBias() && boid->color == this->color)) {
+		// if there's no color bias OR if there is and they are the same color
+		if (!parameters->colorBias || (parameters->colorBias && boid->color == this->color)) {
 			avgPos += boid->GetActorLocation();
 			count++;
-		/*}*/
+		}
 	}
-	avgPos /= count;
+	
+	if (count != 0) avgPos /= count;
 
 	return Seek(avgPos);
 }
@@ -114,7 +106,7 @@ FVector ABoid::Alignment(TArray<ABoid*> neighbours)
 	return newVelocity;
 }
 
-// add random wander vector
+// TODO watch tutorial again or get rid of radius as its not used
 FVector ABoid::Wander(float radius, float distance, float jitter)
 {
 	FVector currentPos = GetActorLocation();
@@ -126,24 +118,29 @@ FVector ABoid::Wander(float radius, float distance, float jitter)
 	}
 
 	FVector jitterDestination = Seek(wanderDestination) + (FMath::VRand() * FMath::RandRange(0.f, jitter));
-	UE_LOG(LogTemp, Warning, TEXT("Hello World!"));
+
 	return jitterDestination;
 	
 }
 
-// called from BoidManager to update boid behavior
+// called from BoidManager 
 void ABoid::UpdateBoid(float DeltaTime)
 {
 	FVector targetVelocity = FVector::ZeroVector;
 
-	ApplyContainment();
+	// apply containment
+	FVector containmentForce = ApplyContainment();
+	if (!containmentForce.IsZero()) {
+		targetVelocity += containmentForce;
+	}
 
 	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
 
+	float maxDistance = 3;
 	// apply forces
-	targetVelocity += Separation(closestBoids) * manager->separationWeight();
-	targetVelocity += Cohesion(closestBoids) * manager->cohesionWeight();
-	targetVelocity += Alignment(closestBoids) * manager->alignmentWeight();
+	targetVelocity += Separation(closestBoids) * parameters->separationWeight;
+	targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
+	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
 
 	targetVelocity.Normalize();
 
@@ -156,14 +153,9 @@ void ABoid::UpdateBoid(float DeltaTime)
 	FVector newForce = targetVelocity - currentVelocity;
 	currentVelocity += newForce * DeltaTime;
 
-	// draw line to see current velocity
-	FVector LineStart = GetActorLocation();
-	FVector LineEnd = LineStart + currentVelocity.GetSafeNormal() * 100.0f; 
-	DrawDebugLine(GetWorld(), LineStart, LineEnd, FColor::Green, false, -1, 0, 1);
-
 	// update position
 	FVector location = GetActorLocation();
-	location += currentVelocity * speed * DeltaTime;
+	location += currentVelocity * parameters->speed * DeltaTime;
 
 	// rotate root component to align with direction
 	FVector coneDirection = currentVelocity.GetSafeNormal();
@@ -172,20 +164,24 @@ void ABoid::UpdateBoid(float DeltaTime)
 	SetActorLocation(location);
 }
 
-// called from boidmanager to set the material of the cone
 void ABoid::SetConeMaterial(UMaterialInterface* material)
 {
 	mesh->SetMaterial(0, material);
 }
 
 // apply containment force to keep boids within sphere
-void ABoid::ApplyContainment()
+// TODO fix whatever is making boids stick to the boundary
+FVector ABoid::ApplyContainment()
 {
 	FVector toCentre = manager->sphereCentre - GetActorLocation();
 	float distance = toCentre.Size();
 
 	if (distance > manager->sphereRadius) {
+		// soft boundary
+		float force = FMath::Clamp((distance - manager->sphereRadius) / 500, 0, 1);
 		FVector correction = toCentre.GetSafeNormal() * (distance - manager->sphereRadius);
-		currentVelocity += correction * manager->containmentForce();
+		return correction * force * parameters->containmentForce;
 	}
+
+	return FVector::ZeroVector;
 }

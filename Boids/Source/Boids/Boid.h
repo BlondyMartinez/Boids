@@ -16,8 +16,8 @@ public:
 	ABoid();
 
 	class ABoidManager* manager;
+	class UBoidManagerParameters* parameters;
 
-	float speed;
 	int color;
 
 protected:
@@ -29,11 +29,13 @@ protected:
 
 	// BEHAVIOUR STUFF
 	
-	//first tutorial functions
+	// first tutorial functions
 	FVector Seek(FVector pos);
 	FVector Flee(FVector pos);
 
-	//second tutorial functions
+	// second tutorial functions
+	// TODO change functions to have all of their logic happening in the same loop 
+	// instead of a loop for each
 	FVector Separation(TArray<ABoid*> neighbours);
 	FVector Cohesion(TArray<ABoid*> neighbours);
 	FVector Alignment(TArray<ABoid*> neighbours);
@@ -41,9 +43,7 @@ protected:
 	FVector Wander(float radius, float distance, float jitter);
 	FVector wanderDestination;
 
-	FVector SeparationByColor(TArray<ABoid*> neighbours);
-
-	void ApplyContainment();
+	FVector ApplyContainment();
 
 public:
 	void UpdateBoid(float DeltaTime);

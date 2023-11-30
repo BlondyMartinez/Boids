@@ -4,6 +4,7 @@
 #include "BoidManager.h"
 #include "Boid.h"
 #include "BoidManagerParameters.h"
+#include "Grid.h"
 
 // Sets default values
 ABoidManager::ABoidManager()
@@ -24,18 +25,21 @@ void ABoidManager::BeginPlay()
 	// spawn containment sphere
 	containmentSphere = SpawnContainmentSphere();
 
+	// add grid
+	//grid = new Grid(GetWorld(), sphereRadius * 2, parameters->neighbourhoodRadius, sphereCentre, sphereRadius);
+
 	// spawn
 	for (int i = 0; i < parameters->spawnCount; i++) {
-		// generate random spawn position within specified radius
+		// position
 		FVector spawnPos = (FMath::VRand() * FMath::RandRange(0, parameters->spawnRadius)) + GetActorLocation();
 		FRotator spawnRot = GetActorRotation();
 
-		// generate random color index
+		// color
 		int colorIndex = FMath::RandRange(0, 3);
 
 		// spawn boid with specified parameters
 		ABoid* newBoid = GetWorld()->SpawnActor<ABoid>(spawnPos, spawnRot);
-		newBoid->speed = parameters->speed;
+		newBoid->parameters = parameters;
 		newBoid->color = colorIndex;
 		newBoid->manager = this;
 		newBoid->SetConeMaterial(materials[colorIndex]);
@@ -43,22 +47,20 @@ void ABoidManager::BeginPlay()
 	}
 }
 
-// spawn containment sphere
 AActor* ABoidManager::SpawnContainmentSphere()
 {
 	if (containmentSphereClass) {
-		// spawn at boidmanager location
 		AActor* aContainmentSphere = GetWorld()->SpawnActor<AActor>(containmentSphereClass, GetActorLocation(), GetActorRotation());
-		// sohere properties
+		
+		// sphere properties
 		sphereCentre = aContainmentSphere->GetActorLocation();
-		sphereRadius = 2400;
+		sphereRadius = 2300; // aprox sphere scale * 100 / 2
 		return aContainmentSphere;
 	}
 
 	return nullptr;
 }
 
-// get neighbourhood of a boid
 TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(ABoid* thisBoid)
 {
 	TArray<class ABoid*> neighbourhood;
@@ -78,35 +80,9 @@ TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(ABoid* thisBoid)
 void ABoidManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	//grid->UpdateGrid(boids);
 	for (ABoid* boid : boids) {
 		boid->UpdateBoid(DeltaTime);
 	}
-
-}
-
-// getters for parameters from data asset
-float ABoidManager::separationWeight()
-{
-	return parameters->separationWeight;
-}
-
-float ABoidManager::cohesionWeight()
-{
-	return parameters->cohesionWeight;
-}
-
-float ABoidManager::alignmentWeight()
-{
-	return parameters->alignmentWeight;
-}
-
-float ABoidManager::containmentForce()
-{
-	return parameters->containmentForce;
-}
-
-float ABoidManager::colorBias()
-{
-	return parameters->colorBias;
+	//grid->DrawDebugGrid();
 }
