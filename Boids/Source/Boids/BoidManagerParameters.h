@@ -39,5 +39,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float containmentForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
+	float repulsionForce;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	bool colorBias;
 };

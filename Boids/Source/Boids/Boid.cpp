@@ -15,8 +15,8 @@ ABoid::ABoid()
 
 	// create static mesh component
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Cone"));
-	UStaticMesh* sphereMesh = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Engine/BasicShapes/Cone.cone'")).Object;
-	mesh->SetStaticMesh(sphereMesh);
+	UStaticMesh* coneMesh = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Engine/BasicShapes/Cone.cone'")).Object;
+	mesh->SetStaticMesh(coneMesh);
 	mesh->AttachToComponent(root, FAttachmentTransformRules::KeepRelativeTransform);
 
 	// set relative rotation of the mesh so the tip of the cone faces the direction its moving towards
@@ -60,7 +60,6 @@ FVector ABoid::Separation(TArray<ABoid*> neighbours)
 		}
 	}
 
-	// adjust magnitude based on proximity of the closest neighbor
 	// 110 being the boid diameter plus 10
 	if (minDistance < 110) {
 		separationForce *= FMath::Lerp(5, 1.0f, minDistance / 110);
@@ -96,11 +95,17 @@ FVector ABoid::Alignment(TArray<ABoid*> neighbours)
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
 	FVector newVelocity;
+	int count = 0;
+
 	for (ABoid* boid : neighbours) {
-		newVelocity += boid->currentVelocity;
+		// if there's no color bias OR if there is and they are the same color
+		if (!parameters->colorBias || (parameters->colorBias && boid->color == this->color)) {
+			newVelocity += boid->currentVelocity;
+			count++;
+		}
 	}
 
-	newVelocity /= neighbours.Num();
+	if (count != 0) newVelocity /= count;
 	newVelocity.Normalize();
 
 	return newVelocity;
@@ -126,42 +131,38 @@ FVector ABoid::Wander(float radius, float distance, float jitter)
 // called from BoidManager 
 void ABoid::UpdateBoid(float DeltaTime)
 {
-	FVector targetVelocity = FVector::ZeroVector;
-
-	// apply containment
-	FVector containmentForce = ApplyContainment();
-	if (!containmentForce.IsZero()) {
-		targetVelocity += containmentForce;
-	}
+	FVector targetVelocity =  ApplyContainment();
 
 	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
 
-	float maxDistance = 3;
 	// apply forces
 	targetVelocity += Separation(closestBoids) * parameters->separationWeight;
 	targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
 	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
+	if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
 
 	targetVelocity.Normalize();
 
 	// if velocity is small add wandering behavior
 	if (targetVelocity.Size() < 1) {
-		targetVelocity += Wander(100, 200, 10);
+		targetVelocity += Wander(100, 600, 10);
 		targetVelocity.Normalize();
 	}
 
-	FVector newForce = targetVelocity - currentVelocity;
-	currentVelocity += newForce * DeltaTime;
+	// calculate acceleration
+	FVector force = targetVelocity * parameters->speed - currentVelocity;
+	FVector acceleration = force / mass; // F = ma
 
-	// update position
-	FVector location = GetActorLocation();
-	location += currentVelocity * parameters->speed * DeltaTime;
+
+	// update velocity and pos
+	currentVelocity += acceleration * DeltaTime;
+	FVector location = GetActorLocation() + currentVelocity  * DeltaTime;
+
+	SetActorLocation(location);
 
 	// rotate root component to align with direction
 	FVector coneDirection = currentVelocity.GetSafeNormal();
 	root->SetWorldRotation(coneDirection.Rotation());
-
-	SetActorLocation(location);
 }
 
 void ABoid::SetConeMaterial(UMaterialInterface* material)
@@ -169,7 +170,13 @@ void ABoid::SetConeMaterial(UMaterialInterface* material)
 	mesh->SetMaterial(0, material);
 }
 
-// apply containment force to keep boids within sphere
+void ABoid::SetConeScale(float aMass)
+{
+	mass = aMass;
+	mesh->SetWorldScale3D(FVector(mass));
+}
+
+
 // TODO fix whatever is making boids stick to the boundary
 FVector ABoid::ApplyContainment()
 {
@@ -184,4 +191,30 @@ FVector ABoid::ApplyContainment()
 	}
 
 	return FVector::ZeroVector;
+}
+
+// repulsion by color difference
+FVector ABoid::Repulsion(TArray<ABoid*> neighbours)
+{
+	FVector repulsion = FVector::ZeroVector;
+
+	for (ABoid* boid : neighbours) {
+		if (boid->color != color) {
+			FVector toBoid = boid->GetActorLocation() - GetActorLocation();
+			float distance = toBoid.Size();
+
+			if (distance < 500) {
+				FVector repulsionDirection = -toBoid.GetSafeNormal();
+				float force = FMath::Clamp((500 - distance) / 500, 0, 1);
+				repulsion += repulsionDirection * force * parameters->repulsionForce;
+			}
+		}
+	}
+
+	return repulsion;
+}
+
+FVector ABoid::GroupAvoidance(TArray<ABoid*> neighbours)
+{
+	return FVector();
 }

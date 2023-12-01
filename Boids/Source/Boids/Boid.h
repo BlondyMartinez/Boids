@@ -19,21 +19,21 @@ public:
 	class UBoidManagerParameters* parameters;
 
 	int color;
+	float mass;
 
 protected:
 	FVector currentVelocity = FVector::ZeroVector;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 	UStaticMeshComponent* mesh;
 	USceneComponent* root;
 
 	// BEHAVIOUR STUFF
 	
-	// first tutorial functions
+	// first tutorial
 	FVector Seek(FVector pos);
 	FVector Flee(FVector pos);
 
-	// second tutorial functions
+	// second tutorial
 	// TODO change functions to have all of their logic happening in the same loop 
 	// instead of a loop for each
 	FVector Separation(TArray<ABoid*> neighbours);
@@ -44,8 +44,12 @@ protected:
 	FVector wanderDestination;
 
 	FVector ApplyContainment();
+	FVector Repulsion(TArray<ABoid*> neighbours);
+	//TODO
+	FVector GroupAvoidance(TArray<ABoid*> neighbours);
 
 public:
 	void UpdateBoid(float DeltaTime);
 	void SetConeMaterial(UMaterialInterface* material);
+	void SetConeScale(float aMass);
 };

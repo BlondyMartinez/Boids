@@ -63,6 +63,7 @@ int Grid::GetCellIndex(const FVector& pos)
 	// based on row major order so different coordinates wont get the same index
 	// x one cell, y row of cells, z all layers
 	int index = x + y * gridSize + z * gridSize * gridSize;
+
 	return index;
 }
 

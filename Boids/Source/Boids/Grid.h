@@ -16,7 +16,7 @@ public:
 
 		this->gridSize = gridSize;
 		this->cellSize = cellSize;
-		halfCellSize = cellSize / 2;
+		halfCellSize = cellSize * .5f;
 		cellSizeInverse = 1 / cellSize;
 		cellsPerSide = FMath::CeilToInt(gridSize / cellSize);
 
@@ -50,7 +50,6 @@ private:
 
 	FVector sphereCentre;
 	float sphereRadius;
-
 
 	void DrawGridCell();
 

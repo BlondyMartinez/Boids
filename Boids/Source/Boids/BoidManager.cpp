@@ -36,6 +36,7 @@ void ABoidManager::BeginPlay()
 
 		// color
 		int colorIndex = FMath::RandRange(0, 3);
+		float mass = FMath::RandRange(.5f, 1.f);
 
 		// spawn boid with specified parameters
 		ABoid* newBoid = GetWorld()->SpawnActor<ABoid>(spawnPos, spawnRot);
@@ -43,6 +44,7 @@ void ABoidManager::BeginPlay()
 		newBoid->color = colorIndex;
 		newBoid->manager = this;
 		newBoid->SetConeMaterial(materials[colorIndex]);
+		newBoid->SetConeScale(mass);
 		boids.Add(newBoid);
 	}
 }
@@ -51,10 +53,12 @@ AActor* ABoidManager::SpawnContainmentSphere()
 {
 	if (containmentSphereClass) {
 		AActor* aContainmentSphere = GetWorld()->SpawnActor<AActor>(containmentSphereClass, GetActorLocation(), GetActorRotation());
-		
+		UStaticMeshComponent* containmentMesh= aContainmentSphere->FindComponentByClass<UStaticMeshComponent>();
+
 		// sphere properties
 		sphereCentre = aContainmentSphere->GetActorLocation();
-		sphereRadius = 2300; // aprox sphere scale * 100 / 2
+		sphereRadius = (containmentMesh->GetComponentScale().X * 100 * .5f) - 300; // aprox sphere scale * 100 / 2
+		
 		return aContainmentSphere;
 	}
 

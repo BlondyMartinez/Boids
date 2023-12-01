@@ -61,6 +61,10 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #endif
 		static const UECodeGen_Private::FFloatPropertyParams NewProp_containmentForce;
 #if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_repulsionForce_MetaData[];
+#endif
+		static const UECodeGen_Private::FFloatPropertyParams NewProp_repulsionForce;
+#if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_colorBias_MetaData[];
 #endif
 		static void NewProp_colorBias_SetBit(void* Obj);
@@ -160,6 +164,13 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #endif
 	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce = { "containmentForce", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, containmentForce), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData) };
 #if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce_MetaData[] = {
+		{ "Category", "Boid Settings" },
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+	};
+#endif
+	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce = { "repulsionForce", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, repulsionForce), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce_MetaData) };
+#if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias_MetaData[] = {
 		{ "Category", "Boid Settings" },
 		{ "ModuleRelativePath", "BoidManagerParameters.h" },
@@ -179,6 +190,7 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_cohesionWeight,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_UBoidManagerParameters_Statics::StaticCppClassTypeInfo = {
@@ -220,9 +232,9 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 2297888853U) },
+		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 3437259063U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_3633189082(TEXT("/Script/Boids"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_3717506482(TEXT("/Script/Boids"),
 		Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
