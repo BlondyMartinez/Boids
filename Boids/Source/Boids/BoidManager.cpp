@@ -41,6 +41,7 @@ void ABoidManager::BeginPlay()
 		// spawn boid with specified parameters
 		ABoid* newBoid = GetWorld()->SpawnActor<ABoid>(spawnPos, spawnRot);
 		newBoid->parameters = parameters;
+		newBoid->speed = parameters->speed * .65f / mass; // greater speed the lighter the boid is
 		newBoid->color = colorIndex;
 		newBoid->manager = this;
 		newBoid->SetConeMaterial(materials[colorIndex]);

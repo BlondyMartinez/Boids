@@ -4,6 +4,7 @@
 #include "Boid.h"
 #include "BoidManager.h"
 #include "BoidManagerParameters.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -22,6 +23,14 @@ ABoid::ABoid()
 	// set relative rotation of the mesh so the tip of the cone faces the direction its moving towards
 	mesh->SetRelativeRotation(FRotator(270, 0, 0));
 }
+
+// called from BoidManager 
+void ABoid::UpdateBoid(float DeltaTime)
+{
+	SpiralMovement(DeltaTime);
+}
+
+// BEHAVIOR STUFF
 
 // calculate vector pointing towards a given position
 FVector ABoid::Seek(FVector pos)
@@ -128,55 +137,6 @@ FVector ABoid::Wander(float radius, float distance, float jitter)
 	
 }
 
-// called from BoidManager 
-void ABoid::UpdateBoid(float DeltaTime)
-{
-	FVector targetVelocity =  ApplyContainment();
-
-	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
-
-	// apply forces
-	targetVelocity += Separation(closestBoids) * parameters->separationWeight;
-	targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
-	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
-	if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
-
-	targetVelocity.Normalize();
-
-	// if velocity is small add wandering behavior
-	if (targetVelocity.Size() < 1) {
-		targetVelocity += Wander(100, 600, 10);
-		targetVelocity.Normalize();
-	}
-
-	// calculate acceleration
-	FVector force = targetVelocity * parameters->speed - currentVelocity;
-	FVector acceleration = force / mass; // F = ma
-
-
-	// update velocity and pos
-	currentVelocity += acceleration * DeltaTime;
-	FVector location = GetActorLocation() + currentVelocity  * DeltaTime;
-
-	SetActorLocation(location);
-
-	// rotate root component to align with direction
-	FVector coneDirection = currentVelocity.GetSafeNormal();
-	root->SetWorldRotation(coneDirection.Rotation());
-}
-
-void ABoid::SetConeMaterial(UMaterialInterface* material)
-{
-	mesh->SetMaterial(0, material);
-}
-
-void ABoid::SetConeScale(float aMass)
-{
-	mass = aMass;
-	mesh->SetWorldScale3D(FVector(mass));
-}
-
-
 // TODO fix whatever is making boids stick to the boundary
 FVector ABoid::ApplyContainment()
 {
@@ -215,6 +175,80 @@ FVector ABoid::Repulsion(TArray<ABoid*> neighbours)
 }
 
 FVector ABoid::GroupAvoidance(TArray<ABoid*> neighbours)
-{
+{/*
+	FVector groupVelocity;
+	int groupCount = 0;
+	for (ABoid* boid : neighbours) {
+
+	}*/
 	return FVector();
 }
+
+void ABoid::SpiralMovement(float DeltaTime)
+{
+	FVector spiralCentre = manager->GetActorLocation();
+
+	FVector toCentre = spiralCentre - GetActorLocation();
+	float distance = toCentre.Size();
+
+	// rotation around centre
+	FRotator rotation = FRotator(0, 0, speed * DeltaTime);
+	FVector rotatedVector = rotation.RotateVector(toCentre);
+
+	FVector spiralMovement = rotatedVector - toCentre;
+	spiralMovement.Normalize();
+	spiralMovement *= 500;
+
+	FVector location = GetActorLocation() - spiralMovement * DeltaTime;
+	SetActorLocation(location);
+	SetActorRotation(spiralMovement.Rotation());
+}
+
+void ABoid::RegularMovement(float DeltaTime)
+{
+	FVector targetVelocity = ApplyContainment();
+
+	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
+
+	// apply forces
+	targetVelocity += Separation(closestBoids) * parameters->separationWeight;
+	targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
+	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
+	if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
+
+	targetVelocity.Normalize();
+
+	// if velocity is small add wandering behavior
+	if (targetVelocity.Size() < 1) {
+		targetVelocity += Wander(100, 600, 10);
+		targetVelocity.Normalize();
+	}
+
+	// calculate acceleration
+	FVector force = targetVelocity * speed - currentVelocity;
+	FVector acceleration = force / mass; // F = ma
+
+
+	// update velocity and pos
+	currentVelocity += acceleration * DeltaTime;
+	FVector location = GetActorLocation() + currentVelocity * DeltaTime;
+
+	SetActorLocation(location);
+
+	// rotate root component to align with direction
+	FVector coneDirection = currentVelocity.GetSafeNormal();
+	root->SetWorldRotation(coneDirection.Rotation());
+}
+
+
+void ABoid::SetConeMaterial(UMaterialInterface* material)
+{
+	mesh->SetMaterial(0, material);
+}
+
+void ABoid::SetConeScale(float aMass)
+{
+	mass = aMass;
+	mesh->SetWorldScale3D(FVector(mass));
+}
+

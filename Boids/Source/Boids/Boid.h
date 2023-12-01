@@ -19,6 +19,7 @@ public:
 	class UBoidManagerParameters* parameters;
 
 	int color;
+	float speed;
 	float mass;
 
 protected:
@@ -47,6 +48,9 @@ protected:
 	FVector Repulsion(TArray<ABoid*> neighbours);
 	//TODO
 	FVector GroupAvoidance(TArray<ABoid*> neighbours);
+
+	void SpiralMovement(float DeltaTime);
+	void RegularMovement(float DeltaTime);
 
 public:
 	void UpdateBoid(float DeltaTime);
