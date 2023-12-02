@@ -35,11 +35,12 @@ public:
 	float cohesionWeight;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float alignmentWeight;
-	// if too big boids get shot
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float containmentForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float repulsionForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	bool colorBias;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
+	int behaviorStateIndex;
 };

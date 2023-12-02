@@ -18,15 +18,21 @@ public:
 	class ABoidManager* manager;
 	class UBoidManagerParameters* parameters;
 
+	//behavior currentBehavior = behavior::flocking;
+
 	int color;
 	float speed;
-	float mass;
 
 protected:
 	FVector currentVelocity = FVector::ZeroVector;
 
 	UStaticMeshComponent* mesh;
 	USceneComponent* root;
+
+	bool towardsCentre = true;
+
+	float mass;
+	float massInverse;
 
 	// BEHAVIOUR STUFF
 	
@@ -50,10 +56,16 @@ protected:
 	FVector GroupAvoidance(TArray<ABoid*> neighbours);
 
 	void SpiralMovement(float DeltaTime);
-	void RegularMovement(float DeltaTime);
+	void Flocking(float DeltaTime);
 
 public:
 	void UpdateBoid(float DeltaTime);
 	void SetConeMaterial(UMaterialInterface* material);
 	void SetConeScale(float aMass);
 };
+
+// GIVES EEVERAL ERRORS WHEN COMPILING IN UNREAL
+//enum class behavior {
+//	flocking, // standard movement
+//	spiral,   // spiral movement
+//};

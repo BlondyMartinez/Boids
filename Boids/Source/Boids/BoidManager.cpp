@@ -24,6 +24,7 @@ void ABoidManager::BeginPlay()
 
 	// spawn containment sphere
 	containmentSphere = SpawnContainmentSphere();
+	containmentSphere->SetActorHiddenInGame(true);
 
 	// add grid
 	//grid = new Grid(GetWorld(), sphereRadius * 2, parameters->neighbourhoodRadius, sphereCentre, sphereRadius);
@@ -45,7 +46,8 @@ void ABoidManager::BeginPlay()
 		newBoid->color = colorIndex;
 		newBoid->manager = this;
 		newBoid->SetConeMaterial(materials[colorIndex]);
-		newBoid->SetConeScale(mass);
+		newBoid->SetConeScale(mass)
+
 		boids.Add(newBoid);
 	}
 }
@@ -58,7 +60,7 @@ AActor* ABoidManager::SpawnContainmentSphere()
 
 		// sphere properties
 		sphereCentre = aContainmentSphere->GetActorLocation();
-		sphereRadius = (containmentMesh->GetComponentScale().X * 100 * .5f) - 300; // aprox sphere scale * 100 / 2
+		sphereRadius = (containmentMesh->GetComponentScale().X * 100 * .5f) - 100; 
 		
 		return aContainmentSphere;
 	}

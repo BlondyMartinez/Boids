@@ -4,7 +4,6 @@
 #include "Boid.h"
 #include "BoidManager.h"
 #include "BoidManagerParameters.h"
-#include "Particles/ParticleSystemComponent.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -27,7 +26,15 @@ ABoid::ABoid()
 // called from BoidManager 
 void ABoid::UpdateBoid(float DeltaTime)
 {
-	SpiralMovement(DeltaTime);
+	switch (parameters->behaviorStateIndex) {
+		case 0:
+		case 2:
+			Flocking(DeltaTime);
+			break;
+		case 1:
+			SpiralMovement(DeltaTime);
+			break;
+	}
 }
 
 // BEHAVIOR STUFF
@@ -174,16 +181,14 @@ FVector ABoid::Repulsion(TArray<ABoid*> neighbours)
 	return repulsion;
 }
 
+// TODO
 FVector ABoid::GroupAvoidance(TArray<ABoid*> neighbours)
-{/*
-	FVector groupVelocity;
-	int groupCount = 0;
-	for (ABoid* boid : neighbours) {
-
-	}*/
+{
 	return FVector();
 }
 
+// funciona pero se ve feo
+// TODO make it look nice
 void ABoid::SpiralMovement(float DeltaTime)
 {
 	FVector spiralCentre = manager->GetActorLocation();
@@ -191,20 +196,32 @@ void ABoid::SpiralMovement(float DeltaTime)
 	FVector toCentre = spiralCentre - GetActorLocation();
 	float distance = toCentre.Size();
 
+	if (distance < 300) towardsCentre = false;
+	else if (distance > (manager->sphereRadius)) towardsCentre = true;
+
 	// rotation around centre
 	FRotator rotation = FRotator(0, 0, speed * DeltaTime);
 	FVector rotatedVector = rotation.RotateVector(toCentre);
 
-	FVector spiralMovement = rotatedVector - toCentre;
-	spiralMovement.Normalize();
-	spiralMovement *= 500;
+	rotatedVector.Normalize();
+	FVector spiralMovement = rotatedVector * 1000;
 
-	FVector location = GetActorLocation() - spiralMovement * DeltaTime;
+	// update location and rotation
+	FVector location = GetActorLocation();
+
+	if (towardsCentre) {
+		location += spiralMovement * DeltaTime;
+		SetActorRotation(spiralMovement.Rotation());
+	}
+	else {
+		location -= spiralMovement * DeltaTime;
+		SetActorRotation(-1 * spiralMovement.Rotation());
+	}
+
 	SetActorLocation(location);
-	SetActorRotation(spiralMovement.Rotation());
 }
 
-void ABoid::RegularMovement(float DeltaTime)
+void ABoid::Flocking(float DeltaTime)
 {
 	FVector targetVelocity = ApplyContainment();
 
@@ -220,13 +237,13 @@ void ABoid::RegularMovement(float DeltaTime)
 
 	// if velocity is small add wandering behavior
 	if (targetVelocity.Size() < 1) {
-		targetVelocity += Wander(100, 600, 10);
+		targetVelocity += Wander(100, 600, 50);
 		targetVelocity.Normalize();
 	}
 
 	// calculate acceleration
 	FVector force = targetVelocity * speed - currentVelocity;
-	FVector acceleration = force / mass; // F = ma
+	FVector acceleration = force * massInverse; // F = ma
 
 
 	// update velocity and pos
@@ -249,6 +266,7 @@ void ABoid::SetConeMaterial(UMaterialInterface* material)
 void ABoid::SetConeScale(float aMass)
 {
 	mass = aMass;
+	massInverse = 1 / mass;
 	mesh->SetWorldScale3D(FVector(mass));
 }
 

@@ -69,6 +69,10 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #endif
 		static void NewProp_colorBias_SetBit(void* Obj);
 		static const UECodeGen_Private::FBoolPropertyParams NewProp_colorBias;
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_behaviorStateIndex_MetaData[];
+#endif
+		static const UECodeGen_Private::FIntPropertyParams NewProp_behaviorStateIndex;
 		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UECodeGen_Private::FClassParams ClassParams;
@@ -153,13 +157,7 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData[] = {
 		{ "Category", "Boid Settings" },
-#if !UE_BUILD_SHIPPING
-		{ "Comment", "// if too big boids get shot\n" },
-#endif
 		{ "ModuleRelativePath", "BoidManagerParameters.h" },
-#if !UE_BUILD_SHIPPING
-		{ "ToolTip", "if too big boids get shot" },
-#endif
 	};
 #endif
 	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce = { "containmentForce", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, containmentForce), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData) };
@@ -181,6 +179,13 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		((UBoidManagerParameters*)Obj)->colorBias = 1;
 	}
 	const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias = { "colorBias", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(UBoidManagerParameters), &Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias_MetaData) };
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex_MetaData[] = {
+		{ "Category", "Boid Settings" },
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+	};
+#endif
+	const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex = { "behaviorStateIndex", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, behaviorStateIndex), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex_MetaData) };
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UBoidManagerParameters_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_spawnCount,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_spawnRadius,
@@ -192,6 +197,7 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_UBoidManagerParameters_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<UBoidManagerParameters>::IsAbstract,
@@ -232,9 +238,9 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 3437259063U) },
+		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 146152716U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_3717506482(TEXT("/Script/Boids"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_511971642(TEXT("/Script/Boids"),
 		Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

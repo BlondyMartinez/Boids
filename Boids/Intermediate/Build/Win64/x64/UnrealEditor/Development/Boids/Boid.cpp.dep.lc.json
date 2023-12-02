@@ -11,14 +11,7 @@
             "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\source\\boids\\boidmanager.h",
             "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanager.generated.h",
             "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\source\\boids\\boidmanagerparameters.h",
-            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanagerparameters.generated.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\particles\\particlesystemcomponent.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\particles\\particlesystem.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\particles\\particleperfstats.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\particlesystem.generated.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\particles\\emitter.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\emitter.generated.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\particlesystemcomponent.generated.h"
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanagerparameters.generated.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
