@@ -17,6 +17,7 @@ public:
 
 	class ABoidManager* manager;
 	class UBoidManagerParameters* parameters;
+	class UNiagaraComponent* ribbon;
 
 	//behavior currentBehavior = behavior::flocking;
 
@@ -52,6 +53,7 @@ protected:
 
 	FVector ApplyContainment();
 	FVector Repulsion(TArray<ABoid*> neighbours);
+	FVector ObstacleAvoidance(TArray<AActor*> obstacles);
 	//TODO
 	FVector GroupAvoidance(TArray<ABoid*> neighbours);
 
@@ -62,6 +64,7 @@ public:
 	void UpdateBoid(float DeltaTime);
 	void SetConeMaterial(UMaterialInterface* material);
 	void SetConeScale(float aMass);
+	void AssignRibbonToComponent(class UNiagaraSystem* ribbonSystem);
 };
 
 // GIVES EEVERAL ERRORS WHEN COMPILING IN UNREAL

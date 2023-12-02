@@ -43,4 +43,6 @@ public:
 	bool colorBias;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	int behaviorStateIndex;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
+	float obstacleAvoidanceForce;
 };

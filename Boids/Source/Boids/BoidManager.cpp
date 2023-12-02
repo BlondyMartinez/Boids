@@ -5,6 +5,7 @@
 #include "Boid.h"
 #include "BoidManagerParameters.h"
 #include "Grid.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 ABoidManager::ABoidManager()
@@ -24,7 +25,7 @@ void ABoidManager::BeginPlay()
 
 	// spawn containment sphere
 	containmentSphere = SpawnContainmentSphere();
-	containmentSphere->SetActorHiddenInGame(true);
+	HideContainmentSphere(true);
 
 	// add grid
 	//grid = new Grid(GetWorld(), sphereRadius * 2, parameters->neighbourhoodRadius, sphereCentre, sphereRadius);
@@ -46,6 +47,7 @@ void ABoidManager::BeginPlay()
 		newBoid->color = colorIndex;
 		newBoid->manager = this;
 		newBoid->SetConeMaterial(materials[colorIndex]);
+		newBoid->AssignRibbonToComponent(ribbons[colorIndex]);
 		newBoid->SetConeScale(mass);
 
 		boids.Add(newBoid);
@@ -60,7 +62,7 @@ AActor* ABoidManager::SpawnContainmentSphere()
 
 		// sphere properties
 		sphereCentre = aContainmentSphere->GetActorLocation();
-		sphereRadius = (containmentMesh->GetComponentScale().X * 100 * .5f) - 100; 
+		sphereRadius = (containmentMesh->GetComponentScale().X * 100 * .5f) - 200; 
 		
 		return aContainmentSphere;
 	}
@@ -83,6 +85,20 @@ TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(ABoid* thisBoid)
 	return neighbourhood;
 }
 
+TArray<AActor*> ABoidManager::GetNearbyObstacles(ABoid* thisBoid)
+{
+	TArray <AActor*> nearbyObstacles;
+
+	for (AActor* anObstacle : obstacles) {
+		float obstacleRadius = anObstacle->GetActorScale3D().X * 100 * .5f;
+		float distance = (anObstacle->GetActorLocation() - thisBoid->GetActorLocation()).Size() - obstacleRadius;
+
+		if (distance < parameters->neighbourhoodRadius) nearbyObstacles.Add(anObstacle);
+	}
+
+	return nearbyObstacles;
+}
+
 // Called every frame
 void ABoidManager::Tick(float DeltaTime)
 {
@@ -92,4 +108,36 @@ void ABoidManager::Tick(float DeltaTime)
 		boid->UpdateBoid(DeltaTime);
 	}
 	//grid->DrawDebugGrid();
+}
+
+void ABoidManager::HideContainmentSphere(bool hide)
+{
+	containmentSphere->SetActorHiddenInGame(hide);
+}
+
+void ABoidManager::ActivateRibbon()
+{
+	for (ABoid* boid : boids) {
+		boid->ribbon->ActivateSystem();
+	}
+}
+
+void ABoidManager::DeactivateRibbon()
+{
+	for (ABoid* boid : boids) {
+		boid->ribbon->Deactivate();
+	}
+}
+
+// spawn obstacle at random location with random scale and adds it to obstacles array
+void ABoidManager::AddObstacle()
+{
+	FVector spawnPos = (FMath::VRand() * FMath::RandRange(0, parameters->spawnRadius)) + GetActorLocation();
+
+	AActor* anObstacle = GetWorld()->SpawnActor<AActor>(obstacle, spawnPos, GetActorRotation());
+	
+	float scale = FMath::RandRange(5, 15);
+	anObstacle->SetActorScale3D(FVector(scale));
+
+	obstacles.Add(anObstacle);
 }

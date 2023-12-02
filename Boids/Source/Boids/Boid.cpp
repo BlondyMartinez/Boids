@@ -5,6 +5,7 @@
 #include "BoidManager.h"
 #include "BoidManagerParameters.h"
 #include "DrawDebugHelpers.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 ABoid::ABoid()
@@ -13,7 +14,7 @@ ABoid::ABoid()
 	root = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	SetRootComponent(root);
 
-	// create static mesh component
+	// create and attach static mesh component
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Cone"));
 	UStaticMesh* coneMesh = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Engine/BasicShapes/Cone.cone'")).Object;
 	mesh->SetStaticMesh(coneMesh);
@@ -21,6 +22,10 @@ ABoid::ABoid()
 
 	// set relative rotation of the mesh so the tip of the cone faces the direction its moving towards
 	mesh->SetRelativeRotation(FRotator(270, 0, 0));
+
+	// create and attach ribbon 
+	ribbon = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Ribbon"));
+	ribbon->AttachToComponent(root, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // called from BoidManager 
@@ -28,7 +33,6 @@ void ABoid::UpdateBoid(float DeltaTime)
 {
 	switch (parameters->behaviorStateIndex) {
 		case 0:
-		case 2:
 			Flocking(DeltaTime);
 			break;
 		case 1:
@@ -181,6 +185,25 @@ FVector ABoid::Repulsion(TArray<ABoid*> neighbours)
 	return repulsion;
 }
 
+FVector ABoid::ObstacleAvoidance(TArray<AActor*> obstacles)
+{
+	FVector avoidance = FVector::ZeroVector;
+
+	for (AActor* obstacle : obstacles) {
+		FVector toObstacle = obstacle->GetActorLocation() - GetActorLocation();
+		float distance = toObstacle.Size();
+		float obstacleRadius = obstacle->GetActorScale3D().X * 100 * .5f;
+
+		if (distance < parameters->neighbourhoodRadius + obstacleRadius) {
+			FVector avoidanceDirection = -toObstacle.GetSafeNormal();
+			float avoidanceStrength = FMath::Clamp(1.0f - (distance / (parameters->neighbourhoodRadius + obstacleRadius)), 0.0f, 1.0f);
+			avoidance += avoidanceDirection * avoidanceStrength * parameters->obstacleAvoidanceForce;
+		}
+	}
+
+	return avoidance;
+}
+
 // TODO
 FVector ABoid::GroupAvoidance(TArray<ABoid*> neighbours)
 {
@@ -233,6 +256,9 @@ void ABoid::Flocking(float DeltaTime)
 	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
 	if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
 
+	FVector avoidance = ObstacleAvoidance(manager->GetNearbyObstacles(this));
+	targetVelocity += avoidance;
+
 	targetVelocity.Normalize();
 
 	// if velocity is small add wandering behavior
@@ -268,5 +294,11 @@ void ABoid::SetConeScale(float aMass)
 	mass = aMass;
 	massInverse = 1 / mass;
 	mesh->SetWorldScale3D(FVector(mass));
+}
+
+void ABoid::AssignRibbonToComponent(UNiagaraSystem* ribbonSystem)
+{
+	ribbon->SetAsset(ribbonSystem);
+	ribbon->ActivateSystem();
 }
 

@@ -18,15 +18,30 @@ public:
 	USceneComponent* transform;
 
 	TArray<class ABoid*> boids;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	TArray<AActor*> obstacles;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	class UBoidManagerParameters* parameters;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TSubclassOf<class AActor> containmentSphereClass;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	TSubclassOf<class AActor> obstacle;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TArray<UMaterialInterface*> materials;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	TArray<class UNiagaraSystem*> ribbons;
 	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	class Grid* grid;*/
+
+	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
+	void HideContainmentSphere(bool hide);
+	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
+	void ActivateRibbon();
+	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
+	void DeactivateRibbon();
+	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
+	void AddObstacle();
 
 	// containment sphere parameters
 	AActor* containmentSphere;
@@ -42,4 +57,5 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	TArray<class ABoid*>GetBoidNeighbourhood(class ABoid* thisBoid);
+	TArray<AActor*>GetNearbyObstacles(class ABoid* thisBoid);
 };
