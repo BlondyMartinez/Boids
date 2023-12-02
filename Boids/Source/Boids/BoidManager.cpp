@@ -46,7 +46,7 @@ void ABoidManager::BeginPlay()
 		newBoid->color = colorIndex;
 		newBoid->manager = this;
 		newBoid->SetConeMaterial(materials[colorIndex]);
-		newBoid->SetConeScale(mass)
+		newBoid->SetConeScale(mass);
 
 		boids.Add(newBoid);
 	}
