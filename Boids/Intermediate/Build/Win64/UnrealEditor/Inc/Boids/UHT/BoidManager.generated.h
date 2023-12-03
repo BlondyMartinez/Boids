@@ -19,6 +19,8 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_12_EDITOR_ONLY_SPARSE_DATA_PROPERTY_ACCESSORS
 #define FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
  \
+	DECLARE_FUNCTION(execClearObstacles); \
+	DECLARE_FUNCTION(execRemoveLastObstacle); \
 	DECLARE_FUNCTION(execAddObstacle); \
 	DECLARE_FUNCTION(execDeactivateRibbon); \
 	DECLARE_FUNCTION(execActivateRibbon); \

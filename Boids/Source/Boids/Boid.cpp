@@ -44,7 +44,7 @@ void ABoid::UpdateBoid(float DeltaTime)
 // BEHAVIOR STUFF
 
 // calculate vector pointing towards a given position
-FVector ABoid::Seek(FVector pos)
+FVector ABoid::Seek(const FVector& pos)
 {
 	FVector newVelocity = pos - GetActorLocation();
 	newVelocity.Normalize();
@@ -52,7 +52,7 @@ FVector ABoid::Seek(FVector pos)
 }
 
 // calculate vector pointing away from given position
-FVector ABoid::Flee(FVector pos)
+FVector ABoid::Flee(const FVector& pos)
 {
 	FVector newVelocity = GetActorLocation() - pos;
 	newVelocity.Normalize();
@@ -60,7 +60,7 @@ FVector ABoid::Flee(FVector pos)
 }
 
 // calculate separation based on neighbours positions
-FVector ABoid::Separation(TArray<ABoid*> neighbours)
+FVector ABoid::Separation(const TArray<ABoid*>& neighbours)
 {
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
@@ -89,7 +89,7 @@ FVector ABoid::Separation(TArray<ABoid*> neighbours)
 }
 
 // calculate cohesion based on neighbours positions
-FVector ABoid::Cohesion(TArray<ABoid*> neighbours)
+FVector ABoid::Cohesion(const TArray<ABoid*>& neighbours)
 {
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
@@ -110,7 +110,7 @@ FVector ABoid::Cohesion(TArray<ABoid*> neighbours)
 }
 
 // calculate alignment vector based on neighbours velocities
-FVector ABoid::Alignment(TArray<ABoid*> neighbours)
+FVector ABoid::Alignment(const TArray<ABoid*>& neighbours)
 {
 	if (neighbours.Num() == 0) return FVector::ZeroVector;
 
@@ -165,7 +165,7 @@ FVector ABoid::ApplyContainment()
 }
 
 // repulsion by color difference
-FVector ABoid::Repulsion(TArray<ABoid*> neighbours)
+FVector ABoid::Repulsion(const TArray<ABoid*>& neighbours)
 {
 	FVector repulsion = FVector::ZeroVector;
 
@@ -185,7 +185,7 @@ FVector ABoid::Repulsion(TArray<ABoid*> neighbours)
 	return repulsion;
 }
 
-FVector ABoid::ObstacleAvoidance(TArray<AActor*> obstacles)
+FVector ABoid::ObstacleAvoidance(const TArray<AActor*>& obstacles)
 {
 	FVector avoidance = FVector::ZeroVector;
 
@@ -205,7 +205,7 @@ FVector ABoid::ObstacleAvoidance(TArray<AActor*> obstacles)
 }
 
 // TODO
-FVector ABoid::GroupAvoidance(TArray<ABoid*> neighbours)
+FVector ABoid::GroupAvoidance(const TArray<ABoid*>& neighbours)
 {
 	return FVector();
 }

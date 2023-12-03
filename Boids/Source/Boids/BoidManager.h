@@ -18,9 +18,9 @@ public:
 	USceneComponent* transform;
 
 	TArray<class ABoid*> boids;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TArray<AActor*> obstacles;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	class UBoidManagerParameters* parameters;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
@@ -40,8 +40,13 @@ public:
 	void ActivateRibbon();
 	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
 	void DeactivateRibbon();
-	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
+
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
 	void AddObstacle();
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void RemoveLastObstacle();
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void ClearObstacles();
 
 	// containment sphere parameters
 	AActor* containmentSphere;

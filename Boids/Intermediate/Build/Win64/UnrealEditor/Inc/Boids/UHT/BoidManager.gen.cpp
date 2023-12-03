@@ -19,6 +19,20 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 	NIAGARA_API UClass* Z_Construct_UClass_UNiagaraSystem_NoRegister();
 	UPackage* Z_Construct_UPackage__Script_Boids();
 // End Cross Module References
+	DEFINE_FUNCTION(ABoidManager::execClearObstacles)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ClearObstacles();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(ABoidManager::execRemoveLastObstacle)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->RemoveLastObstacle();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(ABoidManager::execAddObstacle)
 	{
 		P_FINISH;
@@ -54,8 +68,10 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		static const FNameNativePtrPair Funcs[] = {
 			{ "ActivateRibbon", &ABoidManager::execActivateRibbon },
 			{ "AddObstacle", &ABoidManager::execAddObstacle },
+			{ "ClearObstacles", &ABoidManager::execClearObstacles },
 			{ "DeactivateRibbon", &ABoidManager::execDeactivateRibbon },
 			{ "HideContainmentSphere", &ABoidManager::execHideContainmentSphere },
+			{ "RemoveLastObstacle", &ABoidManager::execRemoveLastObstacle },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
 	}
@@ -91,7 +107,7 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ABoidManager_AddObstacle_Statics::Function_MetaDataParams[] = {
-		{ "Category", "Boid Behavior" },
+		{ "Category", "Simulation Settings" },
 		{ "ModuleRelativePath", "BoidManager.h" },
 	};
 #endif
@@ -102,6 +118,29 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		if (!ReturnFunction)
 		{
 			UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ABoidManager_AddObstacle_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ABoidManager_ClearObstacles_Statics
+	{
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UECodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ABoidManager_ClearObstacles_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Simulation Settings" },
+		{ "ModuleRelativePath", "BoidManager.h" },
+	};
+#endif
+	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ABoidManager_ClearObstacles_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ABoidManager, nullptr, "ClearObstacles", nullptr, nullptr, nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ABoidManager_ClearObstacles_Statics::Function_MetaDataParams), Z_Construct_UFunction_ABoidManager_ClearObstacles_Statics::Function_MetaDataParams) };
+	UFunction* Z_Construct_UFunction_ABoidManager_ClearObstacles()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ABoidManager_ClearObstacles_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -174,6 +213,29 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_ABoidManager_RemoveLastObstacle_Statics
+	{
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UECodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ABoidManager_RemoveLastObstacle_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Simulation Settings" },
+		{ "ModuleRelativePath", "BoidManager.h" },
+	};
+#endif
+	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ABoidManager_RemoveLastObstacle_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ABoidManager, nullptr, "RemoveLastObstacle", nullptr, nullptr, nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ABoidManager_RemoveLastObstacle_Statics::Function_MetaDataParams), Z_Construct_UFunction_ABoidManager_RemoveLastObstacle_Statics::Function_MetaDataParams) };
+	UFunction* Z_Construct_UFunction_ABoidManager_RemoveLastObstacle()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ABoidManager_RemoveLastObstacle_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	IMPLEMENT_CLASS_NO_AUTO_REGISTRATION(ABoidManager);
 	UClass* Z_Construct_UClass_ABoidManager_NoRegister()
 	{
@@ -224,9 +286,11 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 	static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_ABoidManager_Statics::DependentSingletons) < 16);
 	const FClassFunctionLinkInfo Z_Construct_UClass_ABoidManager_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_ABoidManager_ActivateRibbon, "ActivateRibbon" }, // 1112136504
-		{ &Z_Construct_UFunction_ABoidManager_AddObstacle, "AddObstacle" }, // 2501483523
+		{ &Z_Construct_UFunction_ABoidManager_AddObstacle, "AddObstacle" }, // 3342915981
+		{ &Z_Construct_UFunction_ABoidManager_ClearObstacles, "ClearObstacles" }, // 4203223544
 		{ &Z_Construct_UFunction_ABoidManager_DeactivateRibbon, "DeactivateRibbon" }, // 2034455755
 		{ &Z_Construct_UFunction_ABoidManager_HideContainmentSphere, "HideContainmentSphere" }, // 668160256
+		{ &Z_Construct_UFunction_ABoidManager_RemoveLastObstacle, "RemoveLastObstacle" }, // 3556214132
 	};
 	static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_ABoidManager_Statics::FuncInfo) < 2048);
 #if WITH_METADATA
@@ -329,9 +393,9 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_ABoidManager, ABoidManager::StaticClass, TEXT("ABoidManager"), &Z_Registration_Info_UClass_ABoidManager, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABoidManager), 3614706788U) },
+		{ Z_Construct_UClass_ABoidManager, ABoidManager::StaticClass, TEXT("ABoidManager"), &Z_Registration_Info_UClass_ABoidManager, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABoidManager), 3228484889U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_2834578260(TEXT("/Script/Boids"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_4014567521(TEXT("/Script/Boids"),
 		Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

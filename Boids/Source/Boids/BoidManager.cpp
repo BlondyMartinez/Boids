@@ -141,3 +141,22 @@ void ABoidManager::AddObstacle()
 
 	obstacles.Add(anObstacle);
 }
+
+void ABoidManager::RemoveLastObstacle()
+{
+	if (obstacles.Num() > 0) {
+		obstacles[obstacles.Num() - 1]->Destroy();
+		obstacles.Pop();
+	}
+}
+
+void ABoidManager::ClearObstacles()
+{
+	if (obstacles.Num() > 0) {
+		for (AActor* anObstacle : obstacles) {
+			anObstacle->Destroy();
+		}
+
+		obstacles.Empty();
+	}
+}

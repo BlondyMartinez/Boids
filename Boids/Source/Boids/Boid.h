@@ -38,24 +38,24 @@ protected:
 	// BEHAVIOUR STUFF
 	
 	// first tutorial
-	FVector Seek(FVector pos);
-	FVector Flee(FVector pos);
+	FVector Seek(const FVector& pos);
+	FVector Flee(const FVector& pos);
 
 	// second tutorial
 	// TODO change functions to have all of their logic happening in the same loop 
 	// instead of a loop for each
-	FVector Separation(TArray<ABoid*> neighbours);
-	FVector Cohesion(TArray<ABoid*> neighbours);
-	FVector Alignment(TArray<ABoid*> neighbours);
+	FVector Separation(const TArray<ABoid*>& neighbours);
+	FVector Cohesion(const TArray<ABoid*>& neighbours);
+	FVector Alignment(const TArray<ABoid*>& neighbours);
 
 	FVector Wander(float radius, float distance, float jitter);
 	FVector wanderDestination;
 
 	FVector ApplyContainment();
-	FVector Repulsion(TArray<ABoid*> neighbours);
-	FVector ObstacleAvoidance(TArray<AActor*> obstacles);
+	FVector Repulsion(const TArray<ABoid*>& neighbours);
+	FVector ObstacleAvoidance(const TArray<AActor*>& obstacles);
 	//TODO
-	FVector GroupAvoidance(TArray<ABoid*> neighbours);
+	FVector GroupAvoidance(const TArray<ABoid*>& neighbours);
 
 	void SpiralMovement(float DeltaTime);
 	void Flocking(float DeltaTime);
