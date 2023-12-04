@@ -34,6 +34,7 @@
 /NODEFAULTLIB:"LIBCD"
 /NODEFAULTLIB:"LIBCPD"
 /FUNCTIONPADMIN:6
+/NATVIS:"..\Plugins\FX\Niagara\Intermediate\Build\Win64\x64\UnrealEditor\Development\Niagara\Niagara.natvis"
 "C:\Users\Blondy\Documents\GitHub\CT5108_Boids\Boids\Intermediate\Build\Win64\x64\BoidsEditor\Development\Engine\SharedPCH.Engine.Cpp20.h.obj"
 "C:\Users\Blondy\Documents\GitHub\CT5108_Boids\Boids\Intermediate\Build\Win64\x64\UnrealEditor\Development\Boids\Boid.gen.cpp.obj"
 "C:\Users\Blondy\Documents\GitHub\CT5108_Boids\Boids\Intermediate\Build\Win64\x64\UnrealEditor\Development\Boids\BoidManager.gen.cpp.obj"
@@ -49,6 +50,8 @@
 "..\Intermediate\Build\Win64\x64\UnrealEditor\Development\Core\UnrealEditor-Core.lib"
 "..\Intermediate\Build\Win64\x64\UnrealEditor\Development\CoreUObject\UnrealEditor-CoreUObject.lib"
 "..\Intermediate\Build\Win64\x64\UnrealEditor\Development\InputCore\UnrealEditor-InputCore.lib"
+"..\Intermediate\Build\Win64\x64\UnrealEditor\Development\UMG\UnrealEditor-UMG.lib"
+"..\Plugins\FX\Niagara\Intermediate\Build\Win64\x64\UnrealEditor\Development\Niagara\UnrealEditor-Niagara.lib"
 "delayimp.lib"
 "wininet.lib"
 "rpcrt4.lib"

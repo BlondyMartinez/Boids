@@ -6,6 +6,7 @@
 #include "BoidManagerParameters.h"
 #include "DrawDebugHelpers.h"
 #include "NiagaraComponent.h"
+#include "Predator.h"
 
 // Sets default values
 ABoid::ABoid()
@@ -41,7 +42,7 @@ void ABoid::UpdateBoid(float DeltaTime)
 	}
 }
 
-// BEHAVIOR STUFF
+//  BEHAVIOR STUFF 
 
 // calculate vector pointing towards a given position
 FVector ABoid::Seek(const FVector& pos)
@@ -145,10 +146,8 @@ FVector ABoid::Wander(float radius, float distance, float jitter)
 	FVector jitterDestination = Seek(wanderDestination) + (FMath::VRand() * FMath::RandRange(0.f, jitter));
 
 	return jitterDestination;
-	
 }
 
-// TODO fix whatever is making boids stick to the boundary
 FVector ABoid::ApplyContainment()
 {
 	FVector toCentre = manager->sphereCentre - GetActorLocation();
@@ -170,6 +169,7 @@ FVector ABoid::Repulsion(const TArray<ABoid*>& neighbours)
 	FVector repulsion = FVector::ZeroVector;
 
 	for (ABoid* boid : neighbours) {
+		// if different color and too close boid gets repulsed
 		if (boid->color != color) {
 			FVector toBoid = boid->GetActorLocation() - GetActorLocation();
 			float distance = toBoid.Size();
@@ -185,6 +185,7 @@ FVector ABoid::Repulsion(const TArray<ABoid*>& neighbours)
 	return repulsion;
 }
 
+// avoid obstacles if nearby
 FVector ABoid::ObstacleAvoidance(const TArray<AActor*>& obstacles)
 {
 	FVector avoidance = FVector::ZeroVector;
@@ -204,14 +205,41 @@ FVector ABoid::ObstacleAvoidance(const TArray<AActor*>& obstacles)
 	return avoidance;
 }
 
-// TODO
-FVector ABoid::GroupAvoidance(const TArray<ABoid*>& neighbours)
+FVector ABoid::Evade(const TArray<APredator*>& predators)
 {
-	return FVector();
+	FVector evasionVelocity = FVector::ZeroVector;
+	int predatorCount = 0;
+
+	for (APredator* predator : predators) {
+		FVector toPredator = predator->GetActorLocation() - GetActorLocation();
+		float distance = toPredator.Size();
+
+		if (distance < parameters->neighbourhoodRadius && distance > 100) {
+			// predict future position of predator
+			float predictionTime = distance / parameters->predatorSpeed;
+			FVector futurePos = predator->GetActorLocation() + predator->currentVelocity * predictionTime * 2;
+
+			// flee from futurepos
+			evasionVelocity = GetActorLocation() - futurePos;
+
+			predatorCount++;
+		}
+		else if (distance < 100) {
+			KillBoid();
+			return FVector::ZeroVector;
+		}
+	}
+
+	if (predatorCount > 0) {
+		evasionVelocity /= predatorCount;
+		evasionVelocity.Normalize();
+	}
+
+	return evasionVelocity;
 }
 
 // funciona pero se ve feo
-// TODO make it look nice
+// TODO make it look nice and mix it with flocking
 void ABoid::SpiralMovement(float DeltaTime)
 {
 	FVector spiralCentre = manager->GetActorLocation();
@@ -251,6 +279,10 @@ void ABoid::Flocking(float DeltaTime)
 	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
 
 	// apply forces
+
+	FVector evasion = Evade(manager->GetNearbyPredators(this));
+	targetVelocity += evasion;
+
 	targetVelocity += Separation(closestBoids) * parameters->separationWeight;
 	targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
 	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
@@ -283,6 +315,13 @@ void ABoid::Flocking(float DeltaTime)
 	root->SetWorldRotation(coneDirection.Rotation());
 }
 
+void ABoid::KillBoid()
+{
+	manager->boids.RemoveSingle(this);
+	this->Destroy();
+}
+
+// stuff called from boidmanager
 
 void ABoid::SetConeMaterial(UMaterialInterface* material)
 {
@@ -299,6 +338,6 @@ void ABoid::SetConeScale(float aMass)
 void ABoid::AssignRibbonToComponent(UNiagaraSystem* ribbonSystem)
 {
 	ribbon->SetAsset(ribbonSystem);
-	ribbon->ActivateSystem();
+	if (!parameters->visibleRibbon) ribbon->Deactivate();
 }
 

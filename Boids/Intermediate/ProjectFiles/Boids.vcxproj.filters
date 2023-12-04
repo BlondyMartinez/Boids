@@ -63,5 +63,11 @@
     <ClInclude Include="..\..\Source\Boids\Grid.h">
       <Filter>Source\Boids</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\Boids\Predator.cpp">
+      <Filter>Source\Boids</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Boids\Predator.h">
+      <Filter>Source\Boids</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

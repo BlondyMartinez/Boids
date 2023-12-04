@@ -24,8 +24,9 @@ public:
 	int color;
 	float speed;
 
-protected:
 	FVector currentVelocity = FVector::ZeroVector;
+
+protected:
 
 	UStaticMeshComponent* mesh;
 	USceneComponent* root;
@@ -37,13 +38,9 @@ protected:
 
 	// BEHAVIOUR STUFF
 	
-	// first tutorial
 	FVector Seek(const FVector& pos);
 	FVector Flee(const FVector& pos);
 
-	// second tutorial
-	// TODO change functions to have all of their logic happening in the same loop 
-	// instead of a loop for each
 	FVector Separation(const TArray<ABoid*>& neighbours);
 	FVector Cohesion(const TArray<ABoid*>& neighbours);
 	FVector Alignment(const TArray<ABoid*>& neighbours);
@@ -51,16 +48,21 @@ protected:
 	FVector Wander(float radius, float distance, float jitter);
 	FVector wanderDestination;
 
-	FVector ApplyContainment();
 	FVector Repulsion(const TArray<ABoid*>& neighbours);
 	FVector ObstacleAvoidance(const TArray<AActor*>& obstacles);
-	//TODO
-	FVector GroupAvoidance(const TArray<ABoid*>& neighbours);
+
+	FVector Evade(const TArray<class APredator*>& predators);
+
+	FVector ApplyContainment();
 
 	void SpiralMovement(float DeltaTime);
 	void Flocking(float DeltaTime);
 
 public:
+	void KillBoid();
+
+	// called from boidManager
+
 	void UpdateBoid(float DeltaTime);
 	void SetConeMaterial(UMaterialInterface* material);
 	void SetConeScale(float aMass);

@@ -19,12 +19,17 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_12_EDITOR_ONLY_SPARSE_DATA_PROPERTY_ACCESSORS
 #define FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
  \
+	DECLARE_FUNCTION(execClearPredators); \
+	DECLARE_FUNCTION(execRemoveLastPredator); \
+	DECLARE_FUNCTION(execSpawnPredator); \
 	DECLARE_FUNCTION(execClearObstacles); \
 	DECLARE_FUNCTION(execRemoveLastObstacle); \
 	DECLARE_FUNCTION(execAddObstacle); \
+	DECLARE_FUNCTION(execHideContainmentSphere); \
 	DECLARE_FUNCTION(execDeactivateRibbon); \
 	DECLARE_FUNCTION(execActivateRibbon); \
-	DECLARE_FUNCTION(execHideContainmentSphere);
+	DECLARE_FUNCTION(execBoidsCount); \
+	DECLARE_FUNCTION(execSpawnBoids);
 
 
 #define FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_12_ACCESSORS

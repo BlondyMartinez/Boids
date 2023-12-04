@@ -39,7 +39,9 @@
             "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\particles\\emitter.h",
             "c:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\emitter.generated.h",
             "c:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\particlesystemcomponent.generated.h",
-            "c:\\program files\\epic games\\ue_5.3\\engine\\plugins\\fx\\niagara\\intermediate\\build\\win64\\unrealeditor\\inc\\niagara\\uht\\niagaracomponent.generated.h"
+            "c:\\program files\\epic games\\ue_5.3\\engine\\plugins\\fx\\niagara\\intermediate\\build\\win64\\unrealeditor\\inc\\niagara\\uht\\niagaracomponent.generated.h",
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\source\\boids\\predator.h",
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\predator.generated.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

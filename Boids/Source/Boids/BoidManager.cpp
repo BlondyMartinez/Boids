@@ -3,6 +3,7 @@
 
 #include "BoidManager.h"
 #include "Boid.h"
+#include "Predator.h"
 #include "BoidManagerParameters.h"
 #include "Grid.h"
 #include "NiagaraComponent.h"
@@ -31,7 +32,108 @@ void ABoidManager::BeginPlay()
 	//grid = new Grid(GetWorld(), sphereRadius * 2, parameters->neighbourhoodRadius, sphereCentre, sphereRadius);
 
 	// spawn
-	for (int i = 0; i < parameters->spawnCount; i++) {
+	SpawnBoids(parameters->spawnCount);
+}
+
+// Called every frame
+void ABoidManager::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	//grid->UpdateGrid(boids);
+	for (ABoid* boid : boids) {
+		boid->UpdateBoid(DeltaTime);
+	}
+
+	for (APredator* predator : predators) {
+		predator->UpdatePredator(DeltaTime);
+	}
+	//grid->DrawDebugGrid();
+}
+
+// spawn containment sphere 
+AActor* ABoidManager::SpawnContainmentSphere()
+{
+	if (containmentSphereClass) {
+		AActor* aContainmentSphere = GetWorld()->SpawnActor<AActor>(containmentSphereClass, GetActorLocation(), GetActorRotation());
+		UStaticMeshComponent* containmentMesh= aContainmentSphere->FindComponentByClass<UStaticMeshComponent>();
+
+		// sphere properties
+		sphereCentre = aContainmentSphere->GetActorLocation();
+		sphereRadius = (containmentMesh->GetComponentScale().X * 100 * .5f) - 200; 
+		
+		return aContainmentSphere;
+	}
+
+	return nullptr;
+}
+
+// get boids nearby
+TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(const class ABoid* thisBoid)
+{
+	TArray<class ABoid*> neighbourhood;
+
+	// iterate through all boids to find neighbours within specified radius
+	for (ABoid* boid : boids) {
+		if (boid == thisBoid || !boid) continue;
+
+		float distance = (boid->GetActorLocation() - thisBoid->GetActorLocation()).Size();
+		if (distance < parameters->neighbourhoodRadius) neighbourhood.Add(boid);
+	}
+
+	return neighbourhood;
+}
+
+// get nearby obstacles
+TArray<AActor*> ABoidManager::GetNearbyObstacles(const class ABoid* thisBoid)
+{
+	TArray <AActor*> nearbyObstacles;
+
+	// iterate through all obstacles to find those within neighbourhoodradius plus each obstacle radius
+	for (AActor* anObstacle : obstacles) {
+		float obstacleRadius = anObstacle->GetActorScale3D().X * 100 * .5f; // 
+		float distance = (anObstacle->GetActorLocation() - thisBoid->GetActorLocation()).Size() - obstacleRadius;
+
+		if (distance < parameters->neighbourhoodRadius) nearbyObstacles.Add(anObstacle);
+	}
+
+	return nearbyObstacles;
+}
+
+TArray<class APredator*> ABoidManager::GetNearbyPredators(const ABoid* thisBoid)
+{
+	TArray<class APredator*> nearbyPredators;
+
+	// find predators within neighbourhoodradius and add them to nearbyPredators
+	for (APredator* predator : predators) {
+		float distance = (predator->GetActorLocation() - thisBoid->GetActorLocation()).Size();
+		if (distance < parameters->neighbourhoodRadius) nearbyPredators.Add(predator);
+	}
+
+	return nearbyPredators;
+}
+
+ABoid* ABoidManager::GetClosestBoid(const APredator* predator)
+{
+	ABoid* boid = nullptr;
+	float minDistance = FLT_MAX;
+
+	for (ABoid* aBoid : boids) {
+		float distance = FVector::Dist(predator->GetActorLocation(), aBoid->GetActorLocation());
+		if (distance < minDistance) {
+			minDistance = distance;
+			boid = aBoid;
+		}
+	}
+
+	return boid;
+}
+
+// blueprint callable funcitons
+
+// spawn boids
+void ABoidManager::SpawnBoids(int amount)
+{
+	for (int i = 0; i < amount; i++) {
 		// position
 		FVector spawnPos = (FMath::VRand() * FMath::RandRange(0, parameters->spawnRadius)) + GetActorLocation();
 		FRotator spawnRot = GetActorRotation();
@@ -54,67 +156,19 @@ void ABoidManager::BeginPlay()
 	}
 }
 
-AActor* ABoidManager::SpawnContainmentSphere()
+// return amount of boids
+int ABoidManager::BoidsCount()
 {
-	if (containmentSphereClass) {
-		AActor* aContainmentSphere = GetWorld()->SpawnActor<AActor>(containmentSphereClass, GetActorLocation(), GetActorRotation());
-		UStaticMeshComponent* containmentMesh= aContainmentSphere->FindComponentByClass<UStaticMeshComponent>();
-
-		// sphere properties
-		sphereCentre = aContainmentSphere->GetActorLocation();
-		sphereRadius = (containmentMesh->GetComponentScale().X * 100 * .5f) - 200; 
-		
-		return aContainmentSphere;
-	}
-
-	return nullptr;
+	return boids.Num();
 }
 
-TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(ABoid* thisBoid)
-{
-	TArray<class ABoid*> neighbourhood;
-
-	// iterate through all boids to find neighbours within specified radius
-	for (ABoid* boid : boids) {
-		if (boid == thisBoid || !boid) continue;
-
-		float distance = (boid->GetActorLocation() - thisBoid->GetActorLocation()).Size();
-		if (distance < parameters->neighbourhoodRadius) neighbourhood.Add(boid);
-	}
-
-	return neighbourhood;
-}
-
-TArray<AActor*> ABoidManager::GetNearbyObstacles(ABoid* thisBoid)
-{
-	TArray <AActor*> nearbyObstacles;
-
-	for (AActor* anObstacle : obstacles) {
-		float obstacleRadius = anObstacle->GetActorScale3D().X * 100 * .5f;
-		float distance = (anObstacle->GetActorLocation() - thisBoid->GetActorLocation()).Size() - obstacleRadius;
-
-		if (distance < parameters->neighbourhoodRadius) nearbyObstacles.Add(anObstacle);
-	}
-
-	return nearbyObstacles;
-}
-
-// Called every frame
-void ABoidManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	//grid->UpdateGrid(boids);
-	for (ABoid* boid : boids) {
-		boid->UpdateBoid(DeltaTime);
-	}
-	//grid->DrawDebugGrid();
-}
-
+// show or hide containment sphere
 void ABoidManager::HideContainmentSphere(bool hide)
 {
 	containmentSphere->SetActorHiddenInGame(hide);
 }
 
+// activate ribbon particle system
 void ABoidManager::ActivateRibbon()
 {
 	for (ABoid* boid : boids) {
@@ -122,6 +176,7 @@ void ABoidManager::ActivateRibbon()
 	}
 }
 
+// deactivate ribbon particle system
 void ABoidManager::DeactivateRibbon()
 {
 	for (ABoid* boid : boids) {
@@ -142,6 +197,7 @@ void ABoidManager::AddObstacle()
 	obstacles.Add(anObstacle);
 }
 
+// destroy last added obstacle and remove it from obstacles
 void ABoidManager::RemoveLastObstacle()
 {
 	if (obstacles.Num() > 0) {
@@ -150,6 +206,7 @@ void ABoidManager::RemoveLastObstacle()
 	}
 }
 
+// destroy all obstacles and empty obstacles array
 void ABoidManager::ClearObstacles()
 {
 	if (obstacles.Num() > 0) {
@@ -158,5 +215,42 @@ void ABoidManager::ClearObstacles()
 		}
 
 		obstacles.Empty();
+	}
+}
+
+// spawn predator at random location and add it to predators array
+void ABoidManager::SpawnPredator()
+{
+	// position
+	FVector spawnPos = (FMath::VRand() * FMath::RandRange(0, parameters->spawnRadius)) + GetActorLocation();
+	FRotator spawnRot = GetActorRotation();
+
+	// spawn predator with specified parameters
+	APredator* newPredator = GetWorld()->SpawnActor<APredator>(spawnPos, spawnRot);
+	newPredator->parameters = parameters;
+	newPredator->manager = this;
+	newPredator->SetPredatorMaterial(materials[4]);
+
+	predators.Add(newPredator);
+}
+
+// destroy last predator element of the array
+void ABoidManager::RemoveLastPredator()
+{
+	if (predators.Num() > 0) {
+		predators[predators.Num() - 1]->Destroy();
+		predators.Pop();
+	}
+}
+
+// destroy all predators and empty predators array
+void ABoidManager::ClearPredators()
+{
+	if (predators.Num() > 0) {
+		for (APredator* predator : predators) {
+			predator->Destroy();
+		}
+
+		predators.Empty();
 	}
 }

@@ -18,6 +18,7 @@ public:
 	USceneComponent* transform;
 
 	TArray<class ABoid*> boids;
+	TArray<class APredator*> predators;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TArray<AActor*> obstacles;
@@ -34,12 +35,18 @@ public:
 	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	class Grid* grid;*/
 
-	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
-	void HideContainmentSphere(bool hide);
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void SpawnBoids(int amount);
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	int BoidsCount();
+
 	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
 	void ActivateRibbon();
 	UFUNCTION(BlueprintCallable, Category = "Boid Behavior")
 	void DeactivateRibbon();
+
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void HideContainmentSphere(bool hide);
 
 	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
 	void AddObstacle();
@@ -47,6 +54,14 @@ public:
 	void RemoveLastObstacle();
 	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
 	void ClearObstacles();
+
+
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void SpawnPredator();
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void RemoveLastPredator();
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void ClearPredators();
 
 	// containment sphere parameters
 	AActor* containmentSphere;
@@ -61,6 +76,8 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	TArray<class ABoid*>GetBoidNeighbourhood(class ABoid* thisBoid);
-	TArray<AActor*>GetNearbyObstacles(class ABoid* thisBoid);
+	TArray<class ABoid*>GetBoidNeighbourhood(const class ABoid* thisBoid);
+	TArray<AActor*>GetNearbyObstacles(const class ABoid* thisBoid);
+	TArray<class APredator*>GetNearbyPredators(const class ABoid* thisBoid);
+	class ABoid* GetClosestBoid(const class APredator* predator);
 };

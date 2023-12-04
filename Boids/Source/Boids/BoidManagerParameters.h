@@ -36,13 +36,28 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float alignmentWeight;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	float containmentForce;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float repulsionForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	bool colorBias;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	int behaviorStateIndex;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
+	bool visibleRibbon;
+
+	// PREDATOR SETTINGS
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Predator Settings")
+	int predatorSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Predator Settings")
+	int predatorSightRadius;
+
+	// MISCELLANEOUS
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
+	float containmentForce;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	float obstacleAvoidanceForce;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
+	float predictionMultiplier;
+
 };

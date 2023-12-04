@@ -57,10 +57,6 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #endif
 		static const UECodeGen_Private::FFloatPropertyParams NewProp_alignmentWeight;
 #if WITH_METADATA
-		static const UECodeGen_Private::FMetaDataPairParam NewProp_containmentForce_MetaData[];
-#endif
-		static const UECodeGen_Private::FFloatPropertyParams NewProp_containmentForce;
-#if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_repulsionForce_MetaData[];
 #endif
 		static const UECodeGen_Private::FFloatPropertyParams NewProp_repulsionForce;
@@ -74,9 +70,30 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #endif
 		static const UECodeGen_Private::FIntPropertyParams NewProp_behaviorStateIndex;
 #if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_visibleRibbon_MetaData[];
+#endif
+		static void NewProp_visibleRibbon_SetBit(void* Obj);
+		static const UECodeGen_Private::FBoolPropertyParams NewProp_visibleRibbon;
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_predatorSpeed_MetaData[];
+#endif
+		static const UECodeGen_Private::FIntPropertyParams NewProp_predatorSpeed;
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_predatorSightRadius_MetaData[];
+#endif
+		static const UECodeGen_Private::FIntPropertyParams NewProp_predatorSightRadius;
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_containmentForce_MetaData[];
+#endif
+		static const UECodeGen_Private::FFloatPropertyParams NewProp_containmentForce;
+#if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_obstacleAvoidanceForce_MetaData[];
 #endif
 		static const UECodeGen_Private::FFloatPropertyParams NewProp_obstacleAvoidanceForce;
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_predictionMultiplier_MetaData[];
+#endif
+		static const UECodeGen_Private::FFloatPropertyParams NewProp_predictionMultiplier;
 		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UECodeGen_Private::FClassParams ClassParams;
@@ -159,13 +176,6 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #endif
 	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight = { "alignmentWeight", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, alignmentWeight), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight_MetaData) };
 #if WITH_METADATA
-	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData[] = {
-		{ "Category", "Boid Settings" },
-		{ "ModuleRelativePath", "BoidManagerParameters.h" },
-	};
-#endif
-	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce = { "containmentForce", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, containmentForce), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData) };
-#if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce_MetaData[] = {
 		{ "Category", "Boid Settings" },
 		{ "ModuleRelativePath", "BoidManagerParameters.h" },
@@ -191,12 +201,63 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 #endif
 	const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex = { "behaviorStateIndex", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, behaviorStateIndex), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex_MetaData) };
 #if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_visibleRibbon_MetaData[] = {
+		{ "Category", "Boid Settings" },
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+	};
+#endif
+	void Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_visibleRibbon_SetBit(void* Obj)
+	{
+		((UBoidManagerParameters*)Obj)->visibleRibbon = 1;
+	}
+	const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_visibleRibbon = { "visibleRibbon", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(UBoidManagerParameters), &Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_visibleRibbon_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_visibleRibbon_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_visibleRibbon_MetaData) };
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSpeed_MetaData[] = {
+		{ "Category", "Predator Settings" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// PREDATOR SETTINGS\n" },
+#endif
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "PREDATOR SETTINGS" },
+#endif
+	};
+#endif
+	const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSpeed = { "predatorSpeed", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, predatorSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSpeed_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSpeed_MetaData) };
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSightRadius_MetaData[] = {
+		{ "Category", "Predator Settings" },
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+	};
+#endif
+	const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSightRadius = { "predatorSightRadius", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, predatorSightRadius), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSightRadius_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSightRadius_MetaData) };
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData[] = {
+		{ "Category", "Boid Settings" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// MISCELLANEOUS\n" },
+#endif
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "MISCELLANEOUS" },
+#endif
+	};
+#endif
+	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce = { "containmentForce", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, containmentForce), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce_MetaData) };
+#if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_obstacleAvoidanceForce_MetaData[] = {
 		{ "Category", "Boid Settings" },
 		{ "ModuleRelativePath", "BoidManagerParameters.h" },
 	};
 #endif
 	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_obstacleAvoidanceForce = { "obstacleAvoidanceForce", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, obstacleAvoidanceForce), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_obstacleAvoidanceForce_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_obstacleAvoidanceForce_MetaData) };
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predictionMultiplier_MetaData[] = {
+		{ "Category", "Boid Settings" },
+		{ "ModuleRelativePath", "BoidManagerParameters.h" },
+	};
+#endif
+	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predictionMultiplier = { "predictionMultiplier", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBoidManagerParameters, predictionMultiplier), METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predictionMultiplier_MetaData), Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predictionMultiplier_MetaData) };
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UBoidManagerParameters_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_spawnCount,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_spawnRadius,
@@ -205,11 +266,15 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_separationWeight,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_cohesionWeight,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_alignmentWeight,
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_repulsionForce,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_colorBias,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_behaviorStateIndex,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_visibleRibbon,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSpeed,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predatorSightRadius,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_containmentForce,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_obstacleAvoidanceForce,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBoidManagerParameters_Statics::NewProp_predictionMultiplier,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_UBoidManagerParameters_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<UBoidManagerParameters>::IsAbstract,
@@ -250,9 +315,9 @@ void EmptyLinkFunctionForGeneratedCodeBoidManagerParameters() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 2538680089U) },
+		{ Z_Construct_UClass_UBoidManagerParameters, UBoidManagerParameters::StaticClass, TEXT("UBoidManagerParameters"), &Z_Registration_Info_UClass_UBoidManagerParameters, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBoidManagerParameters), 2427069822U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_4171597414(TEXT("/Script/Boids"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_36562686(TEXT("/Script/Boids"),
 		Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManagerParameters_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
