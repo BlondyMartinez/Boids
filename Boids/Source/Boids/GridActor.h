@@ -31,6 +31,7 @@ public:
 	TArray<int>GetAdjacentCellIndices(int CurrentCellIndex);
 
 	void DrawGrid();
+	void DrawCell(int cellIndex, class ABoid*);
 
 private:
 	struct GridCell{

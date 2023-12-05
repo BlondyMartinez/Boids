@@ -36,38 +36,38 @@ void ABoid::UpdateBoid(float DeltaTime)
 
 	FVector targetVelocity = ApplyContainment();
 
-	// WITHOUT GRID
-	//
-	//TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
+	 //WITHOUT GRID
+	
+	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
 
-	//// apply forces
+	// apply forces
 
-	//FVector evasion = Evade(manager->GetNearbyPredators(this));
-	//targetVelocity += evasion;
-
-	//targetVelocity += Separation(closestBoids) * parameters->separationWeight;
-	//targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
-	//targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
-	//if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
-	//
-	//FVector avoidance = ObstacleAvoidance(manager->GetNearbyObstacles(this));
-	//targetVelocity += avoidance;
-
-
-	// WHIT GRID
-
-	GetSurroundings();
-
-	FVector evasion = Evade(nearbyPredators);
+	FVector evasion = Evade(manager->GetNearbyPredators(this));
 	targetVelocity += evasion;
 
-	targetVelocity += Separation(nearbyBoids) * parameters->separationWeight;
-	targetVelocity += Cohesion(nearbyBoids) * parameters->cohesionWeight;
-	targetVelocity += Alignment(nearbyBoids) * parameters->alignmentWeight;
-	if (parameters->colorBias) targetVelocity += Repulsion(nearbyBoids);
-
-	FVector avoidance = ObstacleAvoidance(nearbyObstacles);
+	targetVelocity += Separation(closestBoids) * parameters->separationWeight;
+	targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
+	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
+	if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
+	
+	FVector avoidance = ObstacleAvoidance(manager->GetNearbyObstacles(this));
 	targetVelocity += avoidance;
+
+
+	//// WHIT GRID
+
+	//GetSurroundings();
+
+	//FVector evasion = Evade(nearbyPredators);
+	//targetVelocity += evasion;
+
+	//targetVelocity += Separation(nearbyBoids) * parameters->separationWeight;
+	//targetVelocity += Cohesion(nearbyBoids) * parameters->cohesionWeight;
+	//targetVelocity += Alignment(nearbyBoids) * parameters->alignmentWeight;
+	//if (parameters->colorBias) targetVelocity += Repulsion(nearbyBoids);
+
+	//FVector avoidance = ObstacleAvoidance(nearbyObstacles);
+	//targetVelocity += avoidance;
 
 	targetVelocity.Normalize();
 
@@ -299,20 +299,28 @@ void ABoid::GetSurroundings()
 	// get cell index and adjacent indices
 	FVector pos = GetActorLocation();
 	int currentCellIndex = grid->GetCellIndex(pos);
+	grid->DrawCell(currentCellIndex, this);
 	UE_LOG(LogTemp, Warning, TEXT("%d"), currentCellIndex);
+
 	TArray<int> adjacentCellIndices = grid->GetAdjacentCellIndices(currentCellIndex);
 
 	// add current cell stuff
-	nearbyBoids.Append(grid->GetBoidsInCell(currentCellIndex));
-	nearbyPredators.Append(grid->GetPredatorsInCell(currentCellIndex));
-	nearbyObstacles.Append(grid->GetObstaclesInCell(currentCellIndex));
+	nearbyBoids = grid->GetBoidsInCell(currentCellIndex);
+	nearbyPredators = (grid->GetPredatorsInCell(currentCellIndex));
+	nearbyObstacles = (grid->GetObstaclesInCell(currentCellIndex));
 
-	// add adjacent cells stuff
-	for (int cellIndex : adjacentCellIndices) {
-		nearbyBoids.Append(grid->GetBoidsInCell(cellIndex));
-		nearbyPredators.Append(grid->GetPredatorsInCell(cellIndex));
-		nearbyObstacles.Append(grid->GetObstaclesInCell(cellIndex));
-	}
+	//// add adjacent cells stuff
+	//for (int cellIndex : adjacentCellIndices) {
+	//	for (ABoid* boid : grid->GetBoidsInCell(cellIndex)) {
+	//		if (!nearbyBoids.Contains(boid)) nearbyBoids.Add(boid);
+	//	}
+	//	for (APredator* predator : grid->GetPredatorsInCell(cellIndex)) {
+	//		if (!nearbyPredators.Contains(predator)) nearbyPredators.Add(predator);
+	//	}
+	//	for (AActor* obstacle : grid->GetObstaclesInCell(cellIndex)) {
+	//		if (!nearbyObstacles.Contains(obstacle)) nearbyObstacles.Add(obstacle);
+	//	}
+	//}
 }
 
 void ABoid::KillBoid()

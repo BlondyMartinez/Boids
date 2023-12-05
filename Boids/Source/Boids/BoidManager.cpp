@@ -47,7 +47,7 @@ void ABoidManager::Tick(float DeltaTime)
 		predator->UpdatePredator(DeltaTime);
 	}
 
-	grid->UpdateGrid(boids, predators);
+	//grid->UpdateGrid(boids, predators);
 }
 
 // spawn containment sphere 

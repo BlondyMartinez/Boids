@@ -180,3 +180,9 @@ void AGridActor::DrawGrid()
         );
     }
 }
+
+void AGridActor::DrawCell(int cellIndex, ABoid* boid)
+{
+    if (cellIndex > 0 && cellIndex < gridCells.Num())
+    DrawDebugBox(GetWorld(), gridCells[cellIndex].centre, FVector(gridCells[cellIndex].size) * .5f, FColor::Magenta, false, 0, 0, 10.f);
+}
