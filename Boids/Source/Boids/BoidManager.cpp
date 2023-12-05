@@ -47,7 +47,7 @@ void ABoidManager::Tick(float DeltaTime)
 		predator->UpdatePredator(DeltaTime);
 	}
 
-	//grid->UpdateGrid(boids, predators);
+	grid->UpdateGrid(boids, predators);
 }
 
 // spawn containment sphere 
@@ -96,7 +96,7 @@ TArray<AActor*> ABoidManager::GetNearbyObstacles(const class ABoid* thisBoid)
 
 	// iterate through all obstacles to find those within neighbourhoodradius plus each obstacle radius
 	for (AActor* anObstacle : obstacles) {
-		float obstacleRadius = anObstacle->GetActorScale3D().X * 100 * .5f; // 
+		float obstacleRadius = anObstacle->GetActorScale3D().X * 100 * .5f;  
 		float distance = (anObstacle->GetActorLocation() - thisBoid->GetActorLocation()).Size() - obstacleRadius;
 
 		if (distance < parameters->neighbourhoodRadius) nearbyObstacles.Add(anObstacle);

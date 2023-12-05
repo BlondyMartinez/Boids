@@ -18,8 +18,6 @@ public:
 	void InitializeGrid(FVector centre, float radius, int res);
 	void GenerateGrid();
 
-	USceneComponent* root;
-
 	void UpdateGrid(const TArray<class ABoid*>& boids, const TArray<class APredator*>& predators);
 	void AddObstacleToCell(AActor* obstacle);
 	int GetCellIndex(const FVector& pos);
@@ -33,11 +31,10 @@ public:
 	void DrawGrid();
 	void DrawCell(int cellIndex, class ABoid*);
 
-private:
+protected:
 	struct GridCell{
 	FVector centre;  
 	float size;      
-	int cellIndex;
 	TArray<class ABoid*> boids;
 	TArray<class APredator*> predators;
 	TArray<AActor*> obstacles;
@@ -45,7 +42,7 @@ private:
 
 	TArray<GridCell> gridCells;
 
-	float sphereRadius;
-	FVector sphereCentre;
-	int gridRes; // divisions along each axis
+	float sphereRadius = 0;
+	FVector sphereCentre = FVector::ZeroVector;
+	int gridRes = 0; // divisions along each axis
 };

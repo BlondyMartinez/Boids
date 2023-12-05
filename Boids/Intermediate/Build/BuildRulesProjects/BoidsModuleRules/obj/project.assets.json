@@ -8042,19 +8042,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Blondy\\.nuget\\packages\\": {}
+    "C:\\Users\\s1807857\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Blondy\\Documents\\GitHub\\CT5108_Boids\\Boids\\Intermediate\\Build\\BuildRulesProjects\\BoidsModuleRules\\BoidsModuleRules.csproj",
+      "projectUniqueName": "C:\\Users\\s1807857\\Documents\\GitHub\\Boids\\Boids\\Intermediate\\Build\\BuildRulesProjects\\BoidsModuleRules\\BoidsModuleRules.csproj",
       "projectName": "BoidsModuleRules",
-      "projectPath": "C:\\Users\\Blondy\\Documents\\GitHub\\CT5108_Boids\\Boids\\Intermediate\\Build\\BuildRulesProjects\\BoidsModuleRules\\BoidsModuleRules.csproj",
-      "packagesPath": "C:\\Users\\Blondy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Blondy\\Documents\\GitHub\\CT5108_Boids\\Boids\\Intermediate\\Build\\BuildRulesProjects\\BoidsModuleRules\\obj\\",
+      "projectPath": "C:\\Users\\s1807857\\Documents\\GitHub\\Boids\\Boids\\Intermediate\\Build\\BuildRulesProjects\\BoidsModuleRules\\BoidsModuleRules.csproj",
+      "packagesPath": "C:\\Users\\s1807857\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\s1807857\\Documents\\GitHub\\Boids\\Boids\\Intermediate\\Build\\BuildRulesProjects\\BoidsModuleRules\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Blondy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\s1807857\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8108,7 +8113,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
