@@ -90,6 +90,14 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		*(int32*)Z_Param__Result=P_THIS->BoidsCount();
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(ABoidManager::execRemoveBoids)
+	{
+		P_GET_PROPERTY(FIntProperty,Z_Param_amount);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->RemoveBoids(Z_Param_amount);
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(ABoidManager::execSpawnBoids)
 	{
 		P_GET_PROPERTY(FIntProperty,Z_Param_amount);
@@ -109,6 +117,7 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 			{ "ClearPredators", &ABoidManager::execClearPredators },
 			{ "DeactivateRibbon", &ABoidManager::execDeactivateRibbon },
 			{ "HideContainmentSphere", &ABoidManager::execHideContainmentSphere },
+			{ "RemoveBoids", &ABoidManager::execRemoveBoids },
 			{ "RemoveLastObstacle", &ABoidManager::execRemoveLastObstacle },
 			{ "RemoveLastPredator", &ABoidManager::execRemoveLastPredator },
 			{ "SpawnBoids", &ABoidManager::execSpawnBoids },
@@ -306,6 +315,41 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics
+	{
+		struct BoidManager_eventRemoveBoids_Parms
+		{
+			int32 amount;
+		};
+		static const UECodeGen_Private::FIntPropertyParams NewProp_amount;
+		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UECodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UECodeGen_Private::FIntPropertyParams Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::NewProp_amount = { "amount", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(BoidManager_eventRemoveBoids_Parms, amount), METADATA_PARAMS(0, nullptr) };
+	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::PropPointers[] = {
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::NewProp_amount,
+	};
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Simulation Settings" },
+		{ "ModuleRelativePath", "BoidManager.h" },
+	};
+#endif
+	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ABoidManager, nullptr, "RemoveBoids", nullptr, nullptr, Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::PropPointers), sizeof(Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::BoidManager_eventRemoveBoids_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::Function_MetaDataParams), Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::Function_MetaDataParams) };
+	static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::PropPointers) < 2048);
+	static_assert(sizeof(Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::BoidManager_eventRemoveBoids_Parms) < MAX_uint16);
+	UFunction* Z_Construct_UFunction_ABoidManager_RemoveBoids()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ABoidManager_RemoveBoids_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_ABoidManager_RemoveLastObstacle_Statics
 	{
 #if WITH_METADATA
@@ -372,13 +416,7 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ABoidManager_SpawnBoids_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Simulation Settings" },
-#if !UE_BUILD_SHIPPING
-		{ "Comment", "/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = \"Settings\")\n\x09""class Grid* grid;*/" },
-#endif
 		{ "ModuleRelativePath", "BoidManager.h" },
-#if !UE_BUILD_SHIPPING
-		{ "ToolTip", "UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = \"Settings\")\n       class Grid* grid;" },
-#endif
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ABoidManager_SpawnBoids_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ABoidManager, nullptr, "SpawnBoids", nullptr, nullptr, Z_Construct_UFunction_ABoidManager_SpawnBoids_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ABoidManager_SpawnBoids_Statics::PropPointers), sizeof(Z_Construct_UFunction_ABoidManager_SpawnBoids_Statics::BoidManager_eventSpawnBoids_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ABoidManager_SpawnBoids_Statics::Function_MetaDataParams), Z_Construct_UFunction_ABoidManager_SpawnBoids_Statics::Function_MetaDataParams) };
@@ -472,9 +510,10 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		{ &Z_Construct_UFunction_ABoidManager_ClearPredators, "ClearPredators" }, // 1185471423
 		{ &Z_Construct_UFunction_ABoidManager_DeactivateRibbon, "DeactivateRibbon" }, // 2034455755
 		{ &Z_Construct_UFunction_ABoidManager_HideContainmentSphere, "HideContainmentSphere" }, // 992814483
+		{ &Z_Construct_UFunction_ABoidManager_RemoveBoids, "RemoveBoids" }, // 891816317
 		{ &Z_Construct_UFunction_ABoidManager_RemoveLastObstacle, "RemoveLastObstacle" }, // 3556214132
 		{ &Z_Construct_UFunction_ABoidManager_RemoveLastPredator, "RemoveLastPredator" }, // 775075250
-		{ &Z_Construct_UFunction_ABoidManager_SpawnBoids, "SpawnBoids" }, // 3069431597
+		{ &Z_Construct_UFunction_ABoidManager_SpawnBoids, "SpawnBoids" }, // 2284161300
 		{ &Z_Construct_UFunction_ABoidManager_SpawnPredator, "SpawnPredator" }, // 2280980879
 	};
 	static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_ABoidManager_Statics::FuncInfo) < 2048);
@@ -578,9 +617,9 @@ void EmptyLinkFunctionForGeneratedCodeBoidManager() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_ABoidManager, ABoidManager::StaticClass, TEXT("ABoidManager"), &Z_Registration_Info_UClass_ABoidManager, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABoidManager), 3142587899U) },
+		{ Z_Construct_UClass_ABoidManager, ABoidManager::StaticClass, TEXT("ABoidManager"), &Z_Registration_Info_UClass_ABoidManager, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABoidManager), 2347158119U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_898111713(TEXT("/Script/Boids"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_2594414734(TEXT("/Script/Boids"),
 		Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_BoidManager_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

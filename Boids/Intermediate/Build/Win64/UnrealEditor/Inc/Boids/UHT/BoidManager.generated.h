@@ -29,6 +29,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	DECLARE_FUNCTION(execDeactivateRibbon); \
 	DECLARE_FUNCTION(execActivateRibbon); \
 	DECLARE_FUNCTION(execBoidsCount); \
+	DECLARE_FUNCTION(execRemoveBoids); \
 	DECLARE_FUNCTION(execSpawnBoids);
 
 

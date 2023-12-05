@@ -5,7 +5,7 @@
 #include "Boid.h"
 #include "Predator.h"
 #include "BoidManagerParameters.h"
-#include "Grid.h"
+#include "GridActor.h"
 #include "NiagaraComponent.h"
 
 // Sets default values
@@ -24,12 +24,12 @@ void ABoidManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// spawn containment sphere
+	// containment sphere
 	containmentSphere = SpawnContainmentSphere();
 	HideContainmentSphere(true);
 
-	// add grid
-	//grid = new Grid(GetWorld(), sphereRadius * 2, parameters->neighbourhoodRadius, sphereCentre, sphereRadius);
+	// grid
+	SpawnGridActor();
 
 	// spawn
 	SpawnBoids(parameters->spawnCount);
@@ -39,7 +39,6 @@ void ABoidManager::BeginPlay()
 void ABoidManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//grid->UpdateGrid(boids);
 	for (ABoid* boid : boids) {
 		boid->UpdateBoid(DeltaTime);
 	}
@@ -47,7 +46,8 @@ void ABoidManager::Tick(float DeltaTime)
 	for (APredator* predator : predators) {
 		predator->UpdatePredator(DeltaTime);
 	}
-	//grid->DrawDebugGrid();
+
+	grid->UpdateGrid(boids, predators);
 }
 
 // spawn containment sphere 
@@ -65,6 +65,12 @@ AActor* ABoidManager::SpawnContainmentSphere()
 	}
 
 	return nullptr;
+}
+
+void ABoidManager::SpawnGridActor()
+{
+	grid = GetWorld()->SpawnActor<AGridActor>(GetActorLocation(), GetActorRotation());
+	grid->InitializeGrid(sphereCentre, sphereRadius, 20);
 }
 
 // get boids nearby
@@ -145,14 +151,36 @@ void ABoidManager::SpawnBoids(int amount)
 		// spawn boid with specified parameters
 		ABoid* newBoid = GetWorld()->SpawnActor<ABoid>(spawnPos, spawnRot);
 		newBoid->parameters = parameters;
+		newBoid->manager = this;
+		newBoid->grid = grid;
 		newBoid->speed = parameters->speed * .65f / mass; // greater speed the lighter the boid is
 		newBoid->color = colorIndex;
-		newBoid->manager = this;
 		newBoid->SetConeMaterial(materials[colorIndex]);
 		newBoid->AssignRibbonToComponent(ribbons[colorIndex]);
 		newBoid->SetConeScale(mass);
 
 		boids.Add(newBoid);
+	}
+}
+
+// remove amount of boids
+void ABoidManager::RemoveBoids(int amount)
+{
+	int count = boids.Num();
+
+	// destroy and remove last item of boids if there are more boids than the given amount
+	if (count >= amount) {
+		for (int i = (count - 1); i >= (count - amount); i--) {
+			boids[i]->Destroy();
+			boids.Pop();
+		}
+	}
+	// else destroy all and empty boids array
+	else {
+		for (ABoid* boid : boids) {
+			boid->Destroy();
+		}
+		boids.Empty();
 	}
 }
 
@@ -195,6 +223,7 @@ void ABoidManager::AddObstacle()
 	anObstacle->SetActorScale3D(FVector(scale));
 
 	obstacles.Add(anObstacle);
+	grid->AddObstacleToCell(anObstacle);
 }
 
 // destroy last added obstacle and remove it from obstacles

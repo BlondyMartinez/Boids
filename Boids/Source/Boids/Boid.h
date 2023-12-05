@@ -16,15 +16,21 @@ public:
 	ABoid();
 
 	class ABoidManager* manager;
+	class AGridActor* grid;
 	class UBoidManagerParameters* parameters;
 	class UNiagaraComponent* ribbon;
-
-	//behavior currentBehavior = behavior::flocking;
 
 	int color;
 	float speed;
 
 	FVector currentVelocity = FVector::ZeroVector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grid")
+	TArray<ABoid*> nearbyBoids;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grid")
+	TArray<AActor*> nearbyObstacles;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grid")
+	TArray<class APredator*> nearbyPredators;
 
 protected:
 
@@ -58,6 +64,9 @@ protected:
 	void SpiralMovement(float DeltaTime);
 	void Flocking(float DeltaTime);
 
+
+	void GetSurroundings();
+
 public:
 	void KillBoid();
 
@@ -68,9 +77,3 @@ public:
 	void SetConeScale(float aMass);
 	void AssignRibbonToComponent(class UNiagaraSystem* ribbonSystem);
 };
-
-// GIVES EEVERAL ERRORS WHEN COMPILING IN UNREAL
-//enum class behavior {
-//	flocking, // standard movement
-//	spiral,   // spiral movement
-//};

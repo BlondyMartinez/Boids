@@ -7,6 +7,7 @@
 #include "DrawDebugHelpers.h"
 #include "NiagaraComponent.h"
 #include "Predator.h"
+#include "GridActor.h"
 
 // Sets default values
 ABoid::ABoid()
@@ -32,14 +33,64 @@ ABoid::ABoid()
 // called from BoidManager 
 void ABoid::UpdateBoid(float DeltaTime)
 {
-	switch (parameters->behaviorStateIndex) {
-		case 0:
-			Flocking(DeltaTime);
-			break;
-		case 1:
-			SpiralMovement(DeltaTime);
-			break;
+
+	FVector targetVelocity = ApplyContainment();
+
+	// WITHOUT GRID
+	//
+	//TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
+
+	//// apply forces
+
+	//FVector evasion = Evade(manager->GetNearbyPredators(this));
+	//targetVelocity += evasion;
+
+	//targetVelocity += Separation(closestBoids) * parameters->separationWeight;
+	//targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
+	//targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
+	//if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
+	//
+	//FVector avoidance = ObstacleAvoidance(manager->GetNearbyObstacles(this));
+	//targetVelocity += avoidance;
+
+
+	// WHIT GRID
+
+	GetSurroundings();
+
+	FVector evasion = Evade(nearbyPredators);
+	targetVelocity += evasion;
+
+	targetVelocity += Separation(nearbyBoids) * parameters->separationWeight;
+	targetVelocity += Cohesion(nearbyBoids) * parameters->cohesionWeight;
+	targetVelocity += Alignment(nearbyBoids) * parameters->alignmentWeight;
+	if (parameters->colorBias) targetVelocity += Repulsion(nearbyBoids);
+
+	FVector avoidance = ObstacleAvoidance(nearbyObstacles);
+	targetVelocity += avoidance;
+
+	targetVelocity.Normalize();
+
+	 //if velocity is small add wandering behavior
+	if (targetVelocity.Size() < 1) {
+		targetVelocity += Wander(100, 200, 50);
+		targetVelocity.Normalize();
 	}
+
+	// calculate acceleration
+	FVector force = targetVelocity * speed - currentVelocity;
+	FVector acceleration = force * massInverse; // F = ma
+
+
+	// update velocity and pos
+	currentVelocity += acceleration * DeltaTime;
+	FVector location = GetActorLocation() + currentVelocity * DeltaTime;
+
+	SetActorLocation(location);
+
+	// rotate root component to align with direction
+	FVector coneDirection = currentVelocity.GetSafeNormal();
+	root->SetWorldRotation(coneDirection.Rotation());
 }
 
 //  BEHAVIOR STUFF 
@@ -132,20 +183,20 @@ FVector ABoid::Alignment(const TArray<ABoid*>& neighbours)
 	return newVelocity;
 }
 
-// TODO watch tutorial again or get rid of radius as its not used
 FVector ABoid::Wander(float radius, float distance, float jitter)
 {
 	FVector currentPos = GetActorLocation();
 
-	if (FVector::Dist(currentPos, wanderDestination) < 100) {
-		FVector projectedPos = currentPos + (GetActorForwardVector() * distance);
+	// Calculate a new random destination every frame but transition smoothly
+	FVector projectedPos = currentPos + (GetActorForwardVector() * distance);
+	FVector randomOffset = FMath::VRand() * jitter;
+	FVector newTarget = projectedPos + randomOffset;
 
-		wanderDestination = projectedPos + (FMath::VRand() * FMath::RandRange(0.f, jitter));
-	}
+	// Smoothly interpolate towards the new target
+	wanderDestination = FMath::Lerp(wanderDestination, newTarget, .5f);
 
-	FVector jitterDestination = Seek(wanderDestination) + (FMath::VRand() * FMath::RandRange(0.f, jitter));
-
-	return jitterDestination;
+	// Seek towards the smoothly changing wander destination
+	return Seek(wanderDestination);
 }
 
 FVector ABoid::ApplyContainment()
@@ -238,81 +289,30 @@ FVector ABoid::Evade(const TArray<APredator*>& predators)
 	return evasionVelocity;
 }
 
-// funciona pero se ve feo
-// TODO make it look nice and mix it with flocking
-void ABoid::SpiralMovement(float DeltaTime)
+void ABoid::GetSurroundings()
 {
-	FVector spiralCentre = manager->GetActorLocation();
+	// clear arrays
+	nearbyBoids.Empty();
+	nearbyPredators.Empty();
+	nearbyObstacles.Empty();
 
-	FVector toCentre = spiralCentre - GetActorLocation();
-	float distance = toCentre.Size();
+	// get cell index and adjacent indices
+	FVector pos = GetActorLocation();
+	int currentCellIndex = grid->GetCellIndex(pos);
+	UE_LOG(LogTemp, Warning, TEXT("%d"), currentCellIndex);
+	TArray<int> adjacentCellIndices = grid->GetAdjacentCellIndices(currentCellIndex);
 
-	if (distance < 300) towardsCentre = false;
-	else if (distance > (manager->sphereRadius)) towardsCentre = true;
+	// add current cell stuff
+	nearbyBoids.Append(grid->GetBoidsInCell(currentCellIndex));
+	nearbyPredators.Append(grid->GetPredatorsInCell(currentCellIndex));
+	nearbyObstacles.Append(grid->GetObstaclesInCell(currentCellIndex));
 
-	// rotation around centre
-	FRotator rotation = FRotator(0, 0, speed * DeltaTime);
-	FVector rotatedVector = rotation.RotateVector(toCentre);
-
-	rotatedVector.Normalize();
-	FVector spiralMovement = rotatedVector * 1000;
-
-	// update location and rotation
-	FVector location = GetActorLocation();
-
-	if (towardsCentre) {
-		location += spiralMovement * DeltaTime;
-		SetActorRotation(spiralMovement.Rotation());
+	// add adjacent cells stuff
+	for (int cellIndex : adjacentCellIndices) {
+		nearbyBoids.Append(grid->GetBoidsInCell(cellIndex));
+		nearbyPredators.Append(grid->GetPredatorsInCell(cellIndex));
+		nearbyObstacles.Append(grid->GetObstaclesInCell(cellIndex));
 	}
-	else {
-		location -= spiralMovement * DeltaTime;
-		SetActorRotation(-1 * spiralMovement.Rotation());
-	}
-
-	SetActorLocation(location);
-}
-
-void ABoid::Flocking(float DeltaTime)
-{
-	FVector targetVelocity = ApplyContainment();
-
-	TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
-
-	// apply forces
-
-	FVector evasion = Evade(manager->GetNearbyPredators(this));
-	targetVelocity += evasion;
-
-	targetVelocity += Separation(closestBoids) * parameters->separationWeight;
-	targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
-	targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
-	if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
-
-	FVector avoidance = ObstacleAvoidance(manager->GetNearbyObstacles(this));
-	targetVelocity += avoidance;
-
-	targetVelocity.Normalize();
-
-	// if velocity is small add wandering behavior
-	if (targetVelocity.Size() < 1) {
-		targetVelocity += Wander(100, 600, 50);
-		targetVelocity.Normalize();
-	}
-
-	// calculate acceleration
-	FVector force = targetVelocity * speed - currentVelocity;
-	FVector acceleration = force * massInverse; // F = ma
-
-
-	// update velocity and pos
-	currentVelocity += acceleration * DeltaTime;
-	FVector location = GetActorLocation() + currentVelocity * DeltaTime;
-
-	SetActorLocation(location);
-
-	// rotate root component to align with direction
-	FVector coneDirection = currentVelocity.GetSafeNormal();
-	root->SetWorldRotation(coneDirection.Rotation());
 }
 
 void ABoid::KillBoid()

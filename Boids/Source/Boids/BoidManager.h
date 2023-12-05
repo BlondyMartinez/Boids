@@ -20,6 +20,8 @@ public:
 	TArray<class ABoid*> boids;
 	TArray<class APredator*> predators;
 
+	class AGridActor* grid;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TArray<AActor*> obstacles;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
@@ -32,11 +34,11 @@ public:
 	TArray<UMaterialInterface*> materials;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TArray<class UNiagaraSystem*> ribbons;
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	class Grid* grid;*/
 
 	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
 	void SpawnBoids(int amount);
+	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
+	void RemoveBoids(int amount);
 	UFUNCTION(BlueprintCallable, Category = "Simulation Settings")
 	int BoidsCount();
 
@@ -72,6 +74,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	AActor* SpawnContainmentSphere();
+	void SpawnGridActor();
 
 public:
 	// Called every frame

@@ -38,7 +38,9 @@ void APredator::UpdatePredator(float DeltaTime)
 	FVector targetVelocity = ApplyContainment();
 
 	prey = manager->GetClosestBoid(this);
-	targetVelocity += Pursue(prey);
+	if (prey != nullptr) {
+		targetVelocity += Pursue(prey);
+	}
 
 	targetVelocity.Normalize();
 

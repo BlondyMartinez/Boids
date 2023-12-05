@@ -40,7 +40,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	bool colorBias;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
-	int behaviorStateIndex;
+	bool draw;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boid Settings")
 	bool visibleRibbon;
 
