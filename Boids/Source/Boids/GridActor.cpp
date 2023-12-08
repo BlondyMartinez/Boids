@@ -47,16 +47,85 @@ void AGridActor::UpdateGrid(const TArray<class ABoid*>& boids, const TArray<clas
 
 	for (ABoid* boid : boids) {
 		int cellIndex = GetCellIndex(boid->GetActorLocation());
-		// if index is valid add boid to cell boids array
-		if (cellIndex >= 0 && cellIndex < gridCells.Num() && !gridCells[cellIndex].boids.Contains(boid)) {
-			gridCells[cellIndex].boids.Add(boid);
-		}
+		// if index is valid, it isnt in the array already and is not marked to be destroyed add boid to cell boids array
+		if (cellIndex >= 0 && cellIndex < gridCells.Num() && !gridCells[cellIndex].boids.Contains(boid) && !boid->IsPendingKill()) gridCells[cellIndex].boids.Add(boid);
 	}
+
 	for (APredator* predator : predators) {
 		int cellIndex = GetCellIndex(predator->GetActorLocation());
 		// if index is valid add predator to cell predators array
 		if (cellIndex >= 0 && cellIndex < gridCells.Num() && !gridCells[cellIndex].predators.Contains(predator)) gridCells[cellIndex].predators.Add(predator);
 	}
+}
+
+int AGridActor::GetCellIndex(const FVector& pos)
+{
+	// world pos to pos within grid
+	FVector relativePos = ((pos - sphereCentre) / (sphereRadius * 2)) + FVector(.5f);
+	relativePos *= gridRes;
+
+	// coordinates to indices
+	int x = FMath::Clamp(FMath::FloorToInt(relativePos.X), 0, gridRes - 1);
+	int y = FMath::Clamp(FMath::FloorToInt(relativePos.Y), 0, gridRes - 1);
+	int z = FMath::Clamp(FMath::FloorToInt(relativePos.Z), 0, gridRes - 1);
+
+	// 3d to 1d index
+	return x + (y * gridRes) + (z * gridRes * gridRes);
+}
+
+TArray<int> AGridActor::GetAdjacentCellIndices(int currentCellIndex)
+{
+	TArray<int> adjacentIndices;
+	// calculate number of cells along one axis
+	int gridWidth = FMath::RoundToInt(FMath::Pow(gridCells.Num(), 1.f / 3.f));
+
+	// convert 1d index of current cell to 3d coordinates
+	int x = currentCellIndex % gridWidth;
+	int y = (currentCellIndex / gridWidth) % gridWidth;
+	int z = (currentCellIndex / (gridWidth * gridWidth));
+
+	for (int ix = -1; ix <= 1; ix++) {
+		for (int iy = -1; iy <= 1; iy++) {
+			for (int iz = -1; iz <= 1; iz++) {
+				if (ix == 0 && iy == 0 && iz == 0) continue;
+				if (ix < 0 || ix >= gridWidth) continue;
+				if (iy < 0 || iy >= gridWidth) continue;
+				if (iz < 0 || iz >= gridWidth) continue;
+
+				int newX = x + ix;
+				int newY = y + iy;
+				int newZ = z + iz;
+				int newIndex = newX + newY * gridWidth + newZ * gridWidth * gridWidth;
+				adjacentIndices.Add(newIndex);
+			}
+		}
+	}
+
+	return adjacentIndices;
+}
+
+TArray<class ABoid*> AGridActor::GetBoidsInCell(int cellIndex)
+{
+	// if valid cell index return boids in cell
+	if (cellIndex >= 0 && cellIndex < gridCells.Num()) return gridCells[cellIndex].boids;
+
+	return TArray<class ABoid*>();
+}
+
+TArray<class APredator*> AGridActor::GetPredatorsInCell(int cellIndex)
+{
+	// if valid cell index return predators in cell
+	if (cellIndex >= 0 && cellIndex < gridCells.Num()) return gridCells[cellIndex].predators;
+
+	return TArray<class APredator*>();
+}
+
+TArray<AActor*> AGridActor::GetObstaclesInCell(int cellIndex)
+{
+	// if valid cell index return obstacles in cell
+	if (cellIndex >= 0 && cellIndex < gridCells.Num()) return gridCells[cellIndex].obstacles; 
+
+	return TArray<AActor*>();
 }
 
 // called from boidmanager
@@ -76,118 +145,6 @@ void AGridActor::AddObstacleToCell(AActor* obstacle)
 	}
 }
 
-int AGridActor::GetCellIndex(const FVector& pos)
-{
-	// world pos to pos within grid
-	FVector relativePos = ((pos - sphereCentre) / (sphereRadius * 2)) + FVector(.5f);
-	relativePos *= gridRes;
-
-	// coordinates to indices
-	int x = FMath::Clamp(FMath::FloorToInt(relativePos.X), 0, gridRes - 1);
-	int y = FMath::Clamp(FMath::FloorToInt(relativePos.Y), 0, gridRes - 1);
-	int z = FMath::Clamp(FMath::FloorToInt(relativePos.Z), 0, gridRes - 1);
-
-	// 3d to 1d index
-	return x + (y * gridRes) + (z * gridRes * gridRes);
-}
-
-TArray<class ABoid*> AGridActor::GetBoidsInCell(int cellIndex)
-{
-	// if valid cell index return boids in cell
-	if (cellIndex >= 0 && cellIndex < gridCells.Num()) {
-
-		if (gridCells[cellIndex].boids.Num() > 0)
-		{
-			int length = gridCells[cellIndex].boids.Num();
-			return gridCells[cellIndex].boids;
-		}
-	}
-	return TArray<class ABoid*>();
-}
-
-TArray<class APredator*> AGridActor::GetPredatorsInCell(int cellIndex)
-{
-	// if valid cell index return predators in cell
-	if (cellIndex >= 0 && cellIndex < gridCells.Num()) {
-		return gridCells[cellIndex].predators;
-	}
-	return TArray<class APredator*>();
-}
-
-TArray<AActor*> AGridActor::GetObstaclesInCell(int cellIndex)
-{
-	// if valid cell index return obstacles in cell
-	if (cellIndex >= 0 && cellIndex < gridCells.Num()) {
-		return gridCells[cellIndex].obstacles;
-	}
-	return TArray<AActor*>();
-}
-
-TArray<int> AGridActor::GetAdjacentCellIndices(int CurrentCellIndex)
-{
-	TArray<int> adjacentIndices;
-	// calculate number of cells along one axis
-	int gridWidth = FMath::RoundToInt(FMath::Pow(gridCells.Num(), 1.f / 3.f)); // grid is a cube so cubic root
-
-	//// array of possible moves
-	//TArray<FVector> directions = {
-	//	FVector(-1, 0, 0), // west
-	//	FVector(1, 0, 0),  // east
-	//	FVector(0, -1, 0), // south
-	//	FVector(0, 1, 0),  // north
-	//	FVector(0, 0, -1), // down
-	//	FVector(0, 0, 1),  // up
-	//};
-
-	// convert 1d index of current cell to 3d coordinates
-	int x = CurrentCellIndex % gridWidth;
-	int y = (CurrentCellIndex / gridWidth) % gridWidth;
-	int z = (CurrentCellIndex / (gridWidth * gridWidth)) %  gridWidth;
-
-
-	for (int ix = -1; ix <= 1; ix++)
-	{
-		for (int iy = -1; iy <= 1; iy++)
-		{
-			for (int iz = -1; iz <= 1; iz++)
-			{
-				if (ix == 0 && iy == 0 && iz == 0) continue;
-				if (ix < 0 || ix >= gridWidth) continue;
-				if (iy < 0 || iy >= gridWidth) continue;
-				if (iz < 0 || iz >= gridWidth) continue;
-
-				int newX = x + ix;
-				int newY = y + iy;
-				int newZ = z + iz;
-				int newIndex = newX + newY * gridWidth + newZ * gridWidth * gridWidth;
-				adjacentIndices.Add(newIndex);
-
-			}
-
-		}
-
-	}
-
-
-	//// check each direction
-	//for (const FVector direction : directions) {
-	//	// coordinates of adjacent cell
-	//	int newX = x + direction.X;
-	//	int newY = y + direction.Y;
-	//	int newZ = z + direction.Z;
-
-	//	// if within boundaries convert 3d coordinates back to 1d index and adds it to adjacent indices array
-	//	if (newX >= 0 && newX < gridWidth &&
-	//		newY >= 0 && newY < gridWidth &&
-	//		newZ >= 0 && newZ < gridWidth) {
-	//		int newIndex = newX + newY * gridWidth + newZ * gridWidth * gridWidth;
-	//		adjacentIndices.Add(newIndex);
-	//	}
-	//}
-
-	return adjacentIndices;
-}
-
 void AGridActor::DrawGrid()
 {
 	for (GridCell gridCell : gridCells) {
@@ -195,7 +152,7 @@ void AGridActor::DrawGrid()
 	}
 }
 
-void AGridActor::DrawCell(int cellIndex, ABoid* boid)
+void AGridActor::DrawCell(int cellIndex)
 {
 	if (cellIndex > 0 && cellIndex < gridCells.Num())
 		DrawDebugBox(GetWorld(), gridCells[cellIndex].centre, FVector(gridCells[cellIndex].size) * .5f, FColor::Magenta, false, 0, 0, 10.f);

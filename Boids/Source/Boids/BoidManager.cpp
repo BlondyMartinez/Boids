@@ -39,6 +39,7 @@ void ABoidManager::BeginPlay()
 void ABoidManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 	for (ABoid* boid : boids) {
 		boid->UpdateBoid(DeltaTime);
 	}
@@ -48,6 +49,7 @@ void ABoidManager::Tick(float DeltaTime)
 	}
 
 	grid->UpdateGrid(boids, predators);
+	UE_LOG(LogTemp, Warning, TEXT("boids: %d"), boids.Num());
 }
 
 // spawn containment sphere 
@@ -150,14 +152,19 @@ void ABoidManager::SpawnBoids(int amount)
 
 		// spawn boid with specified parameters
 		ABoid* newBoid = GetWorld()->SpawnActor<ABoid>(spawnPos, spawnRot);
+
 		newBoid->parameters = parameters;
-		newBoid->manager = this;
 		newBoid->grid = grid;
+		newBoid->manager = this;
+
 		newBoid->speed = parameters->speed * .65f / mass; // greater speed the lighter the boid is
 		newBoid->color = colorIndex;
+
 		newBoid->SetConeMaterial(materials[colorIndex]);
 		newBoid->AssignRibbonToComponent(ribbons[colorIndex]);
 		newBoid->SetConeScale(mass);
+
+		if (!parameters->visibleRibbon) DeactivateRibbon();
 
 		boids.Add(newBoid);
 	}
@@ -182,6 +189,8 @@ void ABoidManager::RemoveBoids(int amount)
 		}
 		boids.Empty();
 	}
+
+	grid->UpdateGrid(boids, predators);
 }
 
 // return amount of boids

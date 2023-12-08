@@ -187,15 +187,14 @@ FVector ABoid::Wander(float radius, float distance, float jitter)
 {
 	FVector currentPos = GetActorLocation();
 
-	// Calculate a new random destination every frame but transition smoothly
+	// calculate random destination
 	FVector projectedPos = currentPos + (GetActorForwardVector() * distance);
 	FVector randomOffset = FMath::VRand() * jitter;
 	FVector newTarget = projectedPos + randomOffset;
 
-	// Smoothly interpolate towards the new target
+	// interpolate towards the new target
 	wanderDestination = FMath::Lerp(wanderDestination, newTarget, .5f);
 
-	// Seek towards the smoothly changing wander destination
 	return Seek(wanderDestination);
 }
 
@@ -294,7 +293,6 @@ void ABoid::GetSurroundings()
 	// clear arrays
 	nearbyBoids.Empty();
 	nearbyPredators.Empty();
-	nearbyObstacles.Empty();
 
 	// get cell index and adjacent indices
 	FVector pos = GetActorLocation();
@@ -303,22 +301,22 @@ void ABoid::GetSurroundings()
 	TArray<int> adjacentCellIndices = grid->GetAdjacentCellIndices(currentCellIndex);
 
 	// add current cell stuff
-	nearbyBoids = grid->GetBoidsInCell(currentCellIndex);
 	nearbyPredators = grid->GetPredatorsInCell(currentCellIndex);
 	nearbyObstacles = grid->GetObstaclesInCell(currentCellIndex);
+
+	for (ABoid* boid : grid->GetBoidsInCell(currentCellIndex)) {
+		if (boid == this || boid == nullptr || boid->IsPendingKill()) continue;
+
+		float distance = (GetActorLocation() - boid->GetActorLocation()).Size();
+		if (distance < parameters->neighbourhoodRadius) nearbyBoids.AddUnique(boid);
+	}
 
 	// add adjacent cells stuff
 	for (int cellIndex : adjacentCellIndices) {
 		for (ABoid* boid : grid->GetBoidsInCell(cellIndex)) {
-			if (!nearbyBoids.Contains(boid) && boid != this)
-			{
-				
+			if (!nearbyBoids.Contains(boid) && boid != this && boid != nullptr && !boid->IsPendingKill()) {
 				float distance = (GetActorLocation() - boid->GetActorLocation()).Size();
-				if (distance < parameters->neighbourhoodRadius)
-
-				{
-					nearbyBoids.AddUnique(boid);
-				}
+				if (distance < parameters->neighbourhoodRadius) nearbyBoids.Add(boid);
 			}
 		}
 		for (APredator* predator : grid->GetPredatorsInCell(cellIndex)) {
@@ -327,17 +325,14 @@ void ABoid::GetSurroundings()
 		for (AActor* obstacle : grid->GetObstaclesInCell(cellIndex)) {
 			if (!nearbyObstacles.Contains(obstacle)) nearbyObstacles.Add(obstacle);
 		}
+	} 
 
-		//nearbyBoids += grid->GetBoidsInCell(cellIndex);
-		//nearbyPredators += grid->GetPredatorsInCell(cellIndex);
-		//nearbyObstacles += grid->GetObstaclesInCell(cellIndex);
-
-	}
+	UE_LOG(LogTemp, Warning, TEXT("nearvy boids: %d"), nearbyBoids.Num());
 }
 
 void ABoid::KillBoid()
 {
-	manager->boids.RemoveSingle(this);
+	manager->boidsToRemove.Add(this);
 	this->Destroy();
 }
 
@@ -358,6 +353,6 @@ void ABoid::SetConeScale(float aMass)
 void ABoid::AssignRibbonToComponent(UNiagaraSystem* ribbonSystem)
 {
 	ribbon->SetAsset(ribbonSystem);
-	if (!parameters->visibleRibbon) ribbon->Deactivate();
+	ribbon->ActivateSystem();
 }
 

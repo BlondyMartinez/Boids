@@ -18,6 +18,7 @@ public:
 	USceneComponent* transform;
 
 	TArray<class ABoid*> boids;
+	TArray<class ABoid*> boidsToRemove;
 	TArray<class APredator*> predators;
 
 	class AGridActor* grid;

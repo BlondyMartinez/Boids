@@ -1,13 +1,13 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\s1807857\\documents\\github\\boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanager.gen.cpp",
+        "Source": "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanager.gen.cpp",
         "ProvidedModule": "",
-        "PCH": "c:\\users\\s1807857\\documents\\github\\boids\\boids\\intermediate\\build\\win64\\x64\\boidseditor\\development\\engine\\sharedpch.engine.cpp20.h.pch",
+        "PCH": "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\x64\\boidseditor\\development\\engine\\sharedpch.engine.cpp20.h.pch",
         "Includes": [
-            "c:\\users\\s1807857\\documents\\github\\boids\\boids\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\boids\\definitions.boids.h",
-            "c:\\users\\s1807857\\documents\\github\\boids\\boids\\source\\boids\\boidmanager.h",
-            "c:\\users\\s1807857\\documents\\github\\boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanager.generated.h"
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\boids\\definitions.boids.h",
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\source\\boids\\boidmanager.h",
+            "c:\\users\\blondy\\documents\\github\\ct5108_boids\\boids\\intermediate\\build\\win64\\unrealeditor\\inc\\boids\\uht\\boidmanager.generated.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

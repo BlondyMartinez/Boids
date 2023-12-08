@@ -19,17 +19,18 @@ public:
 	void GenerateGrid();
 
 	void UpdateGrid(const TArray<class ABoid*>& boids, const TArray<class APredator*>& predators);
-	void AddObstacleToCell(AActor* obstacle);
+
 	int GetCellIndex(const FVector& pos);
+	TArray<int>GetAdjacentCellIndices(int CurrentCellIndex);
 
 	TArray<class ABoid*> GetBoidsInCell(int cellIndex);
 	TArray<class APredator*> GetPredatorsInCell(int cellIndex);
 	TArray<AActor*> GetObstaclesInCell(int cellIndex);
 
-	TArray<int>GetAdjacentCellIndices(int CurrentCellIndex);
+	void AddObstacleToCell(AActor* obstacle);
 
 	void DrawGrid();
-	void DrawCell(int cellIndex, class ABoid*);
+	void DrawCell(int cellIndex);
 
 protected:
 	struct GridCell{

@@ -25,19 +25,17 @@ public:
 
 	FVector currentVelocity = FVector::ZeroVector;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grid")
+	UPROPERTY(VisibleAnywhere, Category = "Grid")
 	TArray<ABoid*> nearbyBoids;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grid")
+	UPROPERTY(VisibleAnywhere, Category = "Grid")
 	TArray<AActor*> nearbyObstacles;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grid")
+	UPROPERTY(VisibleAnywhere, Category = "Grid")
 	TArray<class APredator*> nearbyPredators;
 
 protected:
 
 	UStaticMeshComponent* mesh;
 	USceneComponent* root;
-
-	bool towardsCentre = true;
 
 	float mass;
 	float massInverse;
@@ -56,23 +54,20 @@ protected:
 
 	FVector Repulsion(const TArray<ABoid*>& neighbours);
 	FVector ObstacleAvoidance(const TArray<AActor*>& obstacles);
-
 	FVector Evade(const TArray<class APredator*>& predators);
 
 	FVector ApplyContainment();
 
-	void SpiralMovement(float DeltaTime);
-	void Flocking(float DeltaTime);
-
-
 	void GetSurroundings();
 
 public:
+
 	void KillBoid();
 
 	// called from boidManager
 
 	void UpdateBoid(float DeltaTime);
+
 	void SetConeMaterial(UMaterialInterface* material);
 	void SetConeScale(float aMass);
 	void AssignRibbonToComponent(class UNiagaraSystem* ribbonSystem);
