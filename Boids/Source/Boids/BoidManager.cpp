@@ -48,8 +48,14 @@ void ABoidManager::Tick(float DeltaTime)
 		predator->UpdatePredator(DeltaTime);
 	}
 
+	// remove common elements from boids
+	for(ABoid* boid : boidsToRemove) {
+		boid->Destroy();
+		boids.Remove(boid);
+	}
+	boidsToRemove.Empty();
+
 	grid->UpdateGrid(boids, predators);
-	UE_LOG(LogTemp, Warning, TEXT("boids: %d"), boids.Num());
 }
 
 // spawn containment sphere 

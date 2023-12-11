@@ -36,27 +36,10 @@ void ABoid::UpdateBoid(float DeltaTime)
 
 	FVector targetVelocity = ApplyContainment();
 
-	// //WITHOUT GRID
-	
-	//TArray<ABoid*> closestBoids = manager->GetBoidNeighbourhood(this);
+	GetNearbyEntities();
 
-	//// apply forces
-
-	//FVector evasion = Evade(manager->GetNearbyPredators(this));
-	//targetVelocity += evasion;
-
-	//targetVelocity += Separation(closestBoids) * parameters->separationWeight;
-	//targetVelocity += Cohesion(closestBoids) * parameters->cohesionWeight;
-	//targetVelocity += Alignment(closestBoids) * parameters->alignmentWeight;
-	//if (parameters->colorBias) targetVelocity += Repulsion(closestBoids);
-	//
-	//FVector avoidance = ObstacleAvoidance(manager->GetNearbyObstacles(this));
-	//targetVelocity += avoidance;
-
-
-	// WHIT GRID
-
-	GetSurroundings();
+	FVector avoidance = ObstacleAvoidance(nearbyObstacles);
+	targetVelocity += avoidance;
 
 	FVector evasion = Evade(nearbyPredators);
 	targetVelocity += evasion;
@@ -66,14 +49,10 @@ void ABoid::UpdateBoid(float DeltaTime)
 	targetVelocity += Alignment(nearbyBoids) * parameters->alignmentWeight;
 	if (parameters->colorBias) targetVelocity += Repulsion(nearbyBoids);
 
-	FVector avoidance = ObstacleAvoidance(nearbyObstacles);
-	targetVelocity += avoidance;
-
 	targetVelocity.Normalize();
 
-	 //if velocity is small add wandering behavior
 	if (targetVelocity.Size() < 1) {
-		targetVelocity += Wander(100, 200, 50);
+		targetVelocity += Wander(200, 50);
 		targetVelocity.Normalize();
 	}
 
@@ -183,7 +162,7 @@ FVector ABoid::Alignment(const TArray<ABoid*>& neighbours)
 	return newVelocity;
 }
 
-FVector ABoid::Wander(float radius, float distance, float jitter)
+FVector ABoid::Wander(float distance, float jitter)
 {
 	FVector currentPos = GetActorLocation();
 
@@ -288,7 +267,7 @@ FVector ABoid::Evade(const TArray<APredator*>& predators)
 	return evasionVelocity;
 }
 
-void ABoid::GetSurroundings()
+void ABoid::GetNearbyEntities()
 {
 	// clear arrays
 	nearbyBoids.Empty();
@@ -301,7 +280,6 @@ void ABoid::GetSurroundings()
 	TArray<int> adjacentCellIndices = grid->GetAdjacentCellIndices(currentCellIndex);
 
 	// add current cell stuff
-	nearbyPredators = grid->GetPredatorsInCell(currentCellIndex);
 	nearbyObstacles = grid->GetObstaclesInCell(currentCellIndex);
 
 	for (ABoid* boid : grid->GetBoidsInCell(currentCellIndex)) {
@@ -311,6 +289,11 @@ void ABoid::GetSurroundings()
 		if (distance < parameters->neighbourhoodRadius) nearbyBoids.AddUnique(boid);
 	}
 
+	for (APredator* predator : grid->GetPredatorsInCell(currentCellIndex)) {
+		if (predator != nullptr && !predator->IsPendingKill()) AddPredator(predator);
+	}
+
+
 	// add adjacent cells stuff
 	for (int cellIndex : adjacentCellIndices) {
 		for (ABoid* boid : grid->GetBoidsInCell(cellIndex)) {
@@ -319,21 +302,27 @@ void ABoid::GetSurroundings()
 				if (distance < parameters->neighbourhoodRadius) nearbyBoids.Add(boid);
 			}
 		}
+
 		for (APredator* predator : grid->GetPredatorsInCell(cellIndex)) {
-			if (!nearbyPredators.Contains(predator)) nearbyPredators.Add(predator);
+			if (!nearbyPredators.Contains(predator) && predator != nullptr && !predator->IsPendingKill()) AddPredator(predator);
 		}
+
 		for (AActor* obstacle : grid->GetObstaclesInCell(cellIndex)) {
 			if (!nearbyObstacles.Contains(obstacle)) nearbyObstacles.Add(obstacle);
 		}
 	} 
+}
 
-	UE_LOG(LogTemp, Warning, TEXT("nearvy boids: %d"), nearbyBoids.Num());
+// distance check for predators
+void ABoid::AddPredator(APredator* predator)
+{
+	float distance = (GetActorLocation() - predator->GetActorLocation()).Size();
+	if (distance < parameters->neighbourhoodRadius + 150)  nearbyPredators.Add(predator);
 }
 
 void ABoid::KillBoid()
 {
 	manager->boidsToRemove.Add(this);
-	this->Destroy();
 }
 
 // stuff called from boidmanager

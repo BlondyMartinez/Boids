@@ -49,7 +49,7 @@ protected:
 	FVector Cohesion(const TArray<ABoid*>& neighbours);
 	FVector Alignment(const TArray<ABoid*>& neighbours);
 
-	FVector Wander(float radius, float distance, float jitter);
+	FVector Wander(float distance, float jitter);
 	FVector wanderDestination;
 
 	FVector Repulsion(const TArray<ABoid*>& neighbours);
@@ -58,7 +58,9 @@ protected:
 
 	FVector ApplyContainment();
 
-	void GetSurroundings();
+	void GetNearbyEntities();
+
+	void AddPredator(APredator* predator);
 
 public:
 
