@@ -13,7 +13,6 @@ void EmptyLinkFunctionForGeneratedCodeBoid() {}
 	BOIDS_API UClass* Z_Construct_UClass_ABoid_NoRegister();
 	BOIDS_API UClass* Z_Construct_UClass_APredator_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_AActor();
-	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 	UPackage* Z_Construct_UPackage__Script_Boids();
 // End Cross Module References
 	void ABoid::StaticRegisterNativesABoid()
@@ -35,11 +34,6 @@ void EmptyLinkFunctionForGeneratedCodeBoid() {}
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_nearbyBoids_MetaData[];
 #endif
 		static const UECodeGen_Private::FArrayPropertyParams NewProp_nearbyBoids;
-		static const UECodeGen_Private::FObjectPropertyParams NewProp_nearbyObstacles_Inner;
-#if WITH_METADATA
-		static const UECodeGen_Private::FMetaDataPairParam NewProp_nearbyObstacles_MetaData[];
-#endif
-		static const UECodeGen_Private::FArrayPropertyParams NewProp_nearbyObstacles;
 		static const UECodeGen_Private::FObjectPropertyParams NewProp_nearbyPredators_Inner;
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_nearbyPredators_MetaData[];
@@ -68,14 +62,6 @@ void EmptyLinkFunctionForGeneratedCodeBoid() {}
 	};
 #endif
 	const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_ABoid_Statics::NewProp_nearbyBoids = { "nearbyBoids", nullptr, (EPropertyFlags)0x0010000000020001, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABoid, nearbyBoids), EArrayPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_ABoid_Statics::NewProp_nearbyBoids_MetaData), Z_Construct_UClass_ABoid_Statics::NewProp_nearbyBoids_MetaData) };
-	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ABoid_Statics::NewProp_nearbyObstacles_Inner = { "nearbyObstacles", nullptr, (EPropertyFlags)0x0000000000020000, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(0, nullptr) };
-#if WITH_METADATA
-	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ABoid_Statics::NewProp_nearbyObstacles_MetaData[] = {
-		{ "Category", "Grid" },
-		{ "ModuleRelativePath", "Boid.h" },
-	};
-#endif
-	const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_ABoid_Statics::NewProp_nearbyObstacles = { "nearbyObstacles", nullptr, (EPropertyFlags)0x0010000000020001, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABoid, nearbyObstacles), EArrayPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UClass_ABoid_Statics::NewProp_nearbyObstacles_MetaData), Z_Construct_UClass_ABoid_Statics::NewProp_nearbyObstacles_MetaData) };
 	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ABoid_Statics::NewProp_nearbyPredators_Inner = { "nearbyPredators", nullptr, (EPropertyFlags)0x0000000000020000, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UClass_APredator_NoRegister, METADATA_PARAMS(0, nullptr) };
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ABoid_Statics::NewProp_nearbyPredators_MetaData[] = {
@@ -87,8 +73,6 @@ void EmptyLinkFunctionForGeneratedCodeBoid() {}
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ABoid_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABoid_Statics::NewProp_nearbyBoids_Inner,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABoid_Statics::NewProp_nearbyBoids,
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABoid_Statics::NewProp_nearbyObstacles_Inner,
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABoid_Statics::NewProp_nearbyObstacles,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABoid_Statics::NewProp_nearbyPredators_Inner,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABoid_Statics::NewProp_nearbyPredators,
 	};
@@ -125,15 +109,15 @@ void EmptyLinkFunctionForGeneratedCodeBoid() {}
 	}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(ABoid);
 	ABoid::~ABoid() {}
-	struct Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_Boid_h_Statics
+	struct Z_CompiledInDeferFile_FID_Users_s1807857_Documents_GitHub_Boids_Boids_Source_Boids_Boid_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_Boid_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_ABoid, ABoid::StaticClass, TEXT("ABoid"), &Z_Registration_Info_UClass_ABoid, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABoid), 3022699583U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_s1807857_Documents_GitHub_Boids_Boids_Source_Boids_Boid_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_ABoid, ABoid::StaticClass, TEXT("ABoid"), &Z_Registration_Info_UClass_ABoid, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABoid), 258576266U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_Boid_h_1863120285(TEXT("/Script/Boids"),
-		Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_Boid_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_Blondy_Documents_GitHub_CT5108_Boids_Boids_Source_Boids_Boid_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_s1807857_Documents_GitHub_Boids_Boids_Source_Boids_Boid_h_1643825748(TEXT("/Script/Boids"),
+		Z_CompiledInDeferFile_FID_Users_s1807857_Documents_GitHub_Boids_Boids_Source_Boids_Boid_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_s1807857_Documents_GitHub_Boids_Boids_Source_Boids_Boid_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

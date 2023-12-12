@@ -5,6 +5,7 @@
 #include "Boid.h"
 #include "BoidManager.h"
 #include "BoidManagerParameters.h"
+#include "GridActor.h"
 
 // Sets default values
 APredator::APredator()
@@ -38,8 +39,13 @@ void APredator::UpdatePredator(float DeltaTime)
 	FVector targetVelocity = ApplyContainment();
 
 	prey = manager->GetClosestBoid(this);
+
 	if (prey != nullptr) {
 		targetVelocity += Pursue(prey);
+	}
+	else {
+		targetVelocity += Wander(200, 50);
+		targetVelocity.Normalize();
 	}
 
 	targetVelocity.Normalize();
@@ -58,6 +64,25 @@ void APredator::UpdatePredator(float DeltaTime)
 	FVector coneDirection = currentVelocity.GetSafeNormal();
 	root->SetWorldRotation(coneDirection.Rotation());
 	
+}
+
+FVector APredator::Wander(float distance, float jitter)
+{
+	FVector newVelocity = FVector::ZeroVector;
+	FVector currentPos = GetActorLocation();
+
+	// calculate random destination
+	FVector projectedPos = currentPos + (GetActorForwardVector() * distance);
+	FVector randomOffset = FMath::VRand() * jitter;
+	FVector newTarget = projectedPos + randomOffset;
+
+	// interpolate towards the new target
+	wanderDestination = FMath::Lerp(wanderDestination, newTarget, .5f);
+
+	newVelocity = wanderDestination - currentPos;
+	newVelocity.Normalize();
+
+	return newVelocity;
 }
 
 FVector APredator::Pursue(class ABoid* boid)

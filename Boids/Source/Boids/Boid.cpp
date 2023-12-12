@@ -33,19 +33,21 @@ ABoid::ABoid()
 // called from BoidManager 
 void ABoid::UpdateBoid(float DeltaTime)
 {
-
 	FVector targetVelocity = ApplyContainment();
 
 	GetNearbyEntities();
 
-	FVector avoidance = ObstacleAvoidance(nearbyObstacles);
+	FVector avoidance = ObstacleAvoidance(manager->GetNearbyObstacles(this));
 	targetVelocity += avoidance;
 
 	FVector evasion = Evade(nearbyPredators);
 	targetVelocity += evasion;
 
 	targetVelocity += Separation(nearbyBoids) * parameters->separationWeight;
-	targetVelocity += Cohesion(nearbyBoids) * parameters->cohesionWeight;
+	// slightly bigger cohesion weight if in danger
+	if (inDanger) targetVelocity += Cohesion(nearbyBoids) * (parameters->cohesionWeight + .25f);
+	else targetVelocity += Cohesion(nearbyBoids) * parameters->cohesionWeight;
+
 	targetVelocity += Alignment(nearbyBoids) * parameters->alignmentWeight;
 	if (parameters->colorBias) targetVelocity += Repulsion(nearbyBoids);
 
@@ -243,10 +245,10 @@ FVector ABoid::Evade(const TArray<APredator*>& predators)
 		FVector toPredator = predator->GetActorLocation() - GetActorLocation();
 		float distance = toPredator.Size();
 
-		if (distance < parameters->neighbourhoodRadius && distance > 100) {
+		if (distance < (parameters->neighbourhoodRadius + 150) && distance > 100) {
 			// predict future position of predator
 			float predictionTime = distance / parameters->predatorSpeed;
-			FVector futurePos = predator->GetActorLocation() + predator->currentVelocity * predictionTime * 2;
+			FVector futurePos = predator->GetActorLocation() + predator->currentVelocity * predictionTime * 5;
 
 			// flee from futurepos
 			evasionVelocity = GetActorLocation() - futurePos;
@@ -273,6 +275,8 @@ void ABoid::GetNearbyEntities()
 	nearbyBoids.Empty();
 	nearbyPredators.Empty();
 
+	inDanger = false;
+
 	// get cell index and adjacent indices
 	FVector pos = GetActorLocation();
 	int currentCellIndex = grid->GetCellIndex(pos);
@@ -280,35 +284,33 @@ void ABoid::GetNearbyEntities()
 	TArray<int> adjacentCellIndices = grid->GetAdjacentCellIndices(currentCellIndex);
 
 	// add current cell stuff
-	nearbyObstacles = grid->GetObstaclesInCell(currentCellIndex);
 
 	for (ABoid* boid : grid->GetBoidsInCell(currentCellIndex)) {
-		if (boid == this || boid == nullptr || boid->IsPendingKill()) continue;
+		if (boid == this || !IsValid(boid)) continue;
 
 		float distance = (GetActorLocation() - boid->GetActorLocation()).Size();
-		if (distance < parameters->neighbourhoodRadius) nearbyBoids.AddUnique(boid);
+		if (distance < parameters->neighbourhoodRadius) {
+			nearbyBoids.Add(boid);
+		}
 	}
 
 	for (APredator* predator : grid->GetPredatorsInCell(currentCellIndex)) {
-		if (predator != nullptr && !predator->IsPendingKill()) AddPredator(predator);
+		if (!nearbyPredators.Contains(predator) && IsValid(predator)) AddPredator(predator);
 	}
-
 
 	// add adjacent cells stuff
 	for (int cellIndex : adjacentCellIndices) {
 		for (ABoid* boid : grid->GetBoidsInCell(cellIndex)) {
-			if (!nearbyBoids.Contains(boid) && boid != this && boid != nullptr && !boid->IsPendingKill()) {
-				float distance = (GetActorLocation() - boid->GetActorLocation()).Size();
-				if (distance < parameters->neighbourhoodRadius) nearbyBoids.Add(boid);
+			if (!nearbyBoids.Contains(boid) && boid != this && IsValid(boid)) {
+				float distance = (GetActorLocation() - boid->GetActorLocation()).Size(); 
+				if (distance < parameters->neighbourhoodRadius) {
+					nearbyBoids.Add(boid);
+				}
 			}
 		}
 
 		for (APredator* predator : grid->GetPredatorsInCell(cellIndex)) {
-			if (!nearbyPredators.Contains(predator) && predator != nullptr && !predator->IsPendingKill()) AddPredator(predator);
-		}
-
-		for (AActor* obstacle : grid->GetObstaclesInCell(cellIndex)) {
-			if (!nearbyObstacles.Contains(obstacle)) nearbyObstacles.Add(obstacle);
+			if (!nearbyPredators.Contains(predator) && IsValid(predator)) AddPredator(predator);
 		}
 	} 
 }
@@ -317,7 +319,10 @@ void ABoid::GetNearbyEntities()
 void ABoid::AddPredator(APredator* predator)
 {
 	float distance = (GetActorLocation() - predator->GetActorLocation()).Size();
-	if (distance < parameters->neighbourhoodRadius + 150)  nearbyPredators.Add(predator);
+	if (distance < parameters->neighbourhoodRadius + 150) {
+		inDanger = true;
+		nearbyPredators.Add(predator);
+	}
 }
 
 void ABoid::KillBoid()
@@ -330,6 +335,7 @@ void ABoid::KillBoid()
 void ABoid::SetConeMaterial(UMaterialInterface* material)
 {
 	mesh->SetMaterial(0, material);
+	mat = UMaterialInstanceDynamic::Create(material, this);
 }
 
 void ABoid::SetConeScale(float aMass)
@@ -342,6 +348,5 @@ void ABoid::SetConeScale(float aMass)
 void ABoid::AssignRibbonToComponent(UNiagaraSystem* ribbonSystem)
 {
 	ribbon->SetAsset(ribbonSystem);
-	ribbon->ActivateSystem();
 }
 

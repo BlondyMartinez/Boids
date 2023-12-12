@@ -28,9 +28,7 @@ void AGridActor::GenerateGrid()
 			for (int z = 0; z < gridRes; z++) {
 				// get cell centre by calculating the distance to move from startPoint to the corner of the current cell + half cell size
 				FVector cellCentre = startPoint + FVector(z * cellSize, y * cellSize, x * cellSize) + FVector(cellSize * .5f);
-				// checks if cell is within sphere since the grid is a bounding box
 				gridCells.Add(GridCell{ cellCentre, cellSize });
-
 			}
 		}
 	}
@@ -118,31 +116,6 @@ TArray<class APredator*> AGridActor::GetPredatorsInCell(int cellIndex)
 	if (cellIndex >= 0 && cellIndex < gridCells.Num()) return gridCells[cellIndex].predators;
 
 	return TArray<class APredator*>();
-}
-
-TArray<AActor*> AGridActor::GetObstaclesInCell(int cellIndex)
-{
-	// if valid cell index return obstacles in cell
-	if (cellIndex >= 0 && cellIndex < gridCells.Num()) return gridCells[cellIndex].obstacles; 
-
-	return TArray<AActor*>();
-}
-
-// called from boidmanager
-// adds obstacle to every cell it intersects with
-void AGridActor::AddObstacleToCell(AActor* obstacle)
-{
-	if (obstacle != nullptr) {
-		FBox obstacleBox = obstacle->GetComponentsBoundingBox(); // get 3d space occupied by obstacle
-
-		// check for intersections since obstacles may occupy more than one cell and add obstacle to each cell it intersects with
-		for (GridCell cell : gridCells) {
-			FBox cellBox(cell.centre - FVector(cell.size * .5f), cell.centre + FVector(cell.size * 0.5f));
-			if (cellBox.Intersect(obstacleBox)) {
-				cell.obstacles.Add(obstacle);
-			}
-		}
-	}
 }
 
 void AGridActor::DrawGrid()

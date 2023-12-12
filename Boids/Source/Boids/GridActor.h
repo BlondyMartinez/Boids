@@ -14,7 +14,7 @@ class BOIDS_API AGridActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGridActor() {}
-	
+
 	void InitializeGrid(FVector centre, float radius, int res);
 	void GenerateGrid();
 
@@ -25,9 +25,6 @@ public:
 
 	TArray<class ABoid*> GetBoidsInCell(int cellIndex);
 	TArray<class APredator*> GetPredatorsInCell(int cellIndex);
-	TArray<AActor*> GetObstaclesInCell(int cellIndex);
-
-	void AddObstacleToCell(AActor* obstacle);
 
 	void DrawGrid();
 	void DrawCell(int cellIndex);
@@ -38,7 +35,6 @@ protected:
 	float size;      
 	TArray<class ABoid*> boids;
 	TArray<class APredator*> predators;
-	TArray<AActor*> obstacles;
 	};
 
 	TArray<GridCell> gridCells;

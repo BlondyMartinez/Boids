@@ -15,20 +15,21 @@ public:
 	// Sets default values for this actor's properties
 	ABoid();
 
-	class ABoidManager* manager;
-	class AGridActor* grid;
-	class UBoidManagerParameters* parameters;
-	class UNiagaraComponent* ribbon;
+	class ABoidManager* manager = nullptr;
+	class AGridActor* grid = nullptr;
+	class UBoidManagerParameters* parameters = nullptr;
+	class UNiagaraComponent* ribbon = nullptr;
+	class UMaterialInstanceDynamic* mat = nullptr;
 
-	int color;
-	float speed;
+	int color = 0;
+	float speed = 0;
+
+	bool inDanger = false;
 
 	FVector currentVelocity = FVector::ZeroVector;
 
 	UPROPERTY(VisibleAnywhere, Category = "Grid")
 	TArray<ABoid*> nearbyBoids;
-	UPROPERTY(VisibleAnywhere, Category = "Grid")
-	TArray<AActor*> nearbyObstacles;
 	UPROPERTY(VisibleAnywhere, Category = "Grid")
 	TArray<class APredator*> nearbyPredators;
 
@@ -37,8 +38,8 @@ protected:
 	UStaticMeshComponent* mesh;
 	USceneComponent* root;
 
-	float mass;
-	float massInverse;
+	float mass = 0;
+	float massInverse = 0;
 
 	// BEHAVIOUR STUFF
 	
@@ -59,7 +60,6 @@ protected:
 	FVector ApplyContainment();
 
 	void GetNearbyEntities();
-
 	void AddPredator(APredator* predator);
 
 public:

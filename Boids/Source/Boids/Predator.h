@@ -17,6 +17,7 @@ public:
 
 	class ABoidManager* manager;
 	class UBoidManagerParameters* parameters;
+	class AGridActor* grid;
 
 	class ABoid* prey;
 
@@ -29,6 +30,9 @@ protected:
 
 	UStaticMeshComponent* mesh;
 	USceneComponent* root;
+
+	FVector Wander(float distance, float jitter);
+	FVector wanderDestination;
 
 	FVector Pursue(class ABoid* boid);
 	FVector ApplyContainment();

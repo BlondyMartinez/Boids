@@ -50,8 +50,8 @@ void ABoidManager::Tick(float DeltaTime)
 
 	// remove common elements from boids
 	for(ABoid* boid : boidsToRemove) {
-		boid->Destroy();
 		boids.Remove(boid);
+		boid->Destroy();
 	}
 	boidsToRemove.Empty();
 
@@ -78,23 +78,7 @@ AActor* ABoidManager::SpawnContainmentSphere()
 void ABoidManager::SpawnGridActor()
 {
 	grid = GetWorld()->SpawnActor<AGridActor>(GetActorLocation(), GetActorRotation());
-	grid->InitializeGrid(sphereCentre, sphereRadius, 20);
-}
-
-// get boids nearby
-TArray<class ABoid*> ABoidManager::GetBoidNeighbourhood(const class ABoid* thisBoid)
-{
-	TArray<class ABoid*> neighbourhood;
-
-	// iterate through all boids to find neighbours within specified radius
-	for (ABoid* boid : boids) {
-		if (boid == thisBoid || !boid) continue;
-
-		float distance = (boid->GetActorLocation() - thisBoid->GetActorLocation()).Size();
-		if (distance < parameters->neighbourhoodRadius) neighbourhood.Add(boid);
-	}
-
-	return neighbourhood;
+	grid->InitializeGrid(sphereCentre, sphereRadius, 15);
 }
 
 // get nearby obstacles
@@ -111,19 +95,6 @@ TArray<AActor*> ABoidManager::GetNearbyObstacles(const class ABoid* thisBoid)
 	}
 
 	return nearbyObstacles;
-}
-
-TArray<class APredator*> ABoidManager::GetNearbyPredators(const ABoid* thisBoid)
-{
-	TArray<class APredator*> nearbyPredators;
-
-	// find predators within neighbourhoodradius and add them to nearbyPredators
-	for (APredator* predator : predators) {
-		float distance = (predator->GetActorLocation() - thisBoid->GetActorLocation()).Size();
-		if (distance < parameters->neighbourhoodRadius) nearbyPredators.Add(predator);
-	}
-
-	return nearbyPredators;
 }
 
 ABoid* ABoidManager::GetClosestBoid(const APredator* predator)
@@ -170,7 +141,7 @@ void ABoidManager::SpawnBoids(int amount)
 		newBoid->AssignRibbonToComponent(ribbons[colorIndex]);
 		newBoid->SetConeScale(mass);
 
-		if (!parameters->visibleRibbon) DeactivateRibbon();
+		newBoid->ribbon->Deactivate();
 
 		boids.Add(newBoid);
 	}
@@ -230,7 +201,7 @@ void ABoidManager::DeactivateRibbon()
 // spawn obstacle at random location with random scale and adds it to obstacles array
 void ABoidManager::AddObstacle()
 {
-	FVector spawnPos = (FMath::VRand() * FMath::RandRange(0, parameters->spawnRadius)) + GetActorLocation();
+	FVector spawnPos = (FMath::VRand() * FMath::RandRange(100, parameters->spawnRadius)) + GetActorLocation();
 
 	AActor* anObstacle = GetWorld()->SpawnActor<AActor>(obstacle, spawnPos, GetActorRotation());
 	
@@ -238,7 +209,6 @@ void ABoidManager::AddObstacle()
 	anObstacle->SetActorScale3D(FVector(scale));
 
 	obstacles.Add(anObstacle);
-	grid->AddObstacleToCell(anObstacle);
 }
 
 // destroy last added obstacle and remove it from obstacles
@@ -271,8 +241,11 @@ void ABoidManager::SpawnPredator()
 
 	// spawn predator with specified parameters
 	APredator* newPredator = GetWorld()->SpawnActor<APredator>(spawnPos, spawnRot);
+
 	newPredator->parameters = parameters;
+	newPredator->grid = grid;
 	newPredator->manager = this;
+
 	newPredator->SetPredatorMaterial(materials[4]);
 
 	predators.Add(newPredator);

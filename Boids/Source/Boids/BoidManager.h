@@ -67,9 +67,9 @@ public:
 	void ClearPredators();
 
 	// containment sphere parameters
-	AActor* containmentSphere;
-	FVector sphereCentre;
-	float sphereRadius;
+	AActor* containmentSphere = 0;
+	FVector sphereCentre = FVector::ZeroVector;
+	float sphereRadius = 0;
 
 protected:
 	// Called when the game starts or when spawned
@@ -80,8 +80,6 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	TArray<class ABoid*>GetBoidNeighbourhood(const class ABoid* thisBoid);
 	TArray<AActor*>GetNearbyObstacles(const class ABoid* thisBoid);
-	TArray<class APredator*>GetNearbyPredators(const class ABoid* thisBoid);
 	class ABoid* GetClosestBoid(const class APredator* predator);
 };
