@@ -21,12 +21,12 @@ public:
 	TArray<class ABoid*> boidsToRemove;
 	TArray<class APredator*> predators;
 
-	class AGridActor* grid;
+	class AGridActor* grid = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TArray<AActor*> obstacles;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	class UBoidManagerParameters* parameters;
+	class UBoidManagerParameters* parameters = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	TSubclassOf<class AActor> containmentSphereClass;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")

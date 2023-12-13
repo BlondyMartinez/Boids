@@ -62,6 +62,8 @@ protected:
 	void GetNearbyEntities();
 	void AddPredator(APredator* predator);
 
+	void Saturate(float saturationMultiplier);
+
 public:
 
 	void KillBoid();

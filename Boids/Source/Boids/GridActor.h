@@ -26,9 +26,6 @@ public:
 	TArray<class ABoid*> GetBoidsInCell(int cellIndex);
 	TArray<class APredator*> GetPredatorsInCell(int cellIndex);
 
-	void DrawGrid();
-	void DrawCell(int cellIndex);
-
 protected:
 	struct GridCell{
 	FVector centre;  

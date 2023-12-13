@@ -45,14 +45,13 @@ void AGridActor::UpdateGrid(const TArray<class ABoid*>& boids, const TArray<clas
 
 	for (ABoid* boid : boids) {
 		int cellIndex = GetCellIndex(boid->GetActorLocation());
-		// if index is valid, it isnt in the array already and is not marked to be destroyed add boid to cell boids array
-		if (cellIndex >= 0 && cellIndex < gridCells.Num() && !gridCells[cellIndex].boids.Contains(boid) && !boid->IsPendingKill()) gridCells[cellIndex].boids.Add(boid);
+		// if index is valid, boid is valid and it isnt in the array already and is not marked to be destroyed add boid to cell boids array
+		if (cellIndex >= 0 && cellIndex < gridCells.Num() && !gridCells[cellIndex].boids.Contains(boid) && IsValid(boid)) gridCells[cellIndex].boids.Add(boid);
 	}
 
 	for (APredator* predator : predators) {
 		int cellIndex = GetCellIndex(predator->GetActorLocation());
-		// if index is valid add predator to cell predators array
-		if (cellIndex >= 0 && cellIndex < gridCells.Num() && !gridCells[cellIndex].predators.Contains(predator)) gridCells[cellIndex].predators.Add(predator);
+		if (cellIndex >= 0 && cellIndex < gridCells.Num() && !gridCells[cellIndex].predators.Contains(predator) && IsValid(predator)) gridCells[cellIndex].predators.Add(predator);
 	}
 }
 
@@ -116,17 +115,4 @@ TArray<class APredator*> AGridActor::GetPredatorsInCell(int cellIndex)
 	if (cellIndex >= 0 && cellIndex < gridCells.Num()) return gridCells[cellIndex].predators;
 
 	return TArray<class APredator*>();
-}
-
-void AGridActor::DrawGrid()
-{
-	for (GridCell gridCell : gridCells) {
-		DrawDebugBox(GetWorld(), gridCell.centre, FVector(gridCell.size * .5F), FColor::Blue, true, 0.f, 0, .5f);
-	}
-}
-
-void AGridActor::DrawCell(int cellIndex)
-{
-	if (cellIndex > 0 && cellIndex < gridCells.Num())
-		DrawDebugBox(GetWorld(), gridCells[cellIndex].centre, FVector(gridCells[cellIndex].size) * .5f, FColor::Magenta, false, 0, 0, 10.f);
 }

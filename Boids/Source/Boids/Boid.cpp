@@ -276,6 +276,7 @@ void ABoid::GetNearbyEntities()
 	nearbyPredators.Empty();
 
 	inDanger = false;
+	Saturate(0);
 
 	// get cell index and adjacent indices
 	FVector pos = GetActorLocation();
@@ -321,8 +322,15 @@ void ABoid::AddPredator(APredator* predator)
 	float distance = (GetActorLocation() - predator->GetActorLocation()).Size();
 	if (distance < parameters->neighbourhoodRadius + 150) {
 		inDanger = true;
+		Saturate(-.5f);
 		nearbyPredators.Add(predator);
 	}
+}
+
+void ABoid::Saturate(float saturationMultiplier)
+{
+	mat->SetScalarParameterValue(FName ("DesaturationMultiplier"), saturationMultiplier);
+	mesh->SetMaterial(0, mat);
 }
 
 void ABoid::KillBoid()
@@ -334,8 +342,8 @@ void ABoid::KillBoid()
 
 void ABoid::SetConeMaterial(UMaterialInterface* material)
 {
-	mesh->SetMaterial(0, material);
 	mat = UMaterialInstanceDynamic::Create(material, this);
+	mesh->SetMaterial(0, mat);
 }
 
 void ABoid::SetConeScale(float aMass)
